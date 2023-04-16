@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="particular">Individual</string>
+    <string name="empresa">Enterprise</string>
+    <string name="nombre">Name</string>
+    <string name="contrase_a">Password</string>
+    <string name="apellidos">Surname</string>
+    <string name="confirmar_contrase_a">Confirm Password</string>
+    <string name="correo_electr_nico">Email</string>
+    <string name="confirmar">Send</string>
+    <string name="nombre_de_usuario">User Name</string>
+    <string name="nombre_y_apellidos">Name and Surname</string>
+    <string name="strPassword">Password</string>
+    <string name="strUser">User</string>
+    <string name="registrarse">Sign In</string>
+    <string name="str_en">English</string>
+    <string name="str_es">Español</string>
+    <string name="nombre_empresa">Company name</string>
+</resources>
