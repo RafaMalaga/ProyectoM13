@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">ProyectoM13</string>
-    <string name="strPassword">Password</string>
+    <string name="strPassword">Contraseña</string>
     <string name="strUser">Usuario</string>
-    <string name="registrarse">Registrase</string>
+    <string name="registrarse">Registrarse</string>
     <string name="str_en">English</string>
     <string name="str_es">Español</string>
     <string name="particular">Particular</string>
@@ -16,11 +16,4 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="nombre_y_apellidos">Nombre y apellidos</string>
     <string name="nombre_empresa">Nombre empresa</string>
-
-    <string-array name="languages">
-        <item>@string/str_en</item>
-        <item>@string/str_es</item>
-        >
-    </string-array>
-
 </resources>
