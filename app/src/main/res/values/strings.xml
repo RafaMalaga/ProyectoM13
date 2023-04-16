@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">ProyectoM13</string>
     <string name="strPassword">Password</string>
-    <string name="strUser">User</string>
-    <string name="registrarse">Sign In</string>
+    <string name="strUser">Usuario</string>
+    <string name="registrarse">Registrase</string>
     <string name="str_en">English</string>
     <string name="str_es">Español</string>
     <string name="particular">Particular</string>
