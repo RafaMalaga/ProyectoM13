@@ -15,7 +15,7 @@
         android:layout_width="232dp"
         android:layout_height="50dp"
         android:alpha="0.5"
-        android:background="#00bf63"
+        android:background="@drawable/et_redondo"
         android:ems="10"
         android:inputType="textPassword"
         android:textAlignment="center"
@@ -27,6 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUsuario"
         app:layout_constraintVertical_bias="0.5"
+        android:hint="Contraseña"
         tools:text="@string/strPassword" />
 
     <EditText
@@ -34,7 +35,7 @@
         android:layout_width="279dp"
         android:layout_height="45dp"
         android:alpha="0.5"
-        android:background="@color/verde"
+        android:background="@drawable/et_redondo"
         android:backgroundTintMode="screen"
         android:ems="10"
         android:foregroundTint="#EFE9E9"
@@ -85,13 +86,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/flecha" />
+        app:srcCompat="@drawable/flecha"
+        />
 
     <Button
         android:id="@+id/btRegistro"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:background="@color/material_dynamic_neutral20"
+        android:background="@drawable/bt_redondo"
         android:text="@string/registrarse"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
