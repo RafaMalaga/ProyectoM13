@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
-    public static final String HOST = "192.168.1.134";
+    public static final String HOST = "loalhost";
     private static String session = "";
     EditText etPassword;
     EditText etUsuario;
