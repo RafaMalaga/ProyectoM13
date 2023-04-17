@@ -16,4 +16,5 @@
     <string name="str_en">English</string>
     <string name="str_es">Español</string>
     <string name="nombre_empresa">Company name</string>
+    <string name="faltanDatosLogin">ffffffff</string>
 </resources>
