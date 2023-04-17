@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
 
-        btn_cambiar_idioma.setOnClickListener(
-                new View.OnClickListener() {
+        btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
 
                         showDialog();
@@ -80,12 +79,21 @@ public class MainActivity extends AppCompatActivity {
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Abrir activity con funcionalidades, habrá que moverlo cuando tengamos el código de user/ password correcta
+                intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                startActivity(intent);
+                //
+
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
                     RequestTask login = new RequestTask();
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
                     RequestTask task = new RequestTask();
                     task.execute("http://" + HOST + "/api/index.php", "GET");
+
+
+
                 } else {
                     Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
