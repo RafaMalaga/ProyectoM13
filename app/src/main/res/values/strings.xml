@@ -3,6 +3,7 @@
     <string name="strPassword">Password</string>
     <string name="strUser">Usuario</string>
     <string name="registrarse">Registrase</string>
+    <string name="faltanDatosLogin">Introduce el usuario y la contraseña</string>
     <string name="str_en">English</string>
     <string name="str_es">Español</string>
     <string name="particular">Particular</string>
