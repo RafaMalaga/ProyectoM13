@@ -17,6 +17,12 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="nombre_y_apellidos">Nombre y apellidos</string>
     <string name="nombre_empresa">Nombre empresa</string>
+    <string name="salir">Salir-></string>
+    <string name="compartir">Compartir</string>
+    <string name="guardar_art_culo">Guardar artículo</string>
+    <string name="buscar_art_culo">Buscar artículo</string>
+    <string name="slogan">Sabrás siempre lo que tienes y dónde lo tienes</string>
+    <string name="idioma">Idioma</string>
 
     <string-array name="languages">
         <item>@string/str_en</item>

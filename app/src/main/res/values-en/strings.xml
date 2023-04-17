@@ -17,4 +17,10 @@
     <string name="str_es">Español</string>
     <string name="nombre_empresa">Company name</string>
     <string name="faltanDatosLogin">Enter username and password</string>
+    <string name="salir">Exit-></string>
+    <string name="compartir">Share</string>
+    <string name="guardar_art_culo">Save object</string>
+    <string name="buscar_art_culo">Find article</string>
+    <string name="slogan">You will always know what you have and where you have it</string>
+    <string name="idioma">Language</string>
 </resources>

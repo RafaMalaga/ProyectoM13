@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +63,20 @@ public class MainActivity extends AppCompatActivity {
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
 
+        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
+        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
+            public boolean onHover(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_SHORT).show();
+                        return true;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
 
