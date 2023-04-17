@@ -16,4 +16,5 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="nombre_y_apellidos">Nombre y apellidos</string>
     <string name="nombre_empresa">Nombre empresa</string>
+    <string name="faltanDatosLogin">Introduce el usuario y la contraseña</string>
 </resources>

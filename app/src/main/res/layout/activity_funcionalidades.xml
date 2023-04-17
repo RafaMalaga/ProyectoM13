@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#171717"
+    tools:context=".FuncionalidadesActivity">
+
+    <ImageView
+        android:id="@+id/ivLogoFindit"
+        android:layout_width="327dp"
+        android:layout_height="94dp"
+        app:layout_constraintBottom_toTopOf="@+id/ConstraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/logofind" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ConstraintLayout2"
+        android:layout_width="410dp"
+        android:layout_height="421dp"
+        android:alpha="0.7"
+        android:background="@drawable/desorden"
+        app:layout_constraintBottom_toTopOf="@+id/tvEslogan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoFindit"
+        app:layout_constraintVertical_bias="0.5">
+
+        <Button
+            android:id="@+id/btGuardarArticulo5"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            android:layout_marginBottom="19dp"
+            android:background="@color/black"
+            android:text="Salir->"
+            android:textColor="#FF1744"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btGuardarArticulo4"
+            android:layout_width="129dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="18dp"
+            android:background="@color/black"
+            android:text="Compartir"
+            android:textColor="#FFEA00"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btGuardarArticulo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:background="@color/black"
+            android:text="Guardar artículo"
+            android:textColor="#3D5AFE"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btGuardarArticulo2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:background="@color/black"
+            android:text="Buscar artículo"
+            android:textColor="@color/purple_200"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvEslogan"
+        android:layout_width="223dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="42dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Sabrás siempre lo que tienes y dónde lo tienes"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="164dp"
+        android:layout_height="88dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
