@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -44,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
-
-    public static final String HOST = "10.0.2.2";
-
+    public static final String HOST = "loalhost";
     private static String session = "";
     EditText etPassword;
     EditText etUsuario;
@@ -56,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
+
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                showDialog();
-            }
-        });
+                    public void onClick(View view) {
+
+                        showDialog();
+                    }
+                });
 
         btn_registro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,50 +76,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
-        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
-            public boolean onHover(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_HOVER_ENTER:
-                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
-                        return true;
-                    case MotionEvent.ACTION_HOVER_EXIT:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
-                    RequestTask login = new RequestTask() {
-                        @Override
-                        protected void onPostExecute(String response) {
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response);
-                                String mensaje = jsonResponse.getString("mensaje");
-                                if (mensaje.equals("OK")) {
-                                    Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
 
+                //Abrir activity con funcionalidades, habrá que moverlo cuando tengamos el código de user/ password correcta
+                intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                startActivity(intent);
+                //
+
+                if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
+                    RequestTask login = new RequestTask();
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-                    //RequestTask task = new RequestTask();
-                    //task.execute("http://" + HOST + "/api/index.php", "GET");
+                    RequestTask task = new RequestTask();
+                    task.execute("http://" + HOST + "/api/index.php", "GET");
+
+
+
                 } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -134,10 +108,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
+        //b.setTitle(getResources().getString(R.string.str_button));
+        //obtiene los idiomas del array de string.xml
         String[] types = getResources().getStringArray(R.array.languages);
         b.setItems(types, new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
                 switch (which) {
                     case 0:
@@ -148,12 +126,14 @@ public class MainActivity extends AppCompatActivity {
                         locale = new Locale("es");
                         config.locale = locale;
                         break;
+
                 }
                 getResources().updateConfiguration(config, null);
                 Intent refresh = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(refresh);
                 finish();
             }
+
         });
         b.show();
     }
@@ -176,24 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("MainActivity", resultado);
             return resultado;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject respuesta = new JSONObject(s);
-                String mensaje = respuesta.getString("mensaje");
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
-                if(mensaje.equals("OK")) {
-                    intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(), getText(R.string.koLogin) , Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         public String sendGet(String surl) {
@@ -241,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         public JSONObject crearJSONLogin() {
             JSONObject json = new JSONObject();
             try {
-                json.put("nombreUsuario", etUsuario.getText());
+                json.put("usuario", etUsuario.getText());
                 json.put("password", etPassword.getText());
                 return json;
             } catch (Exception e) {
@@ -299,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
+                Log.e("MainActivity", "Error: " + e.toString());
             }
 
             return null;

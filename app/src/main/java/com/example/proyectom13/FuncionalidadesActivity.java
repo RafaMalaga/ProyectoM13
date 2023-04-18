@@ -20,14 +20,6 @@ public class FuncionalidadesActivity extends AppCompatActivity {
 
 
 
-        btnGuardarArticulo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnGuardarArticulo.setAlpha(1);
-            }
-        });
-
-
 
 
 
