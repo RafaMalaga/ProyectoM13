@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
-    public static final String HOST = "loalhost";
+    public static final String HOST = "192.168.1.134";
     private static String session = "";
     EditText etPassword;
     EditText etUsuario;
@@ -80,19 +82,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Abrir activity con funcionalidades, habrá que moverlo cuando tengamos el código de user/ password correcta
-                intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                startActivity(intent);
-                //
-
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
                     RequestTask login = new RequestTask();
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-                    RequestTask task = new RequestTask();
-                    task.execute("http://" + HOST + "/api/index.php", "GET");
-
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
@@ -158,6 +151,23 @@ public class MainActivity extends AppCompatActivity {
             return resultado;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject respuesta = new JSONObject(s);
+                String mensaje = respuesta.getString("mensaje");
+                if(mensaje.equals("OK")) {
+                    intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), getText(R.string.koLogin) , Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         public String sendGet(String surl) {
             try {
                 URL url = new URL(surl);
@@ -203,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         public JSONObject crearJSONLogin() {
             JSONObject json = new JSONObject();
             try {
-                json.put("usuario", etUsuario.getText());
+                json.put("nombreUsuario", etUsuario.getText());
                 json.put("password", etPassword.getText());
                 return json;
             } catch (Exception e) {
@@ -261,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Log.e("MainActivity", "Error: " + e.toString());
+                Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
             }
 
             return null;
