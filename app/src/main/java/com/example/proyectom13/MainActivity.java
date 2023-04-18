@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
+
     public static final String HOST = "10.0.2.2";
+
     private static String session = "";
     EditText etPassword;
     EditText etUsuario;
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ibEntrar.setOnClickListener(new View.OnClickListener() {
+ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
         /**
@@ -169,6 +172,23 @@ public class MainActivity extends AppCompatActivity {
             return resultado;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject respuesta = new JSONObject(s);
+                String mensaje = respuesta.getString("mensaje");
+                if(mensaje.equals("OK")) {
+                    intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), getText(R.string.koLogin) , Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         public String sendGet(String surl) {
             try {
                 URL url = new URL(surl);
@@ -214,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         public JSONObject crearJSONLogin() {
             JSONObject json = new JSONObject();
             try {
-                json.put("usuario", etUsuario.getText());
+                json.put("nombreUsuario", etUsuario.getText());
                 json.put("password", etPassword.getText());
                 return json;
             } catch (Exception e) {
@@ -272,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Log.e("MainActivity", "Error: " + e.toString());
+                Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
             }
 
             return null;

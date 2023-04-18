@@ -17,4 +17,6 @@
     <string name="nombre_y_apellidos">Nombre y apellidos</string>
     <string name="nombre_empresa">Nombre empresa</string>
     <string name="faltanDatosLogin">Introduce el usuario y la contraseña</string>
+    <string name="koLogin">Usuario o password incorrectos</string>
+
 </resources>
