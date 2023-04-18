@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Configuration config = new Configuration();
     private Button btn_registro;
 
-    public static final String HOST = "10.0.2.2";
+    public static final String HOST = "192.168.1.134";
 
     private static String session = "";
     EditText etPassword;
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,10 +64,8 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
-
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 showDialog();
             }
         });
@@ -80,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-ibEntrar.setOnClickListener(new View.OnClickListener() {
+
+        ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
@@ -90,7 +88,7 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
                             try {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
-                                if (mensaje.equals("Login correcto!")) {
+                                if (mensaje.equals("OK")) {
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                                     startActivity(intent);
                                 } else {
@@ -104,32 +102,26 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
 
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-                    RequestTask task = new RequestTask();
-                    task.execute("http://" + HOST + "/api/index.php", "GET");
+                    //RequestTask task = new RequestTask();
+                    //task.execute("http://" + HOST + "/api/index.php", "GET");
                 } else {
-                    Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Por favor, introduzca usuario y contraseña.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-
-
-        /**
-         * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
-         * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
-         * y se recarga la actividad para ver los cambios
-         */
+    /**
+     * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
+     * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
+     * y se recarga la actividad para ver los cambios
+     */
     private void showDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
-        //b.setTitle(getResources().getString(R.string.str_button));
-        //obtiene los idiomas del array de string.xml
         String[] types = getResources().getStringArray(R.array.languages);
         b.setItems(types, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
                 switch (which) {
                     case 0:
@@ -140,14 +132,12 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
                         locale = new Locale("es");
                         config.locale = locale;
                         break;
-
                 }
                 getResources().updateConfiguration(config, null);
                 Intent refresh = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(refresh);
                 finish();
             }
-
         });
         b.show();
     }
@@ -178,6 +168,7 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
             try {
                 JSONObject respuesta = new JSONObject(s);
                 String mensaje = respuesta.getString("mensaje");
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
                 if(mensaje.equals("OK")) {
                     intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                     startActivity(intent);
