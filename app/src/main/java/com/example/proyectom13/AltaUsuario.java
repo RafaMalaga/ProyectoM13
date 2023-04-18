@@ -28,6 +28,8 @@ public class AltaUsuario extends AppCompatActivity {
         nombreApellidos = getString(R.string.nombre_y_apellidos);
         nombreEmpresa = getString(R.string.nombre_empresa);
 
+        rbparticular.setChecked(true);
+
         //Cambio de valores del formulario según tipo de usuario
         grupoRadios.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

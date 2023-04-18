@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Configuration config = new Configuration();
     private Button btn_registro;
 
-    public static final String HOST = "192.168.1.134";
+    public static final String HOST = "10.0.2.2";
 
     private static String session = "";
     EditText etPassword;
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
-
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 showDialog();
             }
         });
@@ -80,7 +78,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-ibEntrar.setOnClickListener(new View.OnClickListener() {
+
+        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
+        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
+            public boolean onHover(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
+                        return true;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
@@ -107,29 +121,23 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
                     //RequestTask task = new RequestTask();
                     //task.execute("http://" + HOST + "/api/index.php", "GET");
                 } else {
-                    Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-
-
-        /**
-         * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
-         * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
-         * y se recarga la actividad para ver los cambios
-         */
+    /**
+     * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
+     * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
+     * y se recarga la actividad para ver los cambios
+     */
     private void showDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
-        //b.setTitle(getResources().getString(R.string.str_button));
-        //obtiene los idiomas del array de string.xml
         String[] types = getResources().getStringArray(R.array.languages);
         b.setItems(types, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
                 switch (which) {
                     case 0:
@@ -140,14 +148,12 @@ ibEntrar.setOnClickListener(new View.OnClickListener() {
                         locale = new Locale("es");
                         config.locale = locale;
                         break;
-
                 }
                 getResources().updateConfiguration(config, null);
                 Intent refresh = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(refresh);
                 finish();
             }
-
         });
         b.show();
     }
