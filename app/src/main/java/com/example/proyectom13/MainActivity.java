@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Configuration config = new Configuration();
     private Button btn_registro;
 
-    public static final String HOST = "10.0.2.2";
+    public static final String HOST = "192.168.1.134";
 
     private static String session = "";
     EditText etPassword;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
-                                if (mensaje.equals("Login correcto!")) {
+                                if (mensaje.equals("OK")) {
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                                     startActivity(intent);
                                 } else {
@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-                    RequestTask task = new RequestTask();
-                    task.execute("http://" + HOST + "/api/index.php", "GET");
+                    //RequestTask task = new RequestTask();
+                    //task.execute("http://" + HOST + "/api/index.php", "GET");
                 } else {
                     Toast.makeText(getApplicationContext(), "Por favor, introduzca usuario y contraseña.", Toast.LENGTH_SHORT).show();
                 }
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject respuesta = new JSONObject(s);
                 String mensaje = respuesta.getString("mensaje");
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
                 if(mensaje.equals("OK")) {
                     intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                     startActivity(intent);
