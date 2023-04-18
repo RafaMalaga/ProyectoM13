@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -78,6 +79,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
+        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
+            public boolean onHover(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
+                        return true;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     //RequestTask task = new RequestTask();
                     //task.execute("http://" + HOST + "/api/index.php", "GET");
                 } else {
-                    Toast.makeText(getApplicationContext(), "Por favor, introduzca usuario y contraseña.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
             }
         });
