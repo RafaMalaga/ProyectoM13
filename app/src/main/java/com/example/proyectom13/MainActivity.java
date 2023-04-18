@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
-    public static final String HOST = "192.168.1.134";
+
+    public static final String HOST = "10.0.2.2";
+
     private static String session = "";
     EditText etPassword;
     EditText etUsuario;
@@ -65,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
+            public void onClick(View view) {
 
-                        showDialog();
-                    }
-                });
+                showDialog();
+            }
+        });
 
         btn_registro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,15 +80,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ibEntrar.setOnClickListener(new View.OnClickListener() {
+ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
-                    RequestTask login = new RequestTask();
+                    RequestTask login = new RequestTask() {
+                        @Override
+                        protected void onPostExecute(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                String mensaje = jsonResponse.getString("mensaje");
+                                if (mensaje.equals("Login correcto!")) {
+                                    Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-
+                    RequestTask task = new RequestTask();
+                    task.execute("http://" + HOST + "/api/index.php", "GET");
                 } else {
                     Toast.makeText(getApplicationContext(), getText(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
@@ -94,11 +113,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
-     * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
-     * y se recarga la actividad para ver los cambios
-     */
+
+
+        /**
+         * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
+         * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
+         * y se recarga la actividad para ver los cambios
+         */
     private void showDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         //b.setTitle(getResources().getString(R.string.str_button));
