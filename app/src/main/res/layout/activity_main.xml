@@ -93,7 +93,7 @@
         android:id="@+id/btRegistro"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:background="@drawable/bt_redondo"
+        android:background="@drawable/bt_selector"
         android:text="@string/registrarse"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"

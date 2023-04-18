@@ -17,6 +17,7 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="nombre_y_apellidos">Nombre y apellidos</string>
     <string name="nombre_empresa">Nombre empresa</string>
+    <string name="koLogin">Usuario o password incorrectos</string>
 
     <string-array name="languages">
         <item>@string/str_en</item>

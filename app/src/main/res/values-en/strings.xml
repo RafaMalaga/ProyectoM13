@@ -17,4 +17,5 @@
     <string name="str_es">Español</string>
     <string name="nombre_empresa">Company name</string>
     <string name="faltanDatosLogin">Enter username and password</string>
+    <string name="koLogin">Wrong username or password</string>
 </resources>
