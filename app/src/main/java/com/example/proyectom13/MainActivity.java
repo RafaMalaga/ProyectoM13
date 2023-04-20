@@ -45,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private Configuration config = new Configuration();
     private Button btn_registro;
 
-    public static final String HOST = "192.168.56.1";
 
-    public static String session = "";
+    public static final String HOST = "10.0.2.2";
+
+    private static String session = "";
+
     EditText etPassword;
     EditText etUsuario;
     ImageView ibEntrar;
@@ -66,21 +68,6 @@ public class MainActivity extends AppCompatActivity {
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
 
-        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
-        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
-            public boolean onHover(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_HOVER_ENTER:
-                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_SHORT).show();
-                        return true;
-                    case MotionEvent.ACTION_HOVER_EXIT:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 showDialog();
@@ -92,6 +79,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), AltaUsuario.class);
                 startActivity(intent);
+            }
+        });
+
+
+        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
+        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
+            public boolean onHover(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
+                        return true;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
 
@@ -240,71 +243,75 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        public JSONObject crearJSONLogin() {
-            JSONObject json = new JSONObject();
-            try {
-                json.put("nombreUsuario", etUsuario.getText());
-                json.put("password", etPassword.getText());
-                return json;
-            } catch (Exception e) {
-                Log.e("MainActivity", "Error al crear el json: " + e.toString());
-            }
-            return null;
+
+    public JSONObject crearJSONLogin() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("nombreUsuario", etUsuario.getText());
+            json.put("password", etPassword.getText());
+            return json;
+        } catch (Exception e) {
+            Log.e("MainActivity", "Error al crear el json: " + e.toString());
+
         }
+        return null;
+    }
 
-        public String sendPost(String surl, String jsonData) {
-            try {
-                URL url = new URL(surl);
-                CookieManager cookieManager = new CookieManager();
-                CookieHandler.setDefault(cookieManager);
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
-                //Creamos la connexión
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                //Ponemos cabeceras http para indicar que mandamos un json
-                con.setRequestProperty("Accept", "application/json");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
-                //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
-                con.addRequestProperty("Cookie", session);
-                con.setRequestMethod("POST");
-                //Especificamos que mandamos datos
-                con.setDoOutput(true);
-                //Enviamos la peticion, escribiendo el json
-                OutputStream os = con.getOutputStream();
-                byte[] input = jsonData.getBytes("utf-8");
-                os.write(input, 0, input.length);
-                os.close();
+    public String sendPost(String surl, String jsonData) {
+        try {
+            URL url = new URL(surl);
+            CookieManager cookieManager = new CookieManager();
+            CookieHandler.setDefault(cookieManager);
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
+            //Creamos la connexión
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            //Ponemos cabeceras http para indicar que mandamos un json
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
+            //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
+            con.addRequestProperty("Cookie", session);
+            con.setRequestMethod("POST");
+            //Especificamos que mandamos datos
+            con.setDoOutput(true);
+            //Enviamos la peticion, escribiendo el json
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonData.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            os.close();
 
-                //Si el servidor devuelve 200 es que ha ido bien
-                if (con.getResponseCode() == 200) {
-                    //Leemos la respuesta del servidor
-                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-                    StringBuilder response = new StringBuilder();
-                    String responseLine = null;
+            //Si el servidor devuelve 200 es que ha ido bien
+            if (con.getResponseCode() == 200) {
+                //Leemos la respuesta del servidor
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
 
-                    while ((responseLine = br.readLine()) != null) {
-                        response.append(responseLine.trim());
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+
+                List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+                for (HttpCookie cookie : cookies) {
+                    if (cookie.getName().equals("PHPSESSID")) {
+                        session = cookie.toString();
+
                     }
-
-                    List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-                    for (HttpCookie cookie : cookies) {
-                        if (cookie.getName().equals("PHPSESSID")) {
-                            session = cookie.toString();
-
-                        }
-
-                    }
-
-                    Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
-                    return response.toString();
 
                 }
 
-            } catch (Exception e) {
-                Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
+
+                Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
+                return response.toString();
+
+
             }
 
-            return null;
-
+        } catch (Exception e) {
+            Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
         }
+
+        return null;
+
     }
+}
