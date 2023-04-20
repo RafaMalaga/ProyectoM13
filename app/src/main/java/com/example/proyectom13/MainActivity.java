@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String HOST = "10.0.2.2";
 
-    private static String session = "";
+    public static String session = "";
 
     EditText etPassword;
     EditText etUsuario;
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.koLogin), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.example.proyectom13;
+package com.example.proyectom13.POJOS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
