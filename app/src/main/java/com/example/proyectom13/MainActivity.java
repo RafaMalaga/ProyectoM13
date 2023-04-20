@@ -45,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private Configuration config = new Configuration();
     private Button btn_registro;
 
-    public static final String HOST = "192.168.1.134";
 
-    static String session = "";
+    public static final String HOST = "10.0.2.2";
+
+    private static String session = "";
+
     EditText etPassword;
     EditText etUsuario;
     ImageView ibEntrar;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
 
+
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 showDialog();
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
         btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public JSONObject crearJSONLogin() {
         JSONObject json = new JSONObject();
         try {
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
             return json;
         } catch (Exception e) {
             Log.e("MainActivity", "Error al crear el json: " + e.toString());
+
         }
         return null;
     }
@@ -293,8 +300,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
                 Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
                 return response.toString();
+
 
             }
 

@@ -57,8 +57,10 @@ public class AltaUsuario extends AppCompatActivity {
         etApellidos = findViewById(R.id.etApellidos);
         etPonerPassword = findViewById(R.id.etPonerPassword);
         etEmail = findViewById(R.id.etEmail);
+        btConfrimar = findViewById(R.id.btConfrimar);
         nombreApellidos = getString(R.string.nombre_y_apellidos);
         nombreEmpresa = getString(R.string.nombre_empresa);
+
 
         rbparticular.setChecked(true);
 
