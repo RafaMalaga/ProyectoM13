@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import android.provider.MediaStore;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.proyectom13.POJOS.Usuario;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +63,9 @@ public class AltaUsuario extends AppCompatActivity {
         etApellidos = findViewById(R.id.etApellidos);
         etPonerPassword = findViewById(R.id.etPonerPassword);
         etEmail = findViewById(R.id.etEmail);
+
         btConfrimar = findViewById(R.id.btConfrimar);
+
         nombreApellidos = getString(R.string.nombre_y_apellidos);
         nombreEmpresa = getString(R.string.nombre_empresa);
 
