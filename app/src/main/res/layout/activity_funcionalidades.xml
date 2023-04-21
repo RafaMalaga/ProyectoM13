@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.5">
 
         <Button
-            android:id="@+id/btGuardarArticulo5"
+            android:id="@+id/btSalir"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/btGuardarArticulo4"
+            android:id="@+id/btCompartir"
             android:layout_width="129dp"
             android:layout_height="50dp"
             android:layout_marginTop="27dp"
@@ -76,7 +76,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/btGuardarArticulo2"
+            android:id="@+id/btBuscar"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -107,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-=========
+
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="174dp"
