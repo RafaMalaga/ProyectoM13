@@ -2,6 +2,7 @@ package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,7 +92,7 @@ public class AltaUsuario extends AppCompatActivity {
         btConfrimar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestTask registrar = new RequestTask() {
+                @SuppressLint("StaticFieldLeak") RequestTask registrar = new RequestTask() {
                     @Override
                     protected void onPostExecute(String response) {
                         try {
