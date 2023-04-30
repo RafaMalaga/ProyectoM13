@@ -24,6 +24,13 @@ public class Usuario {
 
     }
 
+    public Usuario(String nombre_empresa, String nombreUsuario, String password, String email) {
+        this.nombre_empresa = nombre_empresa;
+        this.nombreUsuario = nombreUsuario;
+        this.password = password;
+        this.email = email;
+    }
+
     public int getIdusuarios() {
         return idusuarios;
     }
