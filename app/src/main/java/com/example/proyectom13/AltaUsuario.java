@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,17 +38,19 @@ public class AltaUsuario extends AppCompatActivity {
     private RadioButton rbEmpresa;
     private RadioButton rbparticular;
     private RadioButton radioButtonSeleccionado;
-    private TextView tvNombre;
     private String nombreApellidos;
     private String nombreEmpresa;
-
     private Button btConfrimar;
 
+    EditText etNombre;
+    EditText etNombreUsuario;
+    EditText etPonerPassword;
+    EditText etPonerPassword2;
     EditText etEmail;
 
-    EditText etPonerPassword;
 
-    EditText etApellidos;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,10 @@ public class AltaUsuario extends AppCompatActivity {
         grupoRadios = findViewById(R.id.grupo_radiobuttons);
         rbparticular = findViewById(R.id.rbParticula);
         rbEmpresa = findViewById(R.id.rbEmpresa);
-        tvNombre = findViewById(R.id.etNombre);
-        etApellidos = findViewById(R.id.etApellidos);
+        etNombre= findViewById(R.id.etNombre);
+        etNombreUsuario = findViewById(R.id.etNombreUsuario);
         etPonerPassword = findViewById(R.id.etPonerPassword);
+        etPonerPassword2 = findViewById(R.id.etPonerPassword2);
         etEmail = findViewById(R.id.etEmail);
 
         btConfrimar = findViewById(R.id.btConfrimar);
@@ -80,11 +81,11 @@ public class AltaUsuario extends AppCompatActivity {
                 radioButtonSeleccionado = findViewById(checkedId);
                 // Hacer algo con el radio button seleccionado
                 if(radioButtonSeleccionado==rbEmpresa){
-                    tvNombre.setText(nombreEmpresa);
+                    etNombre.setHint(nombreEmpresa);
 
                 }
                 else{
-                    tvNombre.setText(nombreApellidos);
+                    etNombre.setHint(nombreApellidos);
                 }
             }
         });
@@ -110,9 +111,11 @@ public class AltaUsuario extends AppCompatActivity {
                     }
                 };
                 Usuario usuario = new Usuario();
-                usuario.setNombreUsuario(tvNombre.getText().toString());
-                usuario.setEmail(etEmail.getText().toString());
+                usuario.setNombre_empresa(etNombre.getText().toString());
+                usuario.setNombreUsuario(etNombreUsuario.getText().toString());
                 usuario.setPassword(etPonerPassword.getText().toString());
+                usuario.setEmail(etEmail.getText().toString());
+
 
                 registrar.execute("http://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
 

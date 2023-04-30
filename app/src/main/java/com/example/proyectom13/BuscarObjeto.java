@@ -133,7 +133,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         super.onPostExecute(resultados);
                         adapter.clear();
                         if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
-                            Toast.makeText(BuscarObjeto.this, "No se encontraron resultados", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
                             adapter.addAll(resultados);
                         }
