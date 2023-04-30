@@ -27,4 +27,8 @@
     <string name="koLogin">Wrong username or password</string>
 
     <string name="idioma">Language</string>
+    <string name="buscar_objeto_por_nombre">Search object by name</string>
+    <string name="buscar">Search</string>
+    <string name="atras">Back</string>
+    <string name="noEncontrar">No results found</string>
 </resources>

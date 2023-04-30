@@ -26,6 +26,10 @@
     <string name="idioma">Idioma</string>
 
     <string name="koLogin">Usuario o password incorrectos</string>
+    <string name="buscar_objeto_por_nombre">BUSCAR OBJETO POR NOMBRE</string>
+    <string name="atras">Atras</string>
+    <string name="buscar">Buscar</string>
+    <string name="noEncontrar">No se encontraron resultados</string>
 
 
 </resources>
