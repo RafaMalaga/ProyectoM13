@@ -46,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_registro;
 
 
-    public static final String HOST = "192.168.1.131";
+
+    public static final String HOST = "10.0.2.2";
 
     public static String session = "";
+
 
     EditText etPassword;
     EditText etUsuario;
