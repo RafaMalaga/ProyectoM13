@@ -171,6 +171,7 @@ public class AltaUsuario extends AppCompatActivity {
                                     etPonerPassword2.setText("");
                                     etEmail.setText("");
                                 } else {
+                                    mensaje= getString(R.string.exiteUsuario);
                                     etNombreUsuario.setError(getString(R.string.exiteUsuario));
                                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                                     etNombreUsuario.setText("");
