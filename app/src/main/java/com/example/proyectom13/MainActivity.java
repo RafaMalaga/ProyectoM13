@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static final String HOST = "10.0.2.2";
+    public static final String HOST = "192.168.1.131";
 
     public static String session = "";
 
