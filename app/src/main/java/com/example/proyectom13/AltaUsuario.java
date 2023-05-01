@@ -113,10 +113,12 @@ public class AltaUsuario extends AppCompatActivity {
                 // Verificar si alguno de los campos está vacío
                 if (nombre.isEmpty() || nombreUsuario.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty()) {
                     // Mostrar mensaje de error utilizando Toast
-                    Toast.makeText(getApplicationContext(), R.string.completeCampos, Toast.LENGTH_SHORT).show();
+                    String mensaje= getString(R.string.completeCampos);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
 
                 }else if(!password.equals(password2)){
-                    Toast.makeText(getApplicationContext(), R.string.comprobarContra, Toast.LENGTH_SHORT).show();
+                    String mensaje= getString(R.string.comprobarContra);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                     btConfrimar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
