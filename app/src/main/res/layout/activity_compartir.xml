@@ -7,13 +7,81 @@
     tools:context=".Compartir">
 
     <Button
-        android:id="@+id/bttAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Atras"
+        android:id="@+id/btnBuscarCompartir"
+        android:layout_width="141dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="328dp"
+        android:text="@string/buscar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCompartir"
+        android:layout_width="298dp"
+        android:layout_height="58dp"
+        android:text="COMPARTIR LOCALIZACIÓN DE OBJETOS"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.208" />
+
+    <Button
+        android:id="@+id/btnAtrasCompartir"
+        android:layout_width="94dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="328dp"
+        android:text="@string/atras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivLogoCompartir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.052"
+        app:srcCompat="@drawable/logofind" />
+
+    <EditText
+        android:id="@+id/txtBuscarCompartir"
+        android:layout_width="317dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="111dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191" />
+
+    <ListView
+        android:id="@+id/lstResultadosCompartir"
+        android:layout_width="364dp"
+        android:layout_height="223dp"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btEnviarCompartir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="34dp"
+        android:text="@string/compartir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
