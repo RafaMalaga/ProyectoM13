@@ -1,5 +1,6 @@
 package com.example.proyectom13;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -59,6 +60,14 @@ public class Compartir extends AppCompatActivity {
         resultados = new ArrayList<>();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, resultados);
+        // Crear el Dialog y configurarlo
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Resultados del ListView");
+        builder.setAdapter(adapter, null);
+
+// Mostrar el Dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
         lstResultados.setAdapter(adapter);
 
         
