@@ -34,6 +34,10 @@
     <string name="formatoEmail">El formato del email es incorrecto.</string>
     <string name="exiteUsuario">Ya existe un usuario con ese nombre</string>
 
+    <!-- alta objeto -->
+    <string name="koObjeto">Error al guardar el objeto</string>
+    <string name="okObjeto">El objeto se ha guardado correctamente</string>
+
     <string-array name="languages">
         <item>@string/str_en</item>
         <item>@string/str_es</item>

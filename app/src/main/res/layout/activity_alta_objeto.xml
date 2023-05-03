@@ -58,6 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"
         android:hint="Descripcion"></EditText>
     <Button
+        android:id="@+id/btGuardarObjeto"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:text="Guardar"

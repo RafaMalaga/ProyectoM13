@@ -36,5 +36,8 @@
     <string name="formatoEmail">El formato del email es incorrecto.</string>
     <string name="exiteUsuario">Ya existe un usuario con ese nombre</string>
 
+    <!-- alta objeto -->
+    <string name="koObjeto">Error al guardar el objeto</string>
+    <string name="okObjeto">Objeto guardado</string>
 
 </resources>
