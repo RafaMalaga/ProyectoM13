@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration config = new Configuration();
     private Button btn_registro;
+    public static int  idUsuario ;
 
 
-
-    public static final String HOST = "192.168.1.131";
+    public static final String HOST = "10.0.2.2";
 
     public static String session = "";
 
@@ -54,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         btn_cambiar_idioma = findViewById(R.id.ibIdioma);
         btn_registro = findViewById(R.id.btRegistro);
@@ -104,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                                 @SuppressLint("StaticFieldLeak") JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
+                                    idUsuario = jsonResponse.getInt("idUsuario");
+
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
                                     startActivity(intent);
                                 } else {
