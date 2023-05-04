@@ -2,7 +2,7 @@ package com.example.proyectom13;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,15 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -33,8 +27,6 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import android.widget.ImageView;
-
 import java.util.Locale;
 
 
@@ -47,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static final String HOST = "10.0.2.2";
+    public static final String HOST = "192.168.1.131";
 
     public static String session = "";
 
@@ -105,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (etUsuario.getText().length() > 0 && etPassword.getText().length() > 0) {
-                    RequestTask login = new RequestTask() {
+                    @SuppressLint("StaticFieldLeak") RequestTask login = new RequestTask() {
                         @Override
                         protected void onPostExecute(String response) {
                             try {
-                                JSONObject jsonResponse = new JSONObject(response);
+                                @SuppressLint("StaticFieldLeak") JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);

@@ -2,13 +2,13 @@ package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.provider.MediaStore;
-
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,23 +33,26 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class AltaUsuario extends AppCompatActivity {
     private RadioGroup grupoRadios;
     private RadioButton rbEmpresa;
     private RadioButton rbparticular;
     private RadioButton radioButtonSeleccionado;
-    private TextView tvNombre;
     private String nombreApellidos;
     private String nombreEmpresa;
-
     private Button btConfrimar;
 
+    EditText etNombre;
+    EditText etNombreUsuario;
+    EditText etPonerPassword;
+    EditText etPonerPassword2;
     EditText etEmail;
 
-    EditText etPonerPassword;
 
-    EditText etApellidos;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +62,10 @@ public class AltaUsuario extends AppCompatActivity {
         grupoRadios = findViewById(R.id.grupo_radiobuttons);
         rbparticular = findViewById(R.id.rbParticula);
         rbEmpresa = findViewById(R.id.rbEmpresa);
-        tvNombre = findViewById(R.id.etNombre);
-        etApellidos = findViewById(R.id.etApellidos);
+        etNombre = findViewById(R.id.etNombre);
+        etNombreUsuario = findViewById(R.id.etNombreUsuario);
         etPonerPassword = findViewById(R.id.etPonerPassword);
+        etPonerPassword2 = findViewById(R.id.etPonerPassword2);
         etEmail = findViewById(R.id.etEmail);
 
         btConfrimar = findViewById(R.id.btConfrimar);
@@ -78,12 +82,11 @@ public class AltaUsuario extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 radioButtonSeleccionado = findViewById(checkedId);
                 // Hacer algo con el radio button seleccionado
-                if(radioButtonSeleccionado==rbEmpresa){
-                    tvNombre.setText(nombreEmpresa);
+                if (radioButtonSeleccionado == rbEmpresa) {
+                    etNombre.setHint(nombreEmpresa);
 
-                }
-                else{
-                    tvNombre.setText(nombreApellidos);
+                } else {
+                    etNombre.setHint(nombreApellidos);
                 }
             }
         });
@@ -91,32 +94,112 @@ public class AltaUsuario extends AppCompatActivity {
         btConfrimar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestTask registrar = new RequestTask() {
-                    @Override
-                    protected void onPostExecute(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            String mensaje = jsonResponse.getString("mensaje");
-                            if (mensaje.equals("OK")) {
-                                Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                Usuario usuario = new Usuario();
-                usuario.setNombreUsuario(tvNombre.getText().toString());
-                usuario.setEmail(etEmail.getText().toString());
-                usuario.setPassword(etPonerPassword.getText().toString());
+                // Obtener los valores de los campos EditText
+                String nombre = etNombre.getText().toString().trim();
+                String nombreUsuario = etNombreUsuario.getText().toString().trim();
+                String password = etPonerPassword.getText().toString().trim();
+                String password2 = etPonerPassword2.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
 
-                registrar.execute("http://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
+                //contraseña tenga al menos una letra mayúscula, una letra minúscula, un número y una longitud mínima de 8 caracteres
+                String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
+                //Patrón para el email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                // Compilar las expresiones regulares en un patrón
+                Pattern pattern = Pattern.compile(passwordPattern);
+                Pattern patternEmail = Pattern.compile(emailPattern);
+
+
+                // Verificar si alguno de los campos está vacío
+                if (nombre.isEmpty() || nombreUsuario.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty()) {
+                    // Mostrar mensaje de error utilizando Toast
+                    String mensaje= getString(R.string.completeCampos);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+
+                }else if(!password.equals(password2)){
+                    String mensaje= getString(R.string.comprobarContra);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                    btConfrimar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            etPonerPassword.requestFocus();
+
+                        }
+                    });
+                    etPonerPassword.setText("");
+                    etPonerPassword2.setText("");
+                }else if(!pattern.matcher(password).matches()){
+                    etPonerPassword.setError(getString(R.string.formatoContraseña));
+                    btConfrimar.setOnKeyListener(new View.OnKeyListener() {
+                        @Override
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                                etPonerPassword.requestFocus();
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    etPonerPassword.setText("");
+                    etPonerPassword2.setText("");
+                }else if(!patternEmail.matcher(email).matches()){
+                    etEmail.setError(getString(R.string.formatoEmail));
+                    btConfrimar.setOnKeyListener(new View.OnKeyListener() {
+                        @Override
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                                etPonerPassword.requestFocus();
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    etEmail.setText("");
+
+                }else{
+                    @SuppressLint("StaticFieldLeak") RequestTask registrar = new RequestTask() {
+                        @Override
+                        protected void onPostExecute(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                String mensaje = jsonResponse.getString("mensaje");
+                                if (mensaje.equals("OK")) {
+                                    Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                                    startActivity(intent);
+                                    // Limpiar los campos de texto después de agregar usuario
+                                    etNombre.setText("");
+                                    etNombreUsuario.setText("");
+                                    etPonerPassword.setText("");
+                                    etPonerPassword2.setText("");
+                                    etEmail.setText("");
+                                } else {
+                                    mensaje= getString(R.string.exiteUsuario);
+                                    etNombreUsuario.setError(getString(R.string.exiteUsuario));
+                                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                                    etNombreUsuario.setText("");
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    Usuario usuario = new Usuario();
+                    usuario.setIdusuarios(0);
+                    usuario.setNombre_empresa(etNombre.getText().toString());
+                    usuario.setNombreUsuario(etNombreUsuario.getText().toString());
+                    usuario.setPassword(etPonerPassword.getText().toString());
+                    usuario.setEmail(etEmail.getText().toString());
+
+
+                    registrar.execute("http://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
+
+                }
 
             }
         });
+
+
     }
 
     class RequestTask extends AsyncTask<String, String, String> {
@@ -134,7 +217,7 @@ public class AltaUsuario extends AppCompatActivity {
                 resultado = sendPost(url, jsonData);
             }
 
-            Log.d("MainActivity", resultado);
+            Log.d("AltaUsuario", resultado);
             return resultado;
         }
 
@@ -144,12 +227,12 @@ public class AltaUsuario extends AppCompatActivity {
                 CookieManager cookieManager = new CookieManager();
                 CookieHandler.setDefault(cookieManager);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                Log.d("MainActivity", "Session: " + MainActivity.session);
+                Log.d("AltaUsuario", "Session: " + MainActivity.session);
 
                 con.addRequestProperty("Cookie", MainActivity.session);
                 con.setRequestMethod("GET");
                 int responseCode = con.getResponseCode();
-                Log.d("MainActivity", "GET Response code: " + responseCode);
+                Log.d("AltaUsuario", "GET Response code: " + responseCode);
                 if (responseCode == HttpURLConnection.HTTP_OK) { // success
                     BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String inputLine;
@@ -170,11 +253,11 @@ public class AltaUsuario extends AppCompatActivity {
 
                     return response.toString();
                 } else {
-                    Log.e("MainActivity", "El metodo get no ha funcionado: " + responseCode);
+                    Log.e("AltaUsuario", "El metodo get no ha funcionado: " + responseCode);
                 }
 
             } catch (Exception e) {
-                Log.e("MainActivity", "Error al hacer el get: " + e.toString());
+                Log.e("AltaUsuario", "Error al hacer el get: " + e.toString());
             }
             return null;
         }
@@ -223,13 +306,13 @@ public class AltaUsuario extends AppCompatActivity {
 
                 }
 
-                Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
+                Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx AltaUsuario", "Respuesta: " + response.toString());
                 return response.toString();
 
             }
 
         } catch (Exception e) {
-            Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
+            Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx AltaUsuario", "Error: " + e.toString());
         }
 
         return null;
