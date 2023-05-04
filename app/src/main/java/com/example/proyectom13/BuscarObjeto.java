@@ -26,6 +26,7 @@ public class BuscarObjeto extends AppCompatActivity {
 
     private ListView lstResultados;
     private ArrayList<String> resultados;
+    int idUsuario = MainActivity.idUsuario;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -54,7 +55,7 @@ public class BuscarObjeto extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    String url = "http://" + MainActivity.HOST + "/api/ultimos_objetos.php?cantidad=5";
+                    String url = "http://" + MainActivity.HOST + "/api/ultimos_objetos.php?cantidad=5&idusuario=" + idUsuario;
                     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                     connection.setRequestMethod("GET");
                     connection.connect();
@@ -99,7 +100,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         ArrayList<String> resultados = new ArrayList<>();
                         try {
 
-                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
+                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuario=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();

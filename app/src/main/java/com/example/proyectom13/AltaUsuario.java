@@ -164,7 +164,9 @@ public class AltaUsuario extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
-                                    Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                                    // he cambiado esta linea para que el user tenga que acceder con sus datos para poder obtener el valor de la variable idusuarios
+                                    Toast.makeText(getApplicationContext(), "Usuario añadido con éxito, ingrese sus credenciales para acceder", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     // Limpiar los campos de texto después de agregar usuario
                                     etNombre.setText("");
@@ -185,7 +187,7 @@ public class AltaUsuario extends AppCompatActivity {
                         }
                     };
                     Usuario usuario = new Usuario();
-                    usuario.setIdusuarios(0);
+                    usuario.setIdusuarios( MainActivity.idUsuario);
                     usuario.setNombre_empresa(etNombre.getText().toString());
                     usuario.setNombreUsuario(etNombreUsuario.getText().toString());
                     usuario.setPassword(etPonerPassword.getText().toString());
@@ -201,7 +203,6 @@ public class AltaUsuario extends AppCompatActivity {
 
 
     }
-
     class RequestTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -224,12 +225,7 @@ public class AltaUsuario extends AppCompatActivity {
         public String sendGet(String surl) {
             try {
                 URL url = new URL(surl);
-                CookieManager cookieManager = new CookieManager();
-                CookieHandler.setDefault(cookieManager);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                Log.d("AltaUsuario", "Session: " + MainActivity.session);
-
-                con.addRequestProperty("Cookie", MainActivity.session);
                 con.setRequestMethod("GET");
                 int responseCode = con.getResponseCode();
                 Log.d("AltaUsuario", "GET Response code: " + responseCode);
@@ -242,15 +238,6 @@ public class AltaUsuario extends AppCompatActivity {
                         response.append(inputLine);
                     }
                     in.close();
-                    List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-                    for (HttpCookie cookie : cookies) {
-                        if (cookie.getName().equals("PHPSESSID")) {
-                            MainActivity.session = cookie.toString();
-
-                        }
-
-                    }
-
                     return response.toString();
                 } else {
                     Log.e("AltaUsuario", "El metodo get no ha funcionado: " + responseCode);
@@ -266,8 +253,6 @@ public class AltaUsuario extends AppCompatActivity {
     public String sendPost(String surl, String jsonData) {
         try {
             URL url = new URL(surl);
-            CookieManager cookieManager = new CookieManager();
-            CookieHandler.setDefault(cookieManager);
             System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
             //Creamos la connexión
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -275,8 +260,6 @@ public class AltaUsuario extends AppCompatActivity {
             con.setRequestProperty("Accept", "application/json");
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
-            //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
-            con.addRequestProperty("Cookie", MainActivity.session);
             con.setRequestMethod("POST");
             //Especificamos que mandamos datos
             con.setDoOutput(true);
@@ -295,15 +278,6 @@ public class AltaUsuario extends AppCompatActivity {
 
                 while ((responseLine = br.readLine()) != null) {
                     response.append(responseLine.trim());
-                }
-
-                List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-                for (HttpCookie cookie : cookies) {
-                    if (cookie.getName().equals("PHPSESSID")) {
-                        MainActivity.session = cookie.toString();
-
-                    }
-
                 }
 
                 Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx AltaUsuario", "Respuesta: " + response.toString());

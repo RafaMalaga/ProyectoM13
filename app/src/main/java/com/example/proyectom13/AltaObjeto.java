@@ -57,6 +57,9 @@ public class AltaObjeto extends AppCompatActivity {
     Button btGuardarObjeto;
     Uri photoURI;
     String fotoPath;
+
+    int idUsuario = MainActivity.idUsuario;
+
     static Bitmap bitmap;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -69,11 +72,12 @@ public class AltaObjeto extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         etNombre = findViewById(R.id.etNombre);
         etLugarGuardado = findViewById(R.id.etLugarGuardado);
-                etDescripcion = findViewById(R.id.etDescripcion);
+        etDescripcion = findViewById(R.id.etDescripcion);
         etFechaAlta.setText(timeStamp);
         btGuardarObjeto = findViewById(R.id.btGuardarObjeto);
+        Button btnAtras = findViewById(R.id.botonAtras);
 
-        ActivityCompat.requestPermissions( this,
+        ActivityCompat.requestPermissions(this,
                 new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.MANAGE_EXTERNAL_STORAGE
@@ -113,35 +117,47 @@ public class AltaObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fotoBase64 = "";
-                if (bitmap != null){
-                    fotoBase64 = Base64.encodeToString(compressBitmap(bitmap, (int)Math.pow(2, 20)), Base64.URL_SAFE);
+                if (bitmap != null) {
+                    fotoBase64 = Base64.encodeToString(compressBitmap(bitmap, (int) Math.pow(2, 20)), Base64.URL_SAFE);
                 }
-                Objeto objeto = new Objeto();
-                //TODO cambiar IdUsuario
-                objeto.setIdUsuario(1);
-                objeto.setNombre(etNombre.getText().toString());
-                objeto.setFechaAlta("2008-7-04");
-                objeto.setLugarGuardado(etLugarGuardado.getText().toString());
-                objeto.setDescripcion(etDescripcion.getText().toString());
-                objeto.setFoto(fotoBase64);
-                RequestTask subirFoto = new RequestTask();
+
+                // Obtener los valores de los campos EditText
+                String nombre = etNombre.getText().toString();
+                String fechaAlta = etFechaAlta.getText().toString();
+                String lugarGuardado = etLugarGuardado.getText().toString();
+                String descripcion = etDescripcion.getText().toString();
+
+                // Crear un objeto JSONObject con los valores obtenidos de los editText
+                JSONObject objeto = new JSONObject();
                 try {
-                    JSONObject json = new JSONObject();
-                    json.put("nombre", "foto");
-                    json.put("foto", fotoBase64);
-                    subirFoto.execute("http://" + MainActivity.HOST + "/api/foto.php", "POST", objeto.toString());
-
-                } catch (Exception e) {
-                    Log.e("MainActivity", "Error al crear el json: " + e.toString());
-
+                    objeto.put("idusuarios", idUsuario);
+                    objeto.put("nombre", nombre);
+                    objeto.put("fechaAlta", fechaAlta);
+                    objeto.put("lugarGuardado", lugarGuardado);
+                    objeto.put("descripcion", descripcion);
+                    objeto.put("foto", fotoBase64);
+                } catch (JSONException e) {
+                    Log.e("MainActivity", "Error al crear el objeto JSON: " + e.toString());
                 }
 
-
+                // Enviar el objeto JSON al servidor
+                RequestTask subirFoto = new RequestTask();
+                subirFoto.execute("http://" + MainActivity.HOST + "/api/foto.php", "POST", objeto.toString());
             }
         });
 
+
+        btnAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Cerrar la actividad actual y regresar a la actividad anterior
+                finish();
+            }
+        });
     }
-    public static byte[] compressBitmap(Bitmap bitmap, int maxSizeBytes){
+
+
+    public static byte[] compressBitmap(Bitmap bitmap, int maxSizeBytes) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         int currSize;
         int currQuality = 50;
@@ -152,10 +168,11 @@ public class AltaObjeto extends AppCompatActivity {
             // limit quality by 5 percent every time
             currQuality -= 5;
 
-        } while (currSize >= maxSizeBytes && currQuality>=5);
+        } while (currSize >= maxSizeBytes && currQuality >= 5);
 
         return stream.toByteArray();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,6 +185,7 @@ public class AltaObjeto extends AppCompatActivity {
             ivObjeto.setBackground(d);
         }
     }
+
     class RequestTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -194,10 +212,10 @@ public class AltaObjeto extends AppCompatActivity {
                 JSONObject respuesta = new JSONObject(s);
                 String mensaje = respuesta.getString("mensaje");
                 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
-                if(mensaje.equals("OK")) {
-                    Toast.makeText(getApplicationContext(), getText(R.string.okObjeto) , Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), getText(R.string.koObjeto) , Toast.LENGTH_SHORT).show();
+                if (mensaje.equals("OK")) {
+                    Toast.makeText(getApplicationContext(), getText(R.string.okObjeto), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), getText(R.string.koObjeto), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -207,12 +225,8 @@ public class AltaObjeto extends AppCompatActivity {
         public String sendGet(String surl) {
             try {
                 URL url = new URL(surl);
-                CookieManager cookieManager = new CookieManager();
-                CookieHandler.setDefault(cookieManager);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 Log.d("MainActivity", "Session: " + MainActivity.session);
-
-                con.addRequestProperty("Cookie", MainActivity.session);
                 con.setRequestMethod("GET");
                 int responseCode = con.getResponseCode();
                 Log.d("MainActivity", "GET Response code: " + responseCode);
@@ -225,84 +239,56 @@ public class AltaObjeto extends AppCompatActivity {
                         response.append(inputLine);
                     }
                     in.close();
-                    List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-                    for (HttpCookie cookie : cookies) {
-                        if (cookie.getName().equals("PHPSESSID")) {
-                            MainActivity.session = cookie.toString();
-
-                        }
-
-                    }
-
                     return response.toString();
                 } else {
                     Log.e("MainActivity", "El metodo get no ha funcionado: " + responseCode);
                 }
-
             } catch (Exception e) {
                 Log.e("MainActivity", "Error al hacer el get: " + e.toString());
             }
             return null;
         }
-    }
-    public String sendPost(String surl, String jsonData) {
-        try {
-            URL url = new URL(surl);
-            CookieManager cookieManager = new CookieManager();
-            CookieHandler.setDefault(cookieManager);
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
-            //Creamos la connexión
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(10000);
-            //Ponemos cabeceras http para indicar que mandamos un json
-            con.setRequestProperty("Accept", "application/json");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
 
-            //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
-            con.addRequestProperty("Cookie", MainActivity.session);
-            con.setRequestMethod("POST");
-            //Especificamos que mandamos datos
-            con.setDoOutput(true);
-            //Enviamos la peticion, escribiendo el json
-            OutputStream os = con.getOutputStream();
-            byte[] input = jsonData.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            os.close();
+        public String sendPost(String surl, String jsonData) {
+            try {
+                URL url = new URL(surl);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setConnectTimeout(10000);
+                //Ponemos cabeceras http para indicar que mandamos un json
+                con.setRequestProperty("Accept", "application/json");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
 
-            //Si el servidor devuelve 200 es que ha ido bien
-            if (con.getResponseCode() == 200) {
-                //Leemos la respuesta del servidor
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
+                //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
+                con.setRequestMethod("POST");
+                //Especificamos que mandamos datos
+                con.setDoOutput(true);
+                //Enviamos la peticion, escribiendo el json
+                OutputStream os = con.getOutputStream();
+                byte[] input = jsonData.getBytes("utf-8");
+                os.write(input, 0, input.length);
+                os.close();
 
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
+                //Si el servidor devuelve 200 es que ha ido bien
+                if (con.getResponseCode() == 200) {
+                    //Leemos la respuesta del servidor
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+                    StringBuilder response = new StringBuilder();
+                    String responseLine = null;
 
-                List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-                for (HttpCookie cookie : cookies) {
-                    if (cookie.getName().equals("PHPSESSID")) {
-                        MainActivity.session = cookie.toString();
-
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
                     }
 
+                    Log.d("MainActivity", "Respuesta: " + response.toString());
+                    return response.toString();
                 }
-
-
-                Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
-                return response.toString();
-
-
+            } catch (Exception e) {
+                Log.e("MainActivity", "Error: " + e.toString());
             }
 
-        } catch (Exception e) {
-            Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Error: " + e.toString());
+            return null;
         }
 
-        return null;
-
     }
-
 }
