@@ -1,10 +1,14 @@
 package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -56,6 +60,7 @@ public class Compartir extends AppCompatActivity {
 
         lstResultados = findViewById(R.id.lstResultadosCompartir);
         lstResultadosObj = findViewById(R.id.lstResultadosCompartirObj);
+
 
 
         btnAtras.setOnClickListener(new View.OnClickListener() {
@@ -186,34 +191,52 @@ public class Compartir extends AppCompatActivity {
 
 
     private void share(ArrayList itemSeleccionados, ArrayList itemSeleccionadosObj) {
-        Usuario usuario= new Usuario();
-        String emails = null;
-        for (int i = 0; i < itemSeleccionados.size(); i++) {
-            usuario = (Usuario) itemSeleccionados.get(i);
-            emails += usuario.getEmail() + ",";
-        }
-        // Eliminar la última coma
-        if (emails.endsWith(",")) {
-            emails = emails.substring(0, emails.length() - 1);
-        }
+        ArrayList correos= new ArrayList();
+        ArrayList nombresList= new ArrayList();
+        // Recorrer la lista original y extraer los correos electrónicos
+        for (int i=0; i<itemSeleccionados.size(); i++) {
+            String itemSeleccionadosString= (String) itemSeleccionados.get(i);
+            String[] partes = itemSeleccionadosString.split(": "); // Separar nombre y correo
+            String nombres = partes[0];
+            String correo = partes[1]; // El segundo elemento es el correo
 
-        String subject = "Asunto del correo";
-        String encabezado = "Este es el encabezado del mensaje que se comparte:\n\n";
+            correos.add(correo); // Agregar el correo a la nueva lista
+            nombresList.add(nombres);
+        }
+        // Obtener el ID de la imagen en la carpeta res/drawable
+        int drawableResourceId = getResources().getIdentifier("logofind", "drawable", getPackageName());
+
+// Obtener la Uri de la imagen utilizando el ID de recurso
+        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + drawableResourceId);
+        // Crear el texto a compartir
+        String subject = "Quiero compartir contigo desde Find-It";
+        String encabezado = "¡¡Hola!! " + TextUtils.join(", ", nombresList) + ":\n\n He guardado estos objetos y me gustaría que supieras dónde están: \n\n";
         String mensaje = encabezado + TextUtils.join("\n", itemSeleccionadosObj);
+        String destinatarios = TextUtils.join(",", correos);
+
+        // Crear el Intent con el tipo de datos "image/png"
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+        intent.setType("image/png");
+
+        // Agregar la imagen como extra en el Intent
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+        // Agregar el texto como extra en el Intent
         intent.putExtra(Intent.EXTRA_TEXT, mensaje);
-        // Para compartir mediante email, puedes agregar el destinatario en el Intent
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {emails});
-        startActivity(Intent.createChooser(intent, "Compartir con"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {destinatarios});
+
+        // Mostrar el ShareSheet
+        startActivity(Intent.createChooser(intent, "Compartir imagen y texto"));
+
+
+
     }
     // Recuperamos el resultado de ActivityB
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         itemSeleccionadosObj = new ArrayList();
-         itemSeleccionados = new ArrayList();
+
 
         if (requestCode == REQUEST_CODE && resultCode == SeleccionarUsuario.RESULT_OK){
             // Recuperamos los datos enviados de vuelta desde ActivityB

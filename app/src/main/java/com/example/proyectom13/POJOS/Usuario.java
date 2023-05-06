@@ -24,6 +24,7 @@ public class Usuario {
 
     }
 
+
     public int getIdusuarios() {
         return idusuarios;
     }
