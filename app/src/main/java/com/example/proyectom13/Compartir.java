@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,10 +33,14 @@ public class Compartir extends AppCompatActivity {
 
 
     private ListView lstResultados;
+    private ListView lstResultadosObj;
 
     private ArrayList<String> resultados;
     private static final int REQUEST_CODE = 1;
-    ArrayList<String> itemSeleccionados;
+    private static final int REQUEST_CODE_OBJ = 2;
+    Button btnCompartir;
+    private ArrayList itemSeleccionados;
+    private ArrayList itemSeleccionadosObj;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -43,11 +48,14 @@ public class Compartir extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compartir);
         EditText txtBuscar = findViewById(R.id.txtBuscarCompartir);
+        EditText txtBuscarUsuario = findViewById(R.id.etBuscarUsuario);
+        Button btnBuscarUsuarios = findViewById(R.id.btnBuscarUsuario);
         Button btnBuscar = findViewById(R.id.btnBuscarCompartir);
         Button btnAtras = findViewById(R.id.btnAtrasCompartir);
+        btnCompartir = findViewById(R.id.btCompartirEnviar);
 
         lstResultados = findViewById(R.id.lstResultadosCompartir);
-
+        lstResultadosObj = findViewById(R.id.lstResultadosCompartirObj);
 
 
         btnAtras.setOnClickListener(new View.OnClickListener() {
@@ -57,13 +65,6 @@ public class Compartir extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
-
-
-
 
 
         btnBuscar.setOnClickListener(new View.OnClickListener() {
@@ -114,9 +115,7 @@ public class Compartir extends AppCompatActivity {
                         } else {
                             Intent intent = new Intent(getApplicationContext(), SeleccionarDeLista.class);
                             intent.putExtra("arrayL", resultados);
-                            startActivityForResult(intent, REQUEST_CODE);
-
-
+                            startActivityForResult(intent, REQUEST_CODE_OBJ);
 
 
                         }
@@ -124,38 +123,129 @@ public class Compartir extends AppCompatActivity {
                 }.execute();
             }
         });
+        btnBuscarUsuarios.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+                new AsyncTask<Void, Void, ArrayList<String>>() {
+                    @Override
+                    protected ArrayList<String> doInBackground(Void... params) {
+                        ArrayList<String> resultados = new ArrayList<>();
+                        try {
+
+                            String url = "http://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
+                            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.connect();
+                            int responseCode = connection.getResponseCode();
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                InputStream inputStream =
+                                        connection.getInputStream();
+                                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                                StringBuilder stringBuilder = new StringBuilder();
+                                String line;
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    stringBuilder.append(line);
+                                }
+                                Log.d("RESPONSE", stringBuilder.toString());
+                                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    String nombre = jsonObject.getString("nombreUsuario");
+                                    String email = jsonObject.getString("email");
+                                    resultados.add(nombre + ": " + email);
+
+                                }
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return resultados;
+                    }
+
+                    @Override
+                    protected void onPostExecute(ArrayList<String> resultados) {
+                        super.onPostExecute(resultados);
+
+                        if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
+                            Toast.makeText(Compartir.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), SeleccionarUsuario.class);
+                            intent.putExtra("arrayL", resultados);
+                            startActivityForResult(intent, REQUEST_CODE);
+
+
+                        }
+                    }
+                }.execute();
+            }
+        });
+
+
     }
 
-    private void share(ArrayList resultados) {
+
+    private void share(ArrayList itemSeleccionados, ArrayList itemSeleccionadosObj) {
+        Usuario usuario= new Usuario();
+        String emails = null;
+        for (int i = 0; i < itemSeleccionados.size(); i++) {
+            usuario = (Usuario) itemSeleccionados.get(i);
+            emails += usuario.getEmail() + ",";
+        }
+        // Eliminar la última coma
+        if (emails.endsWith(",")) {
+            emails = emails.substring(0, emails.length() - 1);
+        }
+
         String subject = "Asunto del correo";
         String encabezado = "Este es el encabezado del mensaje que se comparte:\n\n";
-        String mensaje = encabezado + TextUtils.join("\n", resultados);
+        String mensaje = encabezado + TextUtils.join("\n", itemSeleccionadosObj);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, mensaje);
         // Para compartir mediante email, puedes agregar el destinatario en el Intent
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"destinatario@example.com"});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {emails});
         startActivity(Intent.createChooser(intent, "Compartir con"));
     }
     // Recuperamos el resultado de ActivityB
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+         itemSeleccionadosObj = new ArrayList();
+         itemSeleccionados = new ArrayList();
 
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CODE && resultCode == SeleccionarUsuario.RESULT_OK){
             // Recuperamos los datos enviados de vuelta desde ActivityB
-            ArrayList itemSeleccionados = data.getParcelableArrayListExtra("elemSeleccionados");
+            itemSeleccionados = data.getParcelableArrayListExtra("elemSeleccionados");
+
 
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionados);
             lstResultados.setAdapter(adapter);
-            share(itemSeleccionados);
-
 
         }
 
+        if (requestCode == REQUEST_CODE_OBJ && resultCode == SeleccionarDeLista.RESULT_OK){
+            // Recuperamos los datos enviados de vuelta desde ActivityB
+            itemSeleccionadosObj = data.getParcelableArrayListExtra("elemSeleccionadosObj");
+
+
+
+            ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionadosObj);
+            lstResultadosObj.setAdapter(adapterObj);
+        }
+
+        btnCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share(itemSeleccionados,itemSeleccionadosObj);
+            }
+        });
+
+
     }
+
 
 
 

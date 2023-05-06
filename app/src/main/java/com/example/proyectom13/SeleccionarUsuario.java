@@ -13,22 +13,23 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class SeleccionarDeLista extends AppCompatActivity {
+public class SeleccionarUsuario extends AppCompatActivity {
     ListView lstCompartir;
     Button btSeleccionarDeLista;
     Button btAtras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seleccionar_de_lista);
+        setContentView(R.layout.activity_seleccionar_usuario);
 
-        lstCompartir = findViewById(R.id.lvListaObjetos);
-        btSeleccionarDeLista = findViewById(R.id.btCompartirDeLista);
-        btAtras = findViewById(R.id.btCompartirAtras);
+        lstCompartir = findViewById(R.id.lvListaUsuarios);
+        btSeleccionarDeLista = findViewById(R.id.btCompartirDeListaUsuarios);
+        btAtras = findViewById(R.id.btCompartirUsuariosAtras);
         Intent intent = getIntent();
-        ArrayList resultados  = intent.getParcelableArrayListExtra("arrayL");
+        ArrayList resultados = intent.getParcelableArrayListExtra("arrayL");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice , resultados);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, resultados);
         lstCompartir.setAdapter(adapter);
 
         btSeleccionarDeLista.setOnClickListener(new View.OnClickListener() {
@@ -54,13 +55,12 @@ public class SeleccionarDeLista extends AppCompatActivity {
 
                 // Creamos un Intent con los datos que queremos enviar de vuelta a ActivityA
                 Intent intent = new Intent();
-                intent.putExtra("elemSeleccionadosObj", elemSeleccionados);
+                intent.putExtra("elemSeleccionados", elemSeleccionados);
                 setResult(Activity.RESULT_OK, intent);
 
 
                 // Finalizamos ActivityB
                 finish();
-
 
 
             }
@@ -71,8 +71,8 @@ public class SeleccionarDeLista extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
-
 }
+
+
+

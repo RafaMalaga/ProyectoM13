@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeleccionarDeLista">
+    tools:context=".SeleccionarUsuario">
 
     <Button
-        android:id="@+id/btCompartirAtras"
+        android:id="@+id/btCompartirUsuariosAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
-        android:id="@+id/lvListaObjetos"
+        android:id="@+id/lvListaUsuarios"
         android:layout_width="322dp"
         android:layout_height="559dp"
         android:choiceMode="multipleChoice"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btCompartirDeLista"
+        android:id="@+id/btCompartirDeListaUsuarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="45dp"
