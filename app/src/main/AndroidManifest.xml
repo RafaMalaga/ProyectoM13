@@ -64,6 +64,15 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".VerObjeto"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
             android:name=".Compartir"
             android:exported="false">
             <meta-data
