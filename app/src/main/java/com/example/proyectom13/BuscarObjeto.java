@@ -2,10 +2,12 @@ package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +51,15 @@ public class BuscarObjeto extends AppCompatActivity {
         resultados = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
         lstResultados.setAdapter(adapter);
+        lstResultados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
+                //TODO: cambiar 1 por el id del objeto
+                verObjeto.putExtra("idobjetos ", Integer.toString(1));
+                startActivity(verObjeto);
+            }
+        });
 
         // Obtener los últimos 5 objetos alamcenados en  la base de datos siempre que se abre la acitvity
         new AsyncTask<Void, Void, Void>() {

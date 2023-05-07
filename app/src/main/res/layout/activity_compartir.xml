@@ -4,16 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".Compartir">
 
+    <ListView
+        android:id="@+id/lstResultadosCompartirObj"
+        android:layout_width="374dp"
+        android:layout_height="105dp"
+        android:background="@color/verde"
+        app:layout_constraintBottom_toTopOf="@+id/btnAtrasCompartir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBuscarCompartir"
+        app:layout_constraintVertical_bias="0.5" />
+
     <Button
-        android:id="@+id/bttAtras"
+        android:id="@+id/btnBuscarCompartir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Atras"
+        android:text="@string/buscar"
+        app:layout_constraintBottom_toTopOf="@+id/lstResultadosCompartirObj"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtBuscarCompartir"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btnAtrasCompartir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/atras"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btCompartirEnviar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lstResultadosCompartirObj"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/ivLogoCompartir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/logofind" />
+
+    <EditText
+        android:id="@+id/txtBuscarCompartir"
+        android:layout_width="321dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del objeto"
+        app:layout_constraintBottom_toTopOf="@+id/btnBuscarCompartir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lstResultadosCompartir"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ListView
+        android:id="@+id/lstResultadosCompartir"
+        android:layout_width="374dp"
+        android:layout_height="105dp"
+        android:background="@color/verde"
+        app:layout_constraintBottom_toTopOf="@+id/txtBuscarCompartir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBuscarUsuario"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/etBuscarUsuario"
+        android:layout_width="321dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nombre de usuario o el email"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/btnBuscarUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="321dp"
+        android:layout_height="33dp"
+        android:text="¿Con quién quieres compartir?"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/etBuscarUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoCompartir"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btnBuscarUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buscar"
+        app:layout_constraintBottom_toTopOf="@+id/lstResultadosCompartir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBuscarUsuario"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/btCompartirEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/compartir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnAtrasCompartir"
+        app:layout_constraintTop_toBottomOf="@+id/lstResultadosCompartirObj"
+        app:layout_constraintVertical_bias="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
