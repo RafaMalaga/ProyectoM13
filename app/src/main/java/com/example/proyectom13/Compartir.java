@@ -224,6 +224,7 @@ public class Compartir extends AppCompatActivity {
         ArrayList<Uri> uris = new ArrayList<>();
         Uri uri = null;
 
+
         for (int i=0; i<resultadosFotosSeleccionadas.size();i++) {
             Bitmap bitmap = resultadosFotosSeleccionadas.get(i);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -235,7 +236,7 @@ public class Compartir extends AppCompatActivity {
             }
         for (Bitmap bitmap1 : resultadosFotosSeleccionadas) {
             uris.add(uri);
-            System.out.println("lllllllllllllll" + uris.size());
+
         }
 
         // Recorrer la lista original y extraer los correos electrónicos
@@ -248,11 +249,9 @@ public class Compartir extends AppCompatActivity {
             correos.add(correo); // Agregar el correo a la nueva lista
             nombresList.add(nombres);
         }
-        // Obtener el ID de la imagen en la carpeta res/drawable
-        int drawableResourceId = getResources().getIdentifier("logofind", "drawable", getPackageName());
 
-        // Obtener la Uri de la imagen utilizando el ID de recurso
-        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + drawableResourceId);
+
+
         // Crear el texto a compartir
         String subject = "Quiero compartir contigo desde Find-It";
         String encabezado = "¡¡Hola!! " + TextUtils.join(", ", nombresList) + ":\n\n He guardado estos objetos y me gustaría que supieras dónde están: \n\n";
@@ -264,6 +263,7 @@ public class Compartir extends AppCompatActivity {
  ;
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
         intent.setType("image/*");
 
         // Agregar el texto como extra en el Intent
