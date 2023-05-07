@@ -1,24 +1,24 @@
 package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,13 +39,17 @@ public class Compartir extends AppCompatActivity {
 
     private ListView lstResultados;
     private ListView lstResultadosObj;
-
-    private ArrayList<String> resultados;
+    private MyResult result = new MyResult();
+    private ArrayList<String> resultados= new ArrayList<>();
+    private ArrayList<String> resultadosObj= new ArrayList<>();
+    private ArrayList<Bitmap> resultadosFotos= new ArrayList<>();
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_CODE_OBJ = 2;
     Button btnCompartir;
-    private ArrayList itemSeleccionados;
-    private ArrayList itemSeleccionadosObj;
+    private ArrayList itemSeleccionados = new ArrayList<>();
+    private ArrayList itemSeleccionadosObj = new ArrayList<>();
+    private ArrayList <Integer> itemSeleccionadosObjPosicion = new ArrayList<>();
+    private ArrayList<Bitmap> resultadosFotosSeleccionadas= new ArrayList<>();
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -60,7 +65,12 @@ public class Compartir extends AppCompatActivity {
 
         lstResultados = findViewById(R.id.lstResultadosCompartir);
         lstResultadosObj = findViewById(R.id.lstResultadosCompartirObj);
-
+        btnCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share(itemSeleccionados,itemSeleccionadosObj, resultadosFotosSeleccionadas);
+            }
+        });
 
 
         btnAtras.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +86,12 @@ public class Compartir extends AppCompatActivity {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                new AsyncTask<Void, Void, ArrayList<String>>() {
+                new AsyncTask<Void, Void, MyResult>() {
                     @Override
-                    protected ArrayList<String> doInBackground(Void... params) {
-                        ArrayList<String> resultados = new ArrayList<>();
+                    protected MyResult doInBackground(Void... params) {
+                        //ArrayList<String> resultados = new ArrayList<>();
+                        //ArrayList<Bitmap> resultadosFotos = new ArrayList<>();
+                        //ArrayList<Bitmap> resultadosFotosSeleccionadas = new ArrayList<>();
                         try {
 
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
@@ -97,29 +109,45 @@ public class Compartir extends AppCompatActivity {
                                     stringBuilder.append(line);
                                 }
                                 Log.d("RESPONSE", stringBuilder.toString());
+
                                 JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     String nombre = jsonObject.getString("nombre");
                                     String descripcion = jsonObject.getString("descripcion");
-                                    resultados.add(nombre + ": " + descripcion);
+                                    String lugarGuardado = jsonObject.getString("lugarGuardado");
+                                    String fotobaseString64 = jsonObject.getString("foto");
+                                    byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
+
+
+
+                                    resultadosObj.add(nombre + ": \n" + descripcion + "\n" + lugarGuardado);
+                                    resultadosFotos.add(bitmap);
+
+
+
                                 }
+
                             }
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
-                        return resultados;
+                        return new MyResult(resultadosObj, resultadosFotos);
                     }
 
                     @Override
-                    protected void onPostExecute(ArrayList<String> resultados) {
-                        super.onPostExecute(resultados);
+                    protected void onPostExecute(MyResult result) {
+                        super.onPostExecute(result);
+                        resultadosObj= result.getList1();
+                        resultadosFotos= result.getList2();
+                        System.out.println("1111111111111111111" + resultadosObj.size() +"eeeeeee" + resultadosFotos.size());
 
-                        if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
+                        if (resultadosObj.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(Compartir.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(getApplicationContext(), SeleccionarDeLista.class);
-                            intent.putExtra("arrayL", resultados);
+                            intent.putExtra("arrayL", resultadosObj);
                             startActivityForResult(intent, REQUEST_CODE_OBJ);
 
 
@@ -190,9 +218,26 @@ public class Compartir extends AppCompatActivity {
     }
 
 
-    private void share(ArrayList itemSeleccionados, ArrayList itemSeleccionadosObj) {
+    private void share(ArrayList itemSeleccionados, ArrayList itemSeleccionadosObj, ArrayList<Bitmap> resultadosFotosSeleccionadas) {
         ArrayList correos= new ArrayList();
         ArrayList nombresList= new ArrayList();
+        ArrayList<Uri> uris = new ArrayList<>();
+        Uri uri = null;
+
+        for (int i=0; i<resultadosFotosSeleccionadas.size();i++) {
+            Bitmap bitmap = resultadosFotosSeleccionadas.get(i);
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "Title", null);
+            uri = Uri.parse(path);
+
+            
+            }
+        for (Bitmap bitmap1 : resultadosFotosSeleccionadas) {
+            uris.add(uri);
+            System.out.println("lllllllllllllll" + uris.size());
+        }
+
         // Recorrer la lista original y extraer los correos electrónicos
         for (int i=0; i<itemSeleccionados.size(); i++) {
             String itemSeleccionadosString= (String) itemSeleccionados.get(i);
@@ -206,7 +251,7 @@ public class Compartir extends AppCompatActivity {
         // Obtener el ID de la imagen en la carpeta res/drawable
         int drawableResourceId = getResources().getIdentifier("logofind", "drawable", getPackageName());
 
-// Obtener la Uri de la imagen utilizando el ID de recurso
+        // Obtener la Uri de la imagen utilizando el ID de recurso
         Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + drawableResourceId);
         // Crear el texto a compartir
         String subject = "Quiero compartir contigo desde Find-It";
@@ -216,10 +261,10 @@ public class Compartir extends AppCompatActivity {
 
         // Crear el Intent con el tipo de datos "image/png"
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/png");
-
-        // Agregar la imagen como extra en el Intent
-        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+ ;
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        intent.setType("image/*");
 
         // Agregar el texto como extra en el Intent
         intent.putExtra(Intent.EXTRA_TEXT, mensaje);
@@ -252,23 +297,46 @@ public class Compartir extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_OBJ && resultCode == SeleccionarDeLista.RESULT_OK){
             // Recuperamos los datos enviados de vuelta desde ActivityB
             itemSeleccionadosObj = data.getParcelableArrayListExtra("elemSeleccionadosObj");
+            itemSeleccionadosObjPosicion = data.getIntegerArrayListExtra("elemSeleccionadosPosicion");
 
+
+            for (int i=0; i<itemSeleccionadosObjPosicion.size();i++) {
+
+                int posicionOriginal =  itemSeleccionadosObjPosicion.get(i);
+
+
+                resultadosFotosSeleccionadas.add(resultadosFotos.get(posicionOriginal));
+            }
 
 
             ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionadosObj);
             lstResultadosObj.setAdapter(adapterObj);
         }
 
-        btnCompartir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share(itemSeleccionados,itemSeleccionadosObj);
-            }
-        });
+
 
 
     }
 
+    private static class MyResult {
+        private ArrayList<String> list1;
+        private ArrayList<Bitmap> list2;
+        public MyResult() {
+        }
+
+        public MyResult(ArrayList<String> list1, ArrayList<Bitmap> list2) {
+            this.list1 = list1;
+            this.list2 = list2;
+        }
+
+        public ArrayList<String> getList1() {
+            return list1;
+        }
+
+        public ArrayList<Bitmap> getList2() {
+            return list2;
+        }
+    }
 
 
 
