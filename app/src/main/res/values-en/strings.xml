@@ -40,4 +40,6 @@
     <!-- alta objeto -->
     <string name="koObjeto">Error saving the object</string>
     <string name="okObjeto">Object saved</string>
+    <string name="nombreVacio">The name of the object cannot be empty</string>
+
 </resources>

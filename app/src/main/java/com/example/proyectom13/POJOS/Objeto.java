@@ -5,6 +5,13 @@ import org.json.JSONObject;
 
 public class Objeto {
 
+    public int getIdObjeto() {
+        return idobjetos;
+    }
+
+    public void setIdObjeto(int idobjetos) {
+        this.idobjetos = idobjetos;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -59,6 +66,8 @@ public class Objeto {
     String foto;
     int idUsuario;
     String lugarGuardado;
+
+    int idobjetos;
 
     @Override
     public String toString() {

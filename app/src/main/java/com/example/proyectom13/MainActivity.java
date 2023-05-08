@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static int  idUsuario ;
 
 
-    public static final String HOST = "192.168.56.1";
+    public static final String HOST = "192.168.1.131";
 
     public static String session = "";
 
@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
 
         btn_cambiar_idioma = findViewById(R.id.ibIdioma);
         btn_registro = findViewById(R.id.btRegistro);
