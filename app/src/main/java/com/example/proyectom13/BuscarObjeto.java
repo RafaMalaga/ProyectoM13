@@ -125,7 +125,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         ArrayList<Objeto> resultados = new ArrayList<>();
                         try {
 
-                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuario=" + MainActivity.idUsuario;
+                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();
@@ -153,6 +153,7 @@ public class BuscarObjeto extends AppCompatActivity {
                                     objeto.setNombre(nombre);
                                     objeto.setLugarGuardado(descripcion);
                                     objeto.setFechaAlta(fechaAlta);
+                                    resultados.add(objeto);
                                 }
                             }
                         } catch (IOException | JSONException e) {
@@ -168,8 +169,11 @@ public class BuscarObjeto extends AppCompatActivity {
                         if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
-                            //adapter.addAll(resultados);
-                            adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
+                            adapter.clear(); // vaciar los datos anteriores del adaptador
+                            adapter.addAll(resultados); // añadir los nuevos datos al adaptador
+                            adapter.notifyDataSetChanged(); // notificar al adaptador que los datos han cambiado
+
+                           adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
                         }
                     }
                 }.execute();

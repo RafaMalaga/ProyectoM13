@@ -1,5 +1,6 @@
 package com.example.proyectom13;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -45,9 +46,9 @@ public class VerObjeto extends AppCompatActivity {
         String idobjetos = getIntent().getExtras().getString("idobjetos");
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + idobjetos);
         //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
-        String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos="+idobjetos;
+        String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos;
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
-        getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos="+idobjetos, "GET");
+        getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
         //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
@@ -76,9 +77,11 @@ public class VerObjeto extends AppCompatActivity {
 
             }
         });
+
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
