@@ -47,6 +47,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class AltaObjeto extends AppCompatActivity {
 
@@ -64,6 +65,17 @@ public class AltaObjeto extends AppCompatActivity {
 
     static Bitmap bitmap;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    // Método para generar una cadena aleatoria de 5 letras para generar el nombre de la foto
+    private String getRandom() {
+        String ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(5);
+        for (int i = 0; i < 5; i++) {
+            sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
+        }
+        return sb.toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,12 +112,13 @@ public class AltaObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!etNombre.getText().toString().isEmpty()) {
+                {
                     Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     try {
                         File fotoFile = File.createTempFile(
-                                etNombre.getText().toString().trim(),  /* prefix */
+
+                                getRandom(), /* prefix */   // se crea un nombre para la foto con un valor aleatorio de 5 letras
                                 ".jpg",         /* suffix */
                                 storageDir      /* directory */
                         );
@@ -113,11 +126,11 @@ public class AltaObjeto extends AppCompatActivity {
                         fotoPath = fotoFile.getAbsolutePath();
                         imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                       // Log.d("RandomName", getRandom());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                }else{
-                    Toast.makeText(getApplicationContext(), getString(R.string.nombreVacio) , Toast.LENGTH_SHORT).show();
+
                 }
 
 

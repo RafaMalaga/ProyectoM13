@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     //public static final String HOST = "192.168.1.131";
-    public static final String HOST = "192.168.56.1";
+    //public static final String HOST = "192.168.56.1";
+    public static final String HOST = "10.0.2.2";
 
     public static String session = "";
 
@@ -80,21 +81,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
-        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
-            public boolean onHover(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_HOVER_ENTER:
-                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
-                        return true;
-                    case MotionEvent.ACTION_HOVER_EXIT:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
 
 
         ibEntrar.setOnClickListener(new View.OnClickListener() {
@@ -183,23 +169,7 @@ public class MainActivity extends AppCompatActivity {
             return resultado;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject respuesta = new JSONObject(s);
-                String mensaje = respuesta.getString("mensaje");
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
-                if(mensaje.equals("OK")) {
-                    intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(), getText(R.string.koLogin) , Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
 
         public String sendGet(String surl) {
             try {
