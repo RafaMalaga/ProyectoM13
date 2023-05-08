@@ -4,76 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".AltaObjeto">
 
     <ImageView
 
         android:id="@+id/ivObjeto"
-        android:layout_marginTop="40dp"
         android:layout_width="320dp"
         android:layout_height="260dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/camera"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-<EditText
-    android:id="@+id/etNombre"
-    android:background="@drawable/et_redondo"
-    android:layout_width="320dp"
-    android:layout_height="40dp"
-    android:paddingLeft="5dp"
-    app:layout_constraintTop_toBottomOf="@id/ivObjeto"
-    app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-    android:layout_marginTop="20dp"
-    android:hint="@string/nombre"></EditText>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/et_redondo"
+        android:hint="@string/nombre"
+        android:paddingLeft="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
+        app:layout_constraintTop_toBottomOf="@id/ivObjeto"></EditText>
+
     <EditText
         android:id="@+id/etFechaAlta"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="Fecha"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etNombre"
-        android:hint="Fecha"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etNombre"></EditText>
+
     <EditText
         android:id="@+id/etLugarGuardado"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="@string/lugar_guardado"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"
-        android:hint="@string/lugar_guardado"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"></EditText>
+
     <EditText
         android:id="@+id/etDescripcion"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="@string/descripcion"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"
-        android:hint="@string/descripcion"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"></EditText>
+
     <Button
         android:id="@+id/btGuardarObjeto"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:text="@string/guardar_art_culo"
-        android:textColor="@color/verde"
-        android:background="@drawable/bt_selector"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/guardar"
+        android:textColor="@color/verde"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescripcion"></Button>
 
     <Button
         android:id="@+id/botonAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="#303732"
         android:text="@string/atras"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

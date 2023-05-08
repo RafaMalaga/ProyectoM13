@@ -51,6 +51,7 @@
     <string name="he_guardao">"He guardado estos objetos y me gustaría que supieras dónde están: "</string>
     <string name="compartir_imagen_texto">Compartir imagen y texto</string>
     <string name="entrar">Entrar</string>
+    <string name="guardar">Guardar</string>
 
 
 </resources>

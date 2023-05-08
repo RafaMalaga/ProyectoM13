@@ -9,79 +9,93 @@
     <ImageView
 
         android:id="@+id/ivObjeto"
-        android:layout_marginTop="40dp"
         android:layout_width="320dp"
         android:layout_height="260dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/camera"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-<EditText
-    android:id="@+id/etNombre"
-    android:background="@drawable/et_redondo"
-    android:layout_width="320dp"
-    android:layout_height="40dp"
-    android:paddingLeft="5dp"
-    app:layout_constraintTop_toBottomOf="@id/ivObjeto"
-    app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-    android:layout_marginTop="20dp"
-    android:hint="@string/nombre"></EditText>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/et_redondo"
+        android:hint="@string/nombre"
+        android:paddingLeft="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
+        app:layout_constraintTop_toBottomOf="@id/ivObjeto"></EditText>
+
     <EditText
         android:id="@+id/etFechaAlta"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="Fecha"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etNombre"
-        android:hint="Fecha"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etNombre"></EditText>
+
     <EditText
         android:id="@+id/etLugarGuardado"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="Lugar guardado"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"
-        android:hint="Lugar guardado"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"></EditText>
+
     <EditText
         android:id="@+id/etDescripcion"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/et_redondo"
         android:layout_width="320dp"
         android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_redondo"
+        android:hint="@string/descripcion"
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
-        app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"
-        android:hint="@string/descripcion"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"></EditText>
+
     <ImageButton
         android:id="@+id/btEditarObjeto"
-        android:background="@drawable/edit"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="@id/botonAtras"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"></ImageButton>
+        android:background="@drawable/edit"
+        app:layout_constraintBottom_toTopOf="@+id/botonAtras"
+        app:layout_constraintEnd_toStartOf="@+id/btBorrarObjeto"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.5"></ImageButton>
+
     <ImageButton
         android:id="@+id/btBorrarObjeto"
-        android:background="@drawable/delete"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintRight_toRightOf="@id/botonAtras"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"></ImageButton>
+        android:background="@drawable/delete"
+        app:layout_constraintBottom_toTopOf="@+id/botonAtras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btEditarObjeto"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.5"></ImageButton>
 
     <Button
         android:id="@+id/botonAtras"
-        android:layout_width="200dp"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
+
+        android:text="@string/atras"
+        android:textColor="@color/verde"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="70dp"
-
-        app:layout_constraintTop_toBottomOf="@id/etDescripcion"
-        android:text="@string/atras" />
+        app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
 </androidx.constraintlayout.widget.ConstraintLayout>

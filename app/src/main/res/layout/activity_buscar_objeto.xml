@@ -9,10 +9,13 @@
 
     <Button
         android:id="@+id/btnBuscar"
-        android:layout_width="141dp"
-        android:layout_height="53dp"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginTop="296dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
         android:text="@string/buscar"
+        android:textColor="@color/verde"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,12 +37,15 @@
 
     <Button
         android:id="@+id/btnAtras"
-        android:layout_width="94dp"
-        android:layout_height="53dp"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginTop="296dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
         android:text="@string/atras"
+        android:textColor="@color/verde"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintHorizontal_bias="0.209"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

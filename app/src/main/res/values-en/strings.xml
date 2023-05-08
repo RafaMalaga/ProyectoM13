@@ -55,5 +55,7 @@
     <string name="he_guardao">I have saved these objects and I would like you to know where they are:</string>
     <string name="compartir_imagen_texto">Share image and text.</string>
     <string name="entrar">Enter</string>
+    <string name="guardar">Save</string>
+
 
 </resources>

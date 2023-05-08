@@ -8,11 +8,14 @@
 
     <Button
         android:id="@+id/btCompartirAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginStart="45dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
         android:text="@string/atras"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,11 +31,14 @@
 
     <Button
         android:id="@+id/btCompartirDeLista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginEnd="45dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
         android:text="@string/seleccionar"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
