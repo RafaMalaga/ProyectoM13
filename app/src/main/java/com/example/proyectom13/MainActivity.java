@@ -192,14 +192,16 @@ public class MainActivity extends AppCompatActivity {
                         response.append(inputLine);
                     }
                     in.close();
-                    List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+
+
+                   /* List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
                     for (HttpCookie cookie : cookies) {
                         if (cookie.getName().equals("PHPSESSID")) {
                             session = cookie.toString();
 
                         }
 
-                    }
+                    }*/
 
                     return response.toString();
                 } else {
@@ -261,14 +263,14 @@ public class MainActivity extends AppCompatActivity {
                     response.append(responseLine.trim());
                 }
 
-                List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+               /* List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
                 for (HttpCookie cookie : cookies) {
                     if (cookie.getName().equals("PHPSESSID")) {
                         session = cookie.toString();
 
                     }
 
-                }
+                }*/
 
 
                 Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
