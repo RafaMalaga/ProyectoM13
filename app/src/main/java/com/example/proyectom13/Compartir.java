@@ -89,9 +89,7 @@ public class Compartir extends AppCompatActivity {
                 new AsyncTask<Void, Void, MyResult>() {
                     @Override
                     protected MyResult doInBackground(Void... params) {
-                        //ArrayList<String> resultados = new ArrayList<>();
-                        //ArrayList<Bitmap> resultadosFotos = new ArrayList<>();
-                        //ArrayList<Bitmap> resultadosFotosSeleccionadas = new ArrayList<>();
+
                         try {
 
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
@@ -117,6 +115,7 @@ public class Compartir extends AppCompatActivity {
                                     String descripcion = jsonObject.getString("descripcion");
                                     String lugarGuardado = jsonObject.getString("lugarGuardado");
                                     String fotobaseString64 = jsonObject.getString("foto");
+                                    //Convertir string de foto a Bitmap
                                     byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
 
@@ -141,7 +140,7 @@ public class Compartir extends AppCompatActivity {
                         super.onPostExecute(result);
                         resultadosObj= result.getList1();
                         resultadosFotos= result.getList2();
-                        System.out.println("1111111111111111111" + resultadosObj.size() +"eeeeeee" + resultadosFotos.size());
+
 
                         if (resultadosObj.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(Compartir.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
@@ -253,8 +252,8 @@ public class Compartir extends AppCompatActivity {
 
 
         // Crear el texto a compartir
-        String subject = "Quiero compartir contigo desde Find-It";
-        String encabezado = "¡¡Hola!! " + TextUtils.join(", ", nombresList) + ":\n\n He guardado estos objetos y me gustaría que supieras dónde están: \n\n";
+        String subject = getString(R.string.quiero_compartir);
+        String encabezado = getString(R.string.hola) + TextUtils.join(", ", nombresList) + ":\n\n"+  getString(R.string.he_guardao) + "\n\n";
         String mensaje = encabezado + TextUtils.join("\n", itemSeleccionadosObj);
         String destinatarios = TextUtils.join(",", correos);
 

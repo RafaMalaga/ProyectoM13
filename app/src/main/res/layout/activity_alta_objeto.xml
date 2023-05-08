@@ -26,7 +26,7 @@
     app:layout_constraintTop_toBottomOf="@id/ivObjeto"
     app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
     android:layout_marginTop="20dp"
-    android:hint="Nombre"></EditText>
+    android:hint="@string/nombre"></EditText>
     <EditText
         android:id="@+id/etFechaAlta"
         android:background="@drawable/et_redondo"
@@ -46,7 +46,7 @@
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"
-        android:hint="Lugar guardado"></EditText>
+        android:hint="@string/lugar_guardado"></EditText>
     <EditText
         android:id="@+id/etDescripcion"
         android:layout_marginTop="10dp"
@@ -56,12 +56,12 @@
         android:paddingLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"
-        android:hint="Descripcion"></EditText>
+        android:hint="@string/descripcion"></EditText>
     <Button
         android:id="@+id/btGuardarObjeto"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:text="Guardar"
+        android:text="@string/guardar_art_culo"
         android:textColor="@color/verde"
         android:background="@drawable/bt_selector"
         android:layout_marginTop="20dp"
@@ -73,7 +73,7 @@
         android:id="@+id/botonAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atras"
+        android:text="@string/atras"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

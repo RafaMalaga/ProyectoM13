@@ -75,18 +75,19 @@
         app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/detective" />
 
-    <ImageView
+    <Button
         android:id="@+id/ibEntrar"
-        android:layout_width="76dp"
-        android:layout_height="47dp"
-        android:background="@color/beige"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/entrar"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toTopOf="@+id/btRegistro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/flecha" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/btRegistro"

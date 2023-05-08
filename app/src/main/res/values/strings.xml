@@ -38,6 +38,15 @@
     <string name="koObjeto">Error al guardar el objeto</string>
     <string name="okObjeto">El objeto se ha guardado correctamente</string>
     <string name="nombreVacio">El nombre del objeto no puede estar vacio</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="seleccionar">Seleccionar</string>
+    <string name="nombre_del_objeto">Nombre del Objeto</string>
+    <string name="con_qui_n_quieres_compartir">¿Con quién quieres compartir?</string>
+    <string name="lugar_guardado">Lugar</string>
+    <string name="altaUsuarioOK">Usuario añadido con éxito, ingrese sus credenciales para acceder</string>
+    <string name="quiero_compartir">Quiero compartir contigo desde Find-It</string>
+    <string name="hola">\"¡¡Hola!! \"</string>
+    <string name="compartir_imagen_texto">Compartir imagen y texto</string>
 
 
     <string-array name="languages">
@@ -45,5 +54,8 @@
         <item>@string/str_es</item>
         >
     </string-array>
+    <string name="he_guardao">"He guardado estos objetos y me gustaría que supieras dónde están: "</string>
+    <string name="entrar">Entrar</string>
+
 
 </resources>
