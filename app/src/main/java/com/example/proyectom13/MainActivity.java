@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public static int  idUsuario ;
 
 
-    public static final String HOST = "192.168.1.131";
+    //public static final String HOST = "192.168.1.131";
+    public static final String HOST = "192.168.56.1";
 
     public static String session = "";
 
