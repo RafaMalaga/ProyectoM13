@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.proyectom13.POJOS.Objeto;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,9 +30,9 @@ import java.util.ArrayList;
 public class BuscarObjeto extends AppCompatActivity {
 
     private ListView lstResultados;
-    private ArrayList<String> resultados;
+    private ArrayList<Objeto> resultados;
     int idUsuario = MainActivity.idUsuario;
-
+    ListaObjetosAdapter adapter;
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +51,17 @@ public class BuscarObjeto extends AppCompatActivity {
             }
         });
 
-        resultados = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+        resultados = new ArrayList<Objeto>();
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+         adapter = new ListaObjetosAdapter(this, resultados);
         lstResultados.setAdapter(adapter);
         lstResultados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
                 //TODO: cambiar 1 por el id del objeto
-                verObjeto.putExtra("idobjetos ", Integer.toString(1));
+                Objeto objeto = resultados.get(position);
+                verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
                 startActivity(verObjeto);
             }
         });
@@ -85,7 +90,16 @@ public class BuscarObjeto extends AppCompatActivity {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String nombre = jsonObject.getString("nombre"); // en la vista "previa" solo obtenemos nombre y descripcion
                             String descripcion = jsonObject.getString("descripcion");
-                            resultados.add(nombre + ": " + descripcion);
+                            String idobjetos = jsonObject.getString("idobjetos");
+                            String fechaAlta = jsonObject.getString("lugarGuardado");
+
+                            Objeto objeto = new Objeto();
+                            objeto.setIdObjeto(Integer.parseInt(idobjetos));
+                            objeto.setNombre(nombre);
+                            objeto.setLugarGuardado(descripcion);
+                            objeto.setFechaAlta(fechaAlta);
+
+                            resultados.add(objeto);
                         }
                     }
                 } catch (IOException | JSONException e) {
@@ -105,10 +119,10 @@ public class BuscarObjeto extends AppCompatActivity {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                new AsyncTask<Void, Void, ArrayList<String>>() {
+                new AsyncTask<Void, Void, ArrayList<Objeto>>() {
                     @Override
-                    protected ArrayList<String> doInBackground(Void... params) {
-                        ArrayList<String> resultados = new ArrayList<>();
+                    protected ArrayList<Objeto> doInBackground(Void... params) {
+                        ArrayList<Objeto> resultados = new ArrayList<>();
                         try {
 
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuario=" + MainActivity.idUsuario;
@@ -129,9 +143,16 @@ public class BuscarObjeto extends AppCompatActivity {
                                 JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + jsonObject.toString());
                                     String nombre = jsonObject.getString("nombre");
                                     String descripcion = jsonObject.getString("descripcion");
-                                    resultados.add(nombre + ": " + descripcion);
+                                    String idobjetos = jsonObject.getString("idobjetos");
+                                    String fechaAlta = jsonObject.getString("lugarGuardado");
+                                    Objeto objeto = new Objeto();
+                                    objeto.setIdObjeto(Integer.parseInt(idobjetos));
+                                    objeto.setNombre(nombre);
+                                    objeto.setLugarGuardado(descripcion);
+                                    objeto.setFechaAlta(fechaAlta);
                                 }
                             }
                         } catch (IOException | JSONException e) {
@@ -141,13 +162,14 @@ public class BuscarObjeto extends AppCompatActivity {
                     }
 
                     @Override
-                    protected void onPostExecute(ArrayList<String> resultados) {
+                    protected void onPostExecute(ArrayList<Objeto> resultados) {
                         super.onPostExecute(resultados);
                         adapter.clear();
                         if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
-                            adapter.addAll(resultados);
+                            //adapter.addAll(resultados);
+                            adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
                         }
                     }
                 }.execute();
