@@ -100,20 +100,24 @@ public class AltaObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                try {
-                    File fotoFile = File.createTempFile(
-                            "test",  /* prefix */
-                            ".jpg",         /* suffix */
-                            storageDir      /* directory */
-                    );
-                    photoURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.proyectom13", fotoFile);
-                    fotoPath = fotoFile.getAbsolutePath();
-                    imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if(!etNombre.getText().toString().isEmpty()) {
+                    Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    try {
+                        File fotoFile = File.createTempFile(
+                                etNombre.getText().toString().trim(),  /* prefix */
+                                ".jpg",         /* suffix */
+                                storageDir      /* directory */
+                        );
+                        photoURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.proyectom13", fotoFile);
+                        fotoPath = fotoFile.getAbsolutePath();
+                        imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.nombreVacio) , Toast.LENGTH_SHORT).show();
                 }
 
 
