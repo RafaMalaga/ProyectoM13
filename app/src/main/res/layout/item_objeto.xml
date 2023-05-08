@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/fila"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Nombre"></TextView>
+    <TextView
+        android:id="@+id/tvLugarGuardado"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:text="Lugar"></TextView>
+    <TextView
+        android:id="@+id/tvFechaAlta"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:text="Fecha"></TextView>
+
+</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

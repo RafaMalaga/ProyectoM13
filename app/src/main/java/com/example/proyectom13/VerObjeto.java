@@ -43,24 +43,27 @@ public class VerObjeto extends AppCompatActivity {
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
         String idobjetos = getIntent().getExtras().getString("idobjetos");
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + idobjetos);
         //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
-        getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=6", "GET");
+        String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos="+idobjetos;
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
+        getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos="+idobjetos, "GET");
 
         //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
-        /*etNombre = findViewById(R.id.etNombre);
+        etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
         etFechaAlta.setEnabled(false);
         etDescripcion = findViewById(R.id.etDescripcion);
-        etLugarGuardado.findViewById(R.id.etLugarGuardado);
+        etLugarGuardado = findViewById(R.id.etLugarGuardado);
         btEditar = findViewById(R.id.btEditarObjeto);
         btBorrar = findViewById(R.id.btBorrarObjeto);
-        btAtras = findViewById(R.id.botonAtras);*/
+        btAtras = findViewById(R.id.botonAtras);
 
         /*etNombre.setText(getIntent().getExtras().getString("nombre"));
         etFechaAlta.setText(getIntent().getExtras().getString("fechaAlta"));
         etDescripcion.setText(getIntent().getExtras().getString("descripcion"));
-        etLugarGuardado.setText(getIntent().getExtras().getString("lugarGuardado"));
+        etLugarGuardado.setText(getIntent().getExtras().getString("lugarGuardado"));*/
         btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +81,7 @@ public class VerObjeto extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
             }
-        });*/
+        });
     }
 
     class RequestTask extends AsyncTask<String, String, String> {
@@ -111,6 +114,7 @@ public class VerObjeto extends AppCompatActivity {
                 byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
                 Drawable d = new BitmapDrawable(getResources(), bitmap);
+                //ivObjeto.setImageDrawable(d);//itmap(bitmap);
                 ivObjeto.setBackground(d);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
