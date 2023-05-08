@@ -12,7 +12,7 @@
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="232dp"
+        android:layout_width="279dp"
         android:layout_height="48dp"
         android:alpha="0.5"
         android:background="@drawable/et_redondo"
@@ -82,7 +82,7 @@
         android:background="@color/beige"
         app:layout_constraintBottom_toTopOf="@+id/btRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:layout_constraintVertical_bias="0.5"
@@ -97,7 +97,6 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibEntrar"
         app:layout_constraintVertical_bias="0.5" />

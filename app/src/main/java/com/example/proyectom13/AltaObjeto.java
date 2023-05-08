@@ -2,9 +2,11 @@ package com.example.proyectom13;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -77,18 +79,23 @@ public class AltaObjeto extends AppCompatActivity {
         btGuardarObjeto = findViewById(R.id.btGuardarObjeto);
         Button btnAtras = findViewById(R.id.botonAtras);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //&& ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.MANAGE_EXTERNAL_STORAGE
 
-                }, 1
-        );
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
+                        }, 1
+                );
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }
         ivObjeto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +125,7 @@ public class AltaObjeto extends AppCompatActivity {
             public void onClick(View v) {
                 String fotoBase64 = "";
                 if (bitmap != null) {
-                    fotoBase64 = Base64.encodeToString(compressBitmap(bitmap, (int) Math.pow(2, 20)), Base64.URL_SAFE);
+                    fotoBase64 = Base64.encodeToString(compressBitmap(bitmap, 50), Base64.URL_SAFE);
                 }
 
                 // Obtener los valores de los campos EditText
@@ -130,7 +137,7 @@ public class AltaObjeto extends AppCompatActivity {
                 // Crear un objeto JSONObject con los valores obtenidos de los editText
                 JSONObject objeto = new JSONObject();
                 try {
-                    objeto.put("idusuarios", idUsuario);
+                    objeto.put("idusuarios", MainActivity.idUsuario);
                     objeto.put("nombre", nombre);
                     objeto.put("fechaAlta", fechaAlta);
                     objeto.put("lugarGuardado", lugarGuardado);
@@ -157,19 +164,9 @@ public class AltaObjeto extends AppCompatActivity {
     }
 
 
-    public static byte[] compressBitmap(Bitmap bitmap, int maxSizeBytes) {
+    public static byte[] compressBitmap(Bitmap bitmap, int quality) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        int currSize;
-        int currQuality = 50;
-
-        do {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, currQuality, stream);
-            currSize = stream.toByteArray().length;
-            // limit quality by 5 percent every time
-            currQuality -= 5;
-
-        } while (currSize >= maxSizeBytes && currQuality >= 5);
-
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         return stream.toByteArray();
     }
 
