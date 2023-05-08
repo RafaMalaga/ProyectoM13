@@ -39,5 +39,6 @@
     <!-- alta objeto -->
     <string name="koObjeto">Error al guardar el objeto</string>
     <string name="okObjeto">Objeto guardado</string>
+    <string name="nombreVacio">El nombre del objeto no puede estar vacio</string>
 
 </resources>
