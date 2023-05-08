@@ -37,13 +37,13 @@ public class SeleccionarUsuario extends AppCompatActivity {
             public void onClick(View v) {
 
 
-// Obtener el SparseBooleanArray de elementos seleccionados
+                // Obtener el SparseBooleanArray de elementos seleccionados
                 SparseBooleanArray checkedPositions = lstCompartir.getCheckedItemPositions();
 
-// Crear un ArrayList para los elementos seleccionados
+                // Crear un ArrayList para los elementos seleccionados
                 ArrayList elemSeleccionados = new ArrayList<>();
 
-// Iterar a través del SparseBooleanArray y agregar los elementos seleccionados al ArrayList
+                // Iterar a través del SparseBooleanArray y agregar los elementos seleccionados al ArrayList
                 for (int i = 0; i < checkedPositions.size(); i++) {
                     int position = checkedPositions.keyAt(i);
                     boolean isChecked = checkedPositions.valueAt(i);

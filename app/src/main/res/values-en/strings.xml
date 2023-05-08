@@ -21,13 +21,13 @@
     <string name="salir">Exit-></string>
     <string name="compartir">Share</string>
     <string name="guardar_art_culo">Save object</string>
-    <string name="buscar_art_culo">Find article</string>
+    <string name="buscar_art_culo">Find object</string>
     <string name="slogan">You will always know what you have and where you have it</string>
 
     <string name="koLogin">Wrong username or password</string>
 
     <string name="idioma">Language</string>
-    <string name="buscar_objeto_por_nombre">Search object by name</string>
+    <string name="buscar_objeto_por_nombre">SEARCH OBJECT BY NAME</string>
     <string name="buscar">Search</string>
     <string name="atras">Back</string>
     <string name="noEncontrar">No results found</string>
@@ -41,5 +41,19 @@
     <string name="koObjeto">Error saving the object</string>
     <string name="okObjeto">Object saved</string>
     <string name="nombreVacio">The name of the object cannot be empty</string>
+    <string name="descripcion">Description</string>
+
+    <string name="seleccionar">Select</string>
+
+    <string name="nombre_del_objeto">Object Name</string>
+    <string name="con_qui_n_quieres_compartir">With whom do you want to share?</string>
+    <string name="lugar_guardado">Place</string>
+
+    <string name="altaUsuarioOK">User added successfully, enter your credentials to access.</string>
+    <string name="quiero_compartir">I want to share with you from Find-It</string>
+    <string name="hola">Hello!!</string>
+    <string name="he_guardao">I have saved these objects and I would like you to know where they are:</string>
+    <string name="compartir_imagen_texto">Share image and text.</string>
+    <string name="entrar">Enter</string>
 
 </resources>

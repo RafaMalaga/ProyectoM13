@@ -146,7 +146,7 @@ public class AltaUsuario extends AppCompatActivity {
                 nombreUsuarioExiste=false;
                 if (nombreUsuarioExiste==true) {
                     String mensaje = getString(R.string.exiteUsuario);
-                    etNombreUsuario.setError(getString(R.string.exiteUsuario));
+                    etNombreUsuario.setError(mensaje);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                     etNombreUsuario.requestFocus();
                     return;
@@ -184,7 +184,7 @@ public class AltaUsuario extends AppCompatActivity {
                                 if (mensaje.equals("OK")) {
                                     nombreUsuarioExiste=false;
                                     // he cambiado esta linea para que el user tenga que acceder con sus datos para poder obtener el valor de la variable idusuarios
-                                    Toast.makeText(getApplicationContext(), "Usuario añadido con éxito, ingrese sus credenciales para acceder", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), R.string.altaUsuarioOK, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     // Limpiar los campos de texto después de agregar usuario
@@ -196,7 +196,7 @@ public class AltaUsuario extends AppCompatActivity {
                                 } else {
                                     nombreUsuarioExiste=true;
                                     mensaje= getString(R.string.exiteUsuario);
-                                    etNombreUsuario.setError(getString(R.string.exiteUsuario));
+                                    etNombreUsuario.setError(mensaje);
                                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
 
 

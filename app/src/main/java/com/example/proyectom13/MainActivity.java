@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText etPassword;
     EditText etUsuario;
-    ImageView ibEntrar;
+    Button ibEntrar;
 
     Button btRegistro;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         btn_registro = findViewById(R.id.btRegistro);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsuario = (EditText) findViewById(R.id.etUsuario);
-        ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
+        ibEntrar =  findViewById(R.id.ibEntrar);
 
 
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
