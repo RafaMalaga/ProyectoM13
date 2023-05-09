@@ -35,8 +35,11 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
+        android:editable="true"
         android:hint="Fecha"
+        android:inputType="date"
         android:paddingLeft="5dp"
+        android:text="22/05/2022"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etNombre"></EditText>
 

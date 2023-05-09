@@ -38,9 +38,12 @@ public class VerObjeto extends AppCompatActivity {
     ImageButton btEditar;
     ImageButton btBorrar;
     Button btAtras;
+
+    private boolean mostrarFoto = true; // variable de control para no ejecutar  el metodo onpostExecute en caso de actualizar registro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mostrarFoto = true;
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
         String idobjetos = getIntent().getExtras().getString("idobjetos");
@@ -50,7 +53,6 @@ public class VerObjeto extends AppCompatActivity {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
         getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
-        //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
         etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
@@ -61,16 +63,49 @@ public class VerObjeto extends AppCompatActivity {
         btBorrar = findViewById(R.id.btBorrarObjeto);
         btAtras = findViewById(R.id.botonAtras);
 
-        /*etNombre.setText(getIntent().getExtras().getString("nombre"));
+        etNombre.setText(getIntent().getExtras().getString("nombre"));
         etFechaAlta.setText(getIntent().getExtras().getString("fechaAlta"));
         etDescripcion.setText(getIntent().getExtras().getString("descripcion"));
-        etLugarGuardado.setText(getIntent().getExtras().getString("lugarGuardado"));*/
+        etLugarGuardado.setText(getIntent().getExtras().getString("lugarGuardado"));
+
         btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                mostrarFoto = false; // establezo la variable en false para que no se ejecute el metodo onPosExecute despues de actualizar
+                // Obtener los textos de los EditText
+                String nombre = etNombre.getText().toString();
+                String fechaAlta = etFechaAlta.getText().toString();
+                String descripcion = etDescripcion.getText().toString();
+                String lugarGuardado = etLugarGuardado.getText().toString();
+                int idusuarios = MainActivity.idUsuario;
+                String idobjetos = getIntent().getExtras().getString("idobjetos");
+
+                // Construir un objeto JSON con los datos obtenidos
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("nombre", nombre);
+                    jsonObject.put("fechaAlta", fechaAlta);
+                    jsonObject.put("descripcion", descripcion);
+                    jsonObject.put("lugarGuardado", lugarGuardado);
+                    jsonObject.put("idusuarios", idusuarios);
+                    jsonObject.put("idobjetos", idobjetos);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // Enviar el objeto JSON a través de la API de PHP utilizando RequestTask
+                String url = "http://" + MainActivity.HOST + "/api/editar_objeto.php";
+                String jsonData = jsonObject.toString();
+                new RequestTask().execute(url, "POST", jsonData);
+
+                
+                // Mostrar un Toast indicando que el objeto se ha actualizado con éxito
+                Toast.makeText(getApplicationContext(), "Objeto actualizado con éxito", Toast.LENGTH_SHORT).show();
             }
         });
+    
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,8 +116,8 @@ public class VerObjeto extends AppCompatActivity {
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+             finish();
 
-                finish();
             }
         });
     }
@@ -102,25 +137,26 @@ public class VerObjeto extends AppCompatActivity {
                 resultado = sendPost(url, jsonData);
             }
 
-            Log.d("MainActivity", resultado);
+           Log.d("MainActivity", resultado);
             return resultado;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONArray array = new JSONArray(s);
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + s);
-                JSONObject jsonObject = (JSONObject) array.get(0);
-                String fotobaseString64 = jsonObject.getString("foto");
-                byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
-                Drawable d = new BitmapDrawable(getResources(), bitmap);
-                //ivObjeto.setImageDrawable(d);//itmap(bitmap);
-                ivObjeto.setBackground(d);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+            if (mostrarFoto) {
+                try {
+                    JSONArray array = new JSONArray(s);
+                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + s);
+                    JSONObject jsonObject = (JSONObject) array.get(0);
+                    String fotobaseString64 = jsonObject.getString("foto");
+                    byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
+                    Drawable d = new BitmapDrawable(getResources(), bitmap);
+                    ivObjeto.setBackground(d);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
