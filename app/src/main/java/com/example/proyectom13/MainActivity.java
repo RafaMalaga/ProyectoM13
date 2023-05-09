@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     EditText etPassword;
     EditText etUsuario;
     Button ibEntrar;
-
     Button btRegistro;
+    ImageButton ibMostrarContraseña;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         ibEntrar =  findViewById(R.id.ibEntrar);
-
+        ibMostrarContraseña = findViewById(R.id.ibOjo);
 
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -80,8 +81,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
+        etPassword.setHint("••••••••");
+        //Cambia de mostra a no mostra contraseña y la imagen del icono al pulsar el imagebutton
+        ibMostrarContraseña.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectionStart = etPassword.getSelectionStart();
+                int selectionEnd = etPassword.getSelectionEnd();
+                if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ibMostrarContraseña.setImageResource(R.drawable.ojo_tachado);
+                    etPassword.setHint("••••••••"); // muestra el texto del hint
+                } else {
+                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    ibMostrarContraseña.setImageResource(R.drawable.ojo_ok);
+                    etPassword.setHint(getString(R.string.contrase_a)); // oculta los puntos como hint
+                }
+                etPassword.setSelection(selectionStart, selectionEnd);
+            }
+        });
+        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                        etPassword.setHint("");
+                } else {
+                        etPassword.setHint("••••••••");
+                }
+            }
+        });
 
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override

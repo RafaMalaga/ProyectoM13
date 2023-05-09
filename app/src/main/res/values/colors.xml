@@ -10,5 +10,6 @@
     <color name="beige">#C8B8A3</color>
     <color name="gris_boton">#303732</color>
     <color name="verde">#00bf63</color>
+    <color name="verde_oscuro">#3F835B</color>
 
 </resources>
