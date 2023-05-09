@@ -52,6 +52,8 @@
     <string name="compartir_imagen_texto">Compartir imagen y texto</string>
     <string name="entrar">Entrar</string>
     <string name="guardar">Guardar</string>
+    <string name="selecciona_los_usuarios">Selecciona los usuarios:</string>
+    <string name="selecciona_los_objetos">Selecciona los objetos:</string>
 
 
 </resources>

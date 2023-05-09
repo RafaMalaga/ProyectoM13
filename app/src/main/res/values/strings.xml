@@ -57,6 +57,8 @@
     <string name="he_guardao">"He guardado estos objetos y me gustaría que supieras dónde están: "</string>
     <string name="entrar">Entrar</string>
     <string name="guardar">Guardar</string>
+    <string name="selecciona_los_usuarios">Selecciona los usuarios:</string>
+    <string name="selecciona_los_objetos">Selecciona los objetos:</string>
 
 
 </resources>

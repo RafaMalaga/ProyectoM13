@@ -74,10 +74,10 @@
 
     <ListView
         android:id="@+id/lstResultadosCompartir"
+        style="@android:style/Widget.Material.ListView"
         android:layout_width="374dp"
         android:layout_height="105dp"
-        android:background="@color/verde"
-
+        android:background="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/txtBuscarCompartir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
