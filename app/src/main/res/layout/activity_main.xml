@@ -101,7 +101,7 @@
 
         <ImageButton
             android:id="@+id/ibOjo"
-            style="@style/MyButtonStyle"
+            style="@style/ibOjoTachado"
             android:layout_width="42dp"
             android:layout_height="49dp"
             android:alpha="0.5"
@@ -142,7 +142,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:alpha="0.3"
-            app:srcCompat="@drawable/ojo_tachado" />
+            app:srcCompat="@drawable/usuario" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
