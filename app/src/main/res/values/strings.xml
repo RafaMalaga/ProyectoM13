@@ -52,7 +52,7 @@
     <string-array name="languages">
         <item>@string/str_en</item>
         <item>@string/str_es</item>
-        >
+
     </string-array>
     <string name="he_guardao">"He guardado estos objetos y me gustaría que supieras dónde están: "</string>
     <string name="entrar">Entrar</string>
