@@ -23,6 +23,7 @@
         android:id="@+id/lvListaUsuarios"
         android:layout_width="322dp"
         android:layout_height="559dp"
+        android:background="@color/black"
         android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

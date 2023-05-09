@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".SeleccionarDeLista">
 
     <Button
@@ -13,7 +14,6 @@
         android:layout_marginStart="45dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/bt_selector"
-        android:backgroundTint="@color/gris_boton"
         android:text="@string/atras"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,6 @@
         android:layout_marginEnd="45dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/bt_selector"
-        android:backgroundTint="@color/gris_boton"
         android:text="@string/seleccionar"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -80,7 +80,6 @@
         android:layout_width="129dp"
         android:layout_height="57dp"
         android:background="@drawable/bt_selector"
-        android:backgroundTint="#303732"
         android:text="@string/entrar"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toTopOf="@+id/btRegistro"

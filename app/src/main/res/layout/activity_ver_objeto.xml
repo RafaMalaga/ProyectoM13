@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".AltaObjeto">
 
     <ImageView
@@ -91,7 +92,6 @@
         android:layout_height="57dp"
         android:layout_marginTop="88dp"
         android:background="@drawable/bt_selector"
-        android:backgroundTint="@color/gris_boton"
 
         android:text="@string/atras"
         android:textColor="@color/verde"
