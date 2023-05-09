@@ -42,7 +42,10 @@ public class AltaUsuario extends AppCompatActivity {
     private RadioButton radioButtonSeleccionado;
     private String nombreApellidos;
     private String nombreEmpresa;
+    private String nombreUsuario=null;
     private Button btConfrimar;
+    private Usuario usuario = new Usuario();
+    private boolean nombreUsuarioExiste;
 
     EditText etNombre;
     EditText etNombreUsuario;
@@ -90,6 +93,37 @@ public class AltaUsuario extends AppCompatActivity {
                 }
             }
         });
+        etEmail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    etPonerPassword.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+        etPonerPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    etPonerPassword.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+        etNombreUsuario.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    etNombreUsuario.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         btConfrimar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +142,15 @@ public class AltaUsuario extends AppCompatActivity {
                 // Compilar las expresiones regulares en un patrón
                 Pattern pattern = Pattern.compile(passwordPattern);
                 Pattern patternEmail = Pattern.compile(emailPattern);
-
+                nombreUsuario=etNombreUsuario.getText().toString();
+                nombreUsuarioExiste=false;
+                if (nombreUsuarioExiste==true) {
+                    String mensaje = getString(R.string.exiteUsuario);
+                    etNombreUsuario.setError(mensaje);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                    etNombreUsuario.requestFocus();
+                    return;
+                }
 
                 // Verificar si alguno de los campos está vacío
                 if (nombre.isEmpty() || nombreUsuario.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty()) {
@@ -119,53 +161,30 @@ public class AltaUsuario extends AppCompatActivity {
                 }else if(!password.equals(password2)){
                     String mensaje= getString(R.string.comprobarContra);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-                    btConfrimar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            etPonerPassword.requestFocus();
+                    etPonerPassword.requestFocus();
 
-                        }
-                    });
-                    etPonerPassword.setText("");
-                    etPonerPassword2.setText("");
                 }else if(!pattern.matcher(password).matches()){
                     etPonerPassword.setError(getString(R.string.formatoContraseña));
-                    btConfrimar.setOnKeyListener(new View.OnKeyListener() {
-                        @Override
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                etPonerPassword.requestFocus();
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                    etPonerPassword.setText("");
-                    etPonerPassword2.setText("");
+                    etPonerPassword.requestFocus();
+
                 }else if(!patternEmail.matcher(email).matches()){
                     etEmail.setError(getString(R.string.formatoEmail));
-                    btConfrimar.setOnKeyListener(new View.OnKeyListener() {
-                        @Override
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                etPonerPassword.requestFocus();
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                    etEmail.setText("");
+                    etEmail.requestFocus();
+
 
                 }else{
                     @SuppressLint("StaticFieldLeak") RequestTask registrar = new RequestTask() {
                         @Override
                         protected void onPostExecute(String response) {
+
+
                             try {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
+                                    nombreUsuarioExiste=false;
                                     // he cambiado esta linea para que el user tenga que acceder con sus datos para poder obtener el valor de la variable idusuarios
-                                    Toast.makeText(getApplicationContext(), "Usuario añadido con éxito, ingrese sus credenciales para acceder", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), R.string.altaUsuarioOK, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     // Limpiar los campos de texto después de agregar usuario
@@ -175,10 +194,11 @@ public class AltaUsuario extends AppCompatActivity {
                                     etPonerPassword2.setText("");
                                     etEmail.setText("");
                                 } else {
+                                    nombreUsuarioExiste=true;
                                     mensaje= getString(R.string.exiteUsuario);
-                                    etNombreUsuario.setError(getString(R.string.exiteUsuario));
+                                    etNombreUsuario.setError(mensaje);
                                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-                                    etNombreUsuario.setText("");
+
 
                                 }
                             } catch (JSONException e) {
@@ -186,10 +206,9 @@ public class AltaUsuario extends AppCompatActivity {
                             }
                         }
                     };
-                    Usuario usuario = new Usuario();
-                    usuario.setIdusuarios( MainActivity.idUsuario);
+
                     usuario.setNombre_empresa(etNombre.getText().toString());
-                    usuario.setNombreUsuario(etNombreUsuario.getText().toString());
+                    usuario.setNombreUsuario(nombreUsuario);
                     usuario.setPassword(etPonerPassword.getText().toString());
                     usuario.setEmail(etEmail.getText().toString());
 

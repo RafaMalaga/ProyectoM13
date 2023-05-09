@@ -90,11 +90,13 @@
 
     <Button
         android:id="@+id/btConfrimar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/bt_selector"
         android:text="@string/confirmar"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

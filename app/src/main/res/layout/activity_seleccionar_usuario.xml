@@ -4,22 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".SeleccionarUsuario">
 
     <Button
         android:id="@+id/btCompartirUsuariosAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginStart="45dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
         android:text="@string/atras"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/selecciona_los_usuarios"
+        android:textColor="@color/verde"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/lvListaUsuarios"
         android:layout_width="322dp"
         android:layout_height="559dp"
+        android:background="@color/black"
         android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,11 +45,14 @@
 
     <Button
         android:id="@+id/btCompartirDeListaUsuarios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="57dp"
         android:layout_marginEnd="45dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/compartir"
+        android:background="@drawable/bt_selector"
+        android:backgroundTint="@color/gris_boton"
+        android:text="@string/seleccionar"
+        android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

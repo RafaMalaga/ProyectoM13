@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,16 +43,18 @@ public class MainActivity extends AppCompatActivity {
     public static int  idUsuario ;
 
 
-    public static final String HOST = "192.168.1.131";
+    //public static final String HOST = "192.168.1.131";
+    public static final String HOST = "192.168.56.1";
+    //public static final String HOST = "10.0.2.2";
 
     public static String session = "";
 
 
     EditText etPassword;
     EditText etUsuario;
-    ImageView ibEntrar;
-
+    Button ibEntrar;
     Button btRegistro;
+    ImageButton ibMostrarContraseña;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         btn_registro = findViewById(R.id.btRegistro);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsuario = (EditText) findViewById(R.id.etUsuario);
-        ibEntrar = (ImageView) findViewById(R.id.ibEntrar);
-
+        ibEntrar =  findViewById(R.id.ibEntrar);
+        ibMostrarContraseña = findViewById(R.id.ibOjo);
 
         btn_cambiar_idioma.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -78,23 +81,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        //Este código no funciona, es para mostrar un toast al pasar el ratón por el boton de idiomas
-        btn_cambiar_idioma.setOnHoverListener(new View.OnHoverListener() {
-            public boolean onHover(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_HOVER_ENTER:
-                        Toast.makeText(getApplicationContext(), getString(R.string.idioma), Toast.LENGTH_LONG).show();
-                        return true;
-                    case MotionEvent.ACTION_HOVER_EXIT:
-                        return true;
-                    default:
-                        return false;
+        etPassword.setHint("••••••••");
+        //Cambia de mostrar a no mostrar contraseña y la imagen del icono al pulsar el imagebutton
+        ibMostrarContraseña.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectionStart = etPassword.getSelectionStart();
+                int selectionEnd = etPassword.getSelectionEnd();
+                if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ibMostrarContraseña.setImageResource(R.drawable.ojo_tachado);
+                    etPassword.setHint("••••••••"); // muestra el texto del hint
+                } else {
+                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    ibMostrarContraseña.setImageResource(R.drawable.ojo_ok);
+                    etPassword.setHint(getString(R.string.contrase_a)); // oculta los puntos como hint
+                }
+                etPassword.setSelection(selectionStart, selectionEnd);
+            }
+        });
+        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                        etPassword.setHint("");
+                } else {
+                        etPassword.setHint("••••••••");
                 }
             }
         });
-
 
         ibEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,23 +197,7 @@ public class MainActivity extends AppCompatActivity {
             return resultado;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject respuesta = new JSONObject(s);
-                String mensaje = respuesta.getString("mensaje");
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:: " + mensaje);
-                if(mensaje.equals("OK")) {
-                    intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(), getText(R.string.koLogin) , Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
 
         public String sendGet(String surl) {
             try {
@@ -221,14 +220,16 @@ public class MainActivity extends AppCompatActivity {
                         response.append(inputLine);
                     }
                     in.close();
-                    List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+
+
+                   /* List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
                     for (HttpCookie cookie : cookies) {
                         if (cookie.getName().equals("PHPSESSID")) {
                             session = cookie.toString();
 
                         }
 
-                    }
+                    }*/
 
                     return response.toString();
                 } else {
@@ -290,14 +291,14 @@ public class MainActivity extends AppCompatActivity {
                     response.append(responseLine.trim());
                 }
 
-                List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
+               /* List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
                 for (HttpCookie cookie : cookies) {
                     if (cookie.getName().equals("PHPSESSID")) {
                         session = cookie.toString();
 
                     }
 
-                }
+                }*/
 
 
                 Log.d("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx MainActivity", "Respuesta: " + response.toString());
