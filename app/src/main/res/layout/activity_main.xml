@@ -104,7 +104,7 @@
             style="@style/ibOjoTachado"
             android:layout_width="42dp"
             android:layout_height="49dp"
-            android:alpha="0.5"
+            android:alpha="0.2"
             app:srcCompat="@drawable/ojo_tachado" />
     </LinearLayout>
 
@@ -141,7 +141,7 @@
             android:layout_height="42dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:alpha="0.3"
+            android:alpha="0.2"
             app:srcCompat="@drawable/usuario" />
     </LinearLayout>
 
