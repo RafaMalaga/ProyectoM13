@@ -4,5 +4,17 @@
 
     </style>
 
+    <style name="MyButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <style name="ibOjoTachado">
+            <item name="android:layout_width">40dp</item>
+            <item name="android:layout_height">40dp</item>
+            <item name="android:layout_marginEnd">144dp</item>
+            <item name="android:layout_marginBottom">225dp</item>
+            <item name="android:adjustViewBounds">true</item>
+            <item name="android:background">@android:color/transparent</item>
+            <item name="android:scaleType">centerInside</item>
+            <item name="android:alpha">0.6</item>
+        </style>
 
+    </style>
 </resources>

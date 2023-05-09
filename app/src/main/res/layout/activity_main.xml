@@ -6,55 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:backgroundTintMode="screen"
     android:outlineProvider="background"
     android:textAlignment="center"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="279dp"
-        android:layout_height="48dp"
-        android:alpha="0.5"
-        android:background="@drawable/et_redondo"
-        android:ems="10"
-        android:hint="@string/contrase_a"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/ibEntrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsuario"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <EditText
-        android:id="@+id/etUsuario"
-        android:layout_width="279dp"
-        android:layout_height="48dp"
-        android:alpha="0.5"
-        android:background="@drawable/et_redondo"
-        android:backgroundTintMode="screen"
-        android:ems="10"
-        android:foregroundTint="#EFE9E9"
-        android:hint="@string/strUser"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="304dp"
         android:layout_height="78dp"
-        app:layout_constraintBottom_toTopOf="@+id/etUsuario"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,9 +45,9 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toTopOf="@+id/btRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         app:layout_constraintVertical_bias="0.5" />
 
     <Button
@@ -97,6 +59,7 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibEntrar"
         app:layout_constraintVertical_bias="0.5" />
@@ -110,5 +73,76 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="278dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_redondo"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/ibEntrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="0.5">
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+
+            android:ems="10"
+            android:hint="@string/contrase_a"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/ibOjo"
+            style="@style/MyButtonStyle"
+            android:layout_width="42dp"
+            android:layout_height="49dp"
+            android:alpha="0.5"
+            app:srcCompat="@drawable/ojo_tachado" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="278dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_redondo"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+        app:layout_constraintVertical_bias="0.5">
+
+        <EditText
+            android:id="@+id/etUsuario"
+            android:layout_width="225dp"
+            android:layout_height="48dp"
+            android:background="@drawable/et_redondo"
+            android:backgroundTintMode="screen"
+            android:ems="10"
+            android:foregroundTint="#EFE9E9"
+            android:hint="@string/strUser"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/ivUsuario"
+            android:layout_width="30dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:alpha="0.3"
+            app:srcCompat="@drawable/ojo_tachado" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
