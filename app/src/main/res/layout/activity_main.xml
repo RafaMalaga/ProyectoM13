@@ -97,7 +97,8 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:nextFocusDown="@id/ibEntrar"/>
 
         <ImageButton
             android:id="@+id/ibOjo"

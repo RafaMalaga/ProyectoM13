@@ -102,7 +102,7 @@
         android:layout_width="321dp"
         android:layout_height="33dp"
         android:text="@string/con_qui_n_quieres_compartir"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/etBuscarUsuario"
         app:layout_constraintEnd_toEndOf="parent"
