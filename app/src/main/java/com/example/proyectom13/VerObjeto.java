@@ -219,6 +219,9 @@ public class VerObjeto extends AppCompatActivity {
                         show = getString(R.string.actualizarOK);
                     }else{
                         show = getString(R.string.borrarOK);
+                        Intent intent=new Intent(getApplicationContext(), FuncionalidadesActivity.class);
+                        startActivity(intent);
+
                     }
                 }else{
                     if(operacion==actualizar){
