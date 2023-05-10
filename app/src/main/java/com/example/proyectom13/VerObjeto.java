@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -91,6 +92,9 @@ public class VerObjeto extends AppCompatActivity {
                 etNombre.setEnabled(true);
                 etDescripcion.setEnabled(true);
                 etLugarGuardado.setEnabled(true);
+                etNombre.setTextColor(getColor(R.color.white));
+                etLugarGuardado.setTextColor(getColor(R.color.white));
+                etDescripcion.setTextColor(getColor(R.color.white));
                 btEditar.setBackgroundResource(R.drawable.guardar);
                 editable=true;
                 Toast.makeText(getApplicationContext(), R.string.edit, Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
@@ -103,6 +107,9 @@ public class VerObjeto extends AppCompatActivity {
                 etNombre.setEnabled(false);
                 etDescripcion.setEnabled(false);
                 etLugarGuardado.setEnabled(false);
+                etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
+                etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));
+                etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
                 btEditar.setBackgroundResource(R.drawable.edit);
                 editable=false;
                 dialogInterface.dismiss();
@@ -136,6 +143,9 @@ public class VerObjeto extends AppCompatActivity {
                     etNombre.setEnabled(false);
                     etDescripcion.setEnabled(false);
                     etLugarGuardado.setEnabled(false);
+                    etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
                     editable = false;
                     dialog.dismiss();
                 }
