@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyectom13.POJOS.Objeto;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,20 +41,22 @@ public class VerObjeto extends AppCompatActivity {
     ImageButton btBorrar;
     Button btAtras;
 
-    private boolean mostrarFoto = true; // variable de control para no ejecutar  el metodo onpostExecute en caso de actualizar registro
+    int operacion;
+    final int borrar = 0;
+
+    final int actualizar = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mostrarFoto = true;
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
-        String idobjetos = getIntent().getExtras().getString("idobjetos");
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + idobjetos);
+        //String idobjetos = getIntent().getExtras().getString("idobjetos");
         //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
-        String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos;
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
-        getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
+        //String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + BuscarObjeto.objeto.getIdObjeto();
+        //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
+        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
+        //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
         etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
@@ -63,64 +67,60 @@ public class VerObjeto extends AppCompatActivity {
         btBorrar = findViewById(R.id.btBorrarObjeto);
         btAtras = findViewById(R.id.botonAtras);
 
-        etNombre.setText(getIntent().getExtras().getString("nombre"));
-        etFechaAlta.setText(getIntent().getExtras().getString("fechaAlta"));
-        etDescripcion.setText(getIntent().getExtras().getString("descripcion"));
-        etLugarGuardado.setText(getIntent().getExtras().getString("lugarGuardado"));
-
+        etNombre.setText(BuscarObjeto.objeto.getNombre());
+        etFechaAlta.setText(BuscarObjeto.objeto.getFechaAlta());
+        etDescripcion.setText(BuscarObjeto.objeto.getDescripcion());
+        etLugarGuardado.setText(BuscarObjeto.objeto.getLugarGuardado());
+        byte[] fotoBytesBase64 = Base64.decode(BuscarObjeto.objeto.getFoto(), Base64.URL_SAFE);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
+        Drawable d = new BitmapDrawable(getResources(), bitmap);
+        ivObjeto.setBackground(d);
         btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mostrarFoto = false; // establezo la variable en false para que no se ejecute el metodo onPosExecute despues de actualizar
-                // Obtener los textos de los EditText
-                String nombre = etNombre.getText().toString();
-                String fechaAlta = etFechaAlta.getText().toString();
-                String descripcion = etDescripcion.getText().toString();
-                String lugarGuardado = etLugarGuardado.getText().toString();
-                int idusuarios = MainActivity.idUsuario;
-                String idobjetos = getIntent().getExtras().getString("idobjetos");
-
-                // Construir un objeto JSON con los datos obtenidos
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("nombre", nombre);
-                    jsonObject.put("fechaAlta", fechaAlta);
-                    jsonObject.put("descripcion", descripcion);
-                    jsonObject.put("lugarGuardado", lugarGuardado);
-                    jsonObject.put("idusuarios", idusuarios);
-                    jsonObject.put("idobjetos", idobjetos);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                operacion = actualizar;
+                if(!etNombre.getText().toString().isEmpty()){
+                    BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
                 }
+                if(!etDescripcion.getText().toString().isEmpty()){
+                    BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
+                }
+                if(!etLugarGuardado.getText().toString().isEmpty()){
+                    BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
+                }
+                RequestTask actualizarFoto = new RequestTask();
+                String url = "http://" + MainActivity.HOST + "/api/update.php";
+                actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
 
-                // Enviar el objeto JSON a través de la API de PHP utilizando RequestTask
-                String url = "http://" + MainActivity.HOST + "/api/editar_objeto.php";
-                String jsonData = jsonObject.toString();
-                new RequestTask().execute(url, "POST", jsonData);
 
-                
-                // Mostrar un Toast indicando que el objeto se ha actualizado con éxito
-                Toast.makeText(getApplicationContext(), "Objeto actualizado con éxito", Toast.LENGTH_SHORT).show();
             }
         });
-    
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestTask borrarFoto = new RequestTask();
+                String url = "http://" + MainActivity.HOST + "/api/delete.php";
+                JSONObject jsonObject = new JSONObject();
+                operacion = borrar;
+                try {
+                    jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
+                    borrarFoto.execute(url, "POST", jsonObject.toString());
 
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             finish();
 
+                finish();
             }
         });
     }
+
 
     class RequestTask extends AsyncTask<String, String, String> {
 
@@ -137,26 +137,38 @@ public class VerObjeto extends AppCompatActivity {
                 resultado = sendPost(url, jsonData);
             }
 
-           Log.d("MainActivity", resultado);
+            Log.d("MainActivity", resultado);
             return resultado;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (mostrarFoto) {
-                try {
-                    JSONArray array = new JSONArray(s);
-                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + s);
-                    JSONObject jsonObject = (JSONObject) array.get(0);
-                    String fotobaseString64 = jsonObject.getString("foto");
-                    byte[] fotoBytesBase64 = Base64.decode(fotobaseString64, Base64.URL_SAFE);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
-                    Drawable d = new BitmapDrawable(getResources(), bitmap);
-                    ivObjeto.setBackground(d);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
+            try {
+                //JSONArray array = new JSONArray(s);
+                JSONObject respuesta = new JSONObject(s);
+                String mensaje = respuesta.getString("mensaje");
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + mensaje);
+                String show = "";
+                if(mensaje.equals("OK")){
+                    if(operacion==actualizar){
+                        show = getString(R.string.actualizarOK);
+                    }else{
+                        show = getString(R.string.borrarOK);
+                    }
+                }else{
+                    if(operacion==actualizar){
+                        show = getString(R.string.borrarKO);
+
+                    }else{
+                        show = getString(R.string.borrarKO);
+
+                    }
                 }
+                Toast.makeText(getApplicationContext(), show, Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 

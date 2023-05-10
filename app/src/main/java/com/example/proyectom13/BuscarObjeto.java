@@ -33,6 +33,8 @@ public class BuscarObjeto extends AppCompatActivity {
     private ArrayList<Objeto> resultados;
     int idUsuario = MainActivity.idUsuario;
     ListaObjetosAdapter adapter;
+
+    public static Objeto objeto;
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +62,13 @@ public class BuscarObjeto extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
                 //TODO: cambiar 1 por el id del objeto
-                Objeto objeto = resultados.get(position);
-                verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
+                objeto = resultados.get(position);
+                //verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
                 startActivity(verObjeto);
             }
         });
 
-        // Obtener los últimos 5 objetos almacenados en la BBDD ordenador siempre que se abre la acitvity
+        // Obtener los últimos 5 objetos alamcenados en  la base de datos siempre que se abre la acitvity
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -91,13 +93,18 @@ public class BuscarObjeto extends AppCompatActivity {
                             String nombre = jsonObject.getString("nombre"); // en la vista "previa" solo obtenemos nombre y descripcion
                             String descripcion = jsonObject.getString("descripcion");
                             String idobjetos = jsonObject.getString("idobjetos");
-                            String fechaAlta = jsonObject.getString("lugarGuardado");
+                            String fechaAlta = jsonObject.getString("fechaAlta");
+                            String lugarGuardado = jsonObject.getString("lugarGuardado");
+
+                            String foto = jsonObject.getString("foto");
 
                             Objeto objeto = new Objeto();
                             objeto.setIdObjeto(Integer.parseInt(idobjetos));
                             objeto.setNombre(nombre);
-                            objeto.setLugarGuardado(descripcion);
+                            objeto.setLugarGuardado(lugarGuardado);
+                            objeto.setDescripcion(descripcion);
                             objeto.setFechaAlta(fechaAlta);
+                            objeto.setFoto(foto);
 
                             resultados.add(objeto);
                         }
@@ -119,121 +126,69 @@ public class BuscarObjeto extends AppCompatActivity {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                if (txtBuscar.getText().toString().isEmpty()) {
-                    // Si el campo de búsqueda está vacío, llamar al AsyncTask que obtiene los últimos 5 objetos almacenados en la BBDD
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            try {
-                                String url = "http://" + MainActivity.HOST + "/api/ultimos_objetos.php?cantidad=5&idusuario=" + idUsuario;
-                                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                                connection.setRequestMethod("GET");
-                                connection.connect();
-                                int responseCode = connection.getResponseCode();
-                                if (responseCode == HttpURLConnection.HTTP_OK) {
-                                    InputStream inputStream = connection.getInputStream();
-                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    String line;
-                                    while ((line = bufferedReader.readLine()) != null) {
-                                        stringBuilder.append(line);
-                                    }
-                                    Log.d("RESPONSE", stringBuilder.toString());
-                                    JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                        String nombre = jsonObject.getString("nombre"); // en la vista "previa" solo obtenemos nombre y descripcion
-                                        String descripcion = jsonObject.getString("descripcion");
-                                        String idobjetos = jsonObject.getString("idobjetos");
-                                        String fechaAlta = jsonObject.getString("lugarGuardado");
+                new AsyncTask<Void, Void, ArrayList<Objeto>>() {
+                    @Override
+                    protected ArrayList<Objeto> doInBackground(Void... params) {
+                        ArrayList<Objeto> resultados = new ArrayList<>();
+                        try {
 
-                                        Objeto objeto = new Objeto();
-                                        objeto.setIdObjeto(Integer.parseInt(idobjetos));
-                                        objeto.setNombre(nombre);
-                                        objeto.setLugarGuardado(descripcion);
-                                        objeto.setFechaAlta(fechaAlta);
-
-                                        resultados.add(objeto);
-
-                                    }
+                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
+                            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.connect();
+                            int responseCode = connection.getResponseCode();
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                InputStream inputStream =
+                                        connection.getInputStream();
+                                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                                StringBuilder stringBuilder = new StringBuilder();
+                                String line;
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    stringBuilder.append(line);
                                 }
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-                            super.onPostExecute(aVoid);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }.execute();
-                } else {
-                    // Si se ha ingresado un término de búsqueda, llamar al AsyncTask correspondiente
-                    new AsyncTask<Void, Void, ArrayList<Objeto>>() {
-                        @Override
-                        protected ArrayList<Objeto> doInBackground(Void... params) {
-                            ArrayList<Objeto> resultados = new ArrayList<>();
-                            try {
-                                String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
-                                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                                connection.setRequestMethod("GET");
-                                connection.connect();
-                                int responseCode = connection.getResponseCode();
-                                if (responseCode == HttpURLConnection.HTTP_OK) {
-                                    InputStream inputStream = connection.getInputStream();
-                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    String line;
-                                    while ((line = bufferedReader.readLine()) != null) {
-                                        stringBuilder.append(line);
-                                    }
-                                    Log.d("RESPONSE", stringBuilder.toString());
-                                    JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                        String nombre = jsonObject.getString("nombre");
-                                        String descripcion = jsonObject.getString("descripcion");
-                                        String idobjetos = jsonObject.getString("idobjetos");
-                                        String fechaAlta = jsonObject.getString("lugarGuardado");
-
-                                        Objeto objeto = new Objeto();
-                                        objeto.setIdObjeto(Integer.parseInt(idobjetos));
-                                        objeto.setIdObjeto(Integer.parseInt(idobjetos));
-                                        objeto.setNombre(nombre);
-                                        objeto.setLugarGuardado(descripcion);
-                                        objeto.setFechaAlta(fechaAlta);
-
-                                        resultados.add(objeto);
-
-
-                                    }
+                                Log.d("RESPONSE", stringBuilder.toString());
+                                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + jsonObject.toString());
+                                    String nombre = jsonObject.getString("nombre");
+                                    String descripcion = jsonObject.getString("descripcion");
+                                    String idobjetos = jsonObject.getString("idobjetos");
+                                    String lugarGuardado = jsonObject.getString("lugarGuardado");
+                                    String fechaAlta = jsonObject.getString("fechaAlta");
+                                    String foto64 = jsonObject.getString("foto");
+                                    Objeto objeto = new Objeto();
+                                    objeto.setIdObjeto(Integer.parseInt(idobjetos));
+                                    objeto.setNombre(nombre);
+                                    objeto.setLugarGuardado(lugarGuardado);
+                                    objeto.setDescripcion(descripcion);
+                                    objeto.setFechaAlta(fechaAlta);
+                                    objeto.setFoto(foto64);
+                                    resultados.add(objeto);
                                 }
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
                             }
-                            return resultados;
-
-
-
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
                         }
+                        return resultados;
+                    }
 
-                        @Override
-                        protected void onPostExecute(ArrayList<Objeto> objetos) {
-                            super.onPostExecute(objetos);
-                            resultados.clear();
-                            resultados.addAll(objetos);
-                            adapter.notifyDataSetChanged();
-                            if (resultados.isEmpty()) {
-                                Toast.makeText(BuscarObjeto.this, "No se encontraron resultados", Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    protected void onPostExecute(ArrayList<Objeto> resultados) {
+                        super.onPostExecute(resultados);
+                        adapter.clear();
+                        if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
+                            Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
+                        } else {
+                            adapter.clear(); // vaciar los datos anteriores del adaptador
+                            adapter.addAll(resultados); // añadir los nuevos datos al adaptador
+                            adapter.notifyDataSetChanged(); // notificar al adaptador que los datos han cambiado
+
+                           adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
                         }
-                    }.execute();
-                }
+                    }
+                }.execute();
             }
         });
-
-
     }
 }
