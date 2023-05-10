@@ -73,6 +73,7 @@ public class Objeto {
     public String toString() {
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("idobjetos", Integer.toString(idobjetos));
             jsonObject.put("nombre", nombre);
             jsonObject.put("descripcion", descripcion);
             jsonObject.put("fechaAlta", fechaAlta);
