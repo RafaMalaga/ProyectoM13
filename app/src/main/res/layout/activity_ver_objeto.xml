@@ -12,8 +12,9 @@
         android:id="@+id/ivObjeto"
         android:layout_width="320dp"
         android:layout_height="260dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/camera"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,10 +63,10 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
+        android:enabled="false"
         android:hint="@string/descripcion"
         android:paddingLeft="5dp"
         android:textColor="@color/gris_oscuro_texto"
-        android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"></EditText>
 
@@ -103,7 +104,9 @@
 
         android:text="@string/atras"
         android:textColor="@color/verde"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
