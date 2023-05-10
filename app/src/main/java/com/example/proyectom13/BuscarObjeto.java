@@ -191,4 +191,10 @@ public class BuscarObjeto extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Notifica al adaptador de los cambios realizados
+        adapter.notifyDataSetChanged();
+    }
 }
