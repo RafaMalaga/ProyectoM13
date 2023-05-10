@@ -121,7 +121,7 @@ public class VerObjeto extends AppCompatActivity {
                     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
                     String fechaActualString = formatoFecha.format(fechaActual);
 
-                    operacion = actualizar;
+                    operacion = actualizar; // codigo para actualizar el objeto, si los campos no estan vacios se recogen los valores de dichos campos y se añaden al objeto
                     if (!etNombre.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
                     }
@@ -132,13 +132,13 @@ public class VerObjeto extends AppCompatActivity {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
                     }
                     RequestTask actualizarFoto = new RequestTask();
-                    String url = "http://" + MainActivity.HOST + "/api/update.php";
+                    String url = "http://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
                     actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
                     etNombre.setEnabled(false);
-                    etDescripcion.setEnabled(false);
+                    etDescripcion.setEnabled(false); // desabilitar la escritura en los campos de texto
                     etLugarGuardado.setEnabled(false);
                     etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
-                    etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));// mostrar texto en gris oscuro para visualizar mejor el texto
                     etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
                     editable = false;
                     dialog.dismiss();
@@ -157,13 +157,13 @@ public class VerObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(VerObjeto.this);
-                builder.setMessage("¿Estás seguro de borrar este objeto?")
+                builder.setMessage("¿Estás seguro de borrar este objeto?")   // al pulsr el icono borrar se abre cuadro de dialogo alertando al usuario
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Acciones a realizar cuando se selecciona "SI"
                                 RequestTask borrarFoto = new RequestTask();
-                                String url = "http://" + MainActivity.HOST + "/api/delete.php";
+                                String url = "http://" + MainActivity.HOST + "/api/delete.php"; // si el user pulsa en si se llama a la api para borrar el objeto
                                 JSONObject jsonObject = new JSONObject();
                                 operacion = borrar;
                                 try {
@@ -175,14 +175,14 @@ public class VerObjeto extends AppCompatActivity {
                                     throw new RuntimeException(e);
                                 }
 
-                                finish();
+                                finish(); // una vez borrado el objeto salimos a la actividad anterior
 
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Acciones a realizar cuando se selecciona "NO"
-                                dialog.dismiss();
+                                dialog.dismiss(); // si pulsa en no, se cierra el cuadro de dialogo sin hacer ninguna accion
                             }
                         })
                         .setCancelable(false); // Evita que se pueda cancelar el diálogo al tocar fuera de él
@@ -232,7 +232,7 @@ public class VerObjeto extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                //JSONArray array = new JSONArray(s);
+                //Metodo para actualizar objeto
                 JSONObject respuesta = new JSONObject(s);
                 String mensaje = respuesta.getString("mensaje");
                 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + mensaje);

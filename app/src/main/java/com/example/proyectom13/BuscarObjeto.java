@@ -54,7 +54,7 @@ public class BuscarObjeto extends AppCompatActivity {
         });
 
         resultados = new ArrayList<Objeto>();
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+
          adapter = new ListaObjetosAdapter(this, resultados);
         lstResultados.setAdapter(adapter);
         lstResultados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,7 +132,7 @@ public class BuscarObjeto extends AppCompatActivity {
                     protected ArrayList<Objeto> doInBackground(Void... params) {
                         ArrayList<Objeto> resultados = new ArrayList<>();
                         try {
-
+                             // llamamos a la api buscar_objetos y le pasamos los parametros de busqueda obtenido del editText txtBuscar
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
@@ -148,6 +148,9 @@ public class BuscarObjeto extends AppCompatActivity {
                                     stringBuilder.append(line);
                                 }
                                 Log.d("RESPONSE", stringBuilder.toString());
+
+                                //este código procesa un JSONArray y extrae los valores de cada objeto JSON dentro de él.
+                                // Luego, crea instancias de la clase Objeto y asigna los valores correspondientes a los atributos de cada objeto.
                                 JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
