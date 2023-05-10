@@ -33,6 +33,8 @@ public class BuscarObjeto extends AppCompatActivity {
     private ArrayList<Objeto> resultados;
     int idUsuario = MainActivity.idUsuario;
     ListaObjetosAdapter adapter;
+
+    public static Objeto objeto;
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +62,8 @@ public class BuscarObjeto extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
                 //TODO: cambiar 1 por el id del objeto
-                Objeto objeto = resultados.get(position);
-                verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
+                objeto = resultados.get(position);
+                //verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
                 startActivity(verObjeto);
             }
         });
@@ -91,13 +93,18 @@ public class BuscarObjeto extends AppCompatActivity {
                             String nombre = jsonObject.getString("nombre"); // en la vista "previa" solo obtenemos nombre y descripcion
                             String descripcion = jsonObject.getString("descripcion");
                             String idobjetos = jsonObject.getString("idobjetos");
-                            String fechaAlta = jsonObject.getString("lugarGuardado");
+                            String fechaAlta = jsonObject.getString("fechaAlta");
+                            String lugarGuardado = jsonObject.getString("lugarGuardado");
+
+                            String foto = jsonObject.getString("foto");
 
                             Objeto objeto = new Objeto();
                             objeto.setIdObjeto(Integer.parseInt(idobjetos));
                             objeto.setNombre(nombre);
-                            objeto.setLugarGuardado(descripcion);
+                            objeto.setLugarGuardado(lugarGuardado);
+                            objeto.setDescripcion(descripcion);
                             objeto.setFechaAlta(fechaAlta);
+                            objeto.setFoto(foto);
 
                             resultados.add(objeto);
                         }
@@ -147,12 +154,16 @@ public class BuscarObjeto extends AppCompatActivity {
                                     String nombre = jsonObject.getString("nombre");
                                     String descripcion = jsonObject.getString("descripcion");
                                     String idobjetos = jsonObject.getString("idobjetos");
-                                    String fechaAlta = jsonObject.getString("lugarGuardado");
+                                    String lugarGuardado = jsonObject.getString("lugarGuardado");
+                                    String fechaAlta = jsonObject.getString("fechaAlta");
+                                    String foto64 = jsonObject.getString("foto");
                                     Objeto objeto = new Objeto();
                                     objeto.setIdObjeto(Integer.parseInt(idobjetos));
                                     objeto.setNombre(nombre);
-                                    objeto.setLugarGuardado(descripcion);
+                                    objeto.setLugarGuardado(lugarGuardado);
+                                    objeto.setDescripcion(descripcion);
                                     objeto.setFechaAlta(fechaAlta);
+                                    objeto.setFoto(foto64);
                                     resultados.add(objeto);
                                 }
                             }

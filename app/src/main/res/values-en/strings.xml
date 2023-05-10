@@ -43,6 +43,13 @@
     <string name="nombreVacio">The name of the object cannot be empty</string>
     <string name="descripcion">Description</string>
 
+    <!-- ver foto -->
+    <string name="actualizarOK">Object saved</string>
+    <string name="borrarOK">Object deleted</string>
+    <string name="actualizarKO">Error saving the object</string>
+    <string name="borrarKO">Error deleting the object</string>
+
+
     <string name="seleccionar">Select</string>
 
     <string name="nombre_del_objeto">Object Name</string>
