@@ -91,15 +91,15 @@ public class Compartir extends AppCompatActivity {
                     protected MyResult doInBackground(Void... params) {
 
                         try {
-
+                             // creamos la url con la llamada a la api de buscar objetos pasandole el valor a buscar obtenido del editText
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();
                             int responseCode = connection.getResponseCode();
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                            if (responseCode == HttpURLConnection.HTTP_OK) { // si la respuesta del server es Ok 200
                                 InputStream inputStream =
-                                        connection.getInputStream();
+                                        connection.getInputStream(); // se lee el Json obtenido
                                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                                 StringBuilder stringBuilder = new StringBuilder();
                                 String line;
@@ -108,9 +108,9 @@ public class Compartir extends AppCompatActivity {
                                 }
                                 Log.d("RESPONSE", stringBuilder.toString());
 
-                                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                                JSONArray jsonArray = new JSONArray(stringBuilder.toString());//Se crea un JSONArray a partir de la cadena obtenida del StringBuilder
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i); // se recorre y se agregan los valores de los campo de texto
                                     String nombre = jsonObject.getString("nombre");
                                     String descripcion = jsonObject.getString("descripcion");
                                     String lugarGuardado = jsonObject.getString("lugarGuardado");
@@ -121,8 +121,8 @@ public class Compartir extends AppCompatActivity {
 
 
 
-                                    resultadosObj.add(nombre + ": \n" + descripcion + "\n" + lugarGuardado);
-                                    resultadosFotos.add(bitmap);
+                                    resultadosObj.add(nombre + ": \n" + descripcion + "\n" + lugarGuardado);// se guardan los valores de texto en el arraylist
+                                    resultadosFotos.add(bitmap); // se guardan las fotos en el arraylist de bitmap
 
 
 
@@ -164,13 +164,13 @@ public class Compartir extends AppCompatActivity {
                     protected ArrayList<String> doInBackground(Void... params) {
                         ArrayList<String> resultados = new ArrayList<>();
                         try {
-
+                              //se construye la url para llamar a la api buscar usuarios con el valor del nombre de usuario obtenido del editText
                             String url = "http://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();
                             int responseCode = connection.getResponseCode();
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                            if (responseCode == HttpURLConnection.HTTP_OK) { // si la respuesta del servidor es positiva se leen los datos del Json obtenido
                                 InputStream inputStream =
                                         connection.getInputStream();
                                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -182,10 +182,10 @@ public class Compartir extends AppCompatActivity {
                                 Log.d("RESPONSE", stringBuilder.toString());
                                 JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i); // se crea un jsonObject con el nombre de usuario y email
                                     String nombre = jsonObject.getString("nombreUsuario");
                                     String email = jsonObject.getString("email");
-                                    resultados.add(nombre + ": " + email);
+                                    resultados.add(nombre + ": " + email); // se añaden al array list los resultados obtenidos
 
                                 }
                             }
@@ -288,7 +288,7 @@ public class Compartir extends AppCompatActivity {
 
 
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionados);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_listview, itemSeleccionados);
             lstResultados.setAdapter(adapter);
 
         }
@@ -308,7 +308,7 @@ public class Compartir extends AppCompatActivity {
             }
 
 
-            ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionadosObj);
+            ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), R.layout.item_listview, itemSeleccionadosObj);
             lstResultadosObj.setAdapter(adapterObj);
         }
 

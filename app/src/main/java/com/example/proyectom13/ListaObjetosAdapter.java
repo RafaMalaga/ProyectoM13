@@ -19,10 +19,10 @@ import java.util.ArrayList;
 
 public class ListaObjetosAdapter extends ArrayAdapter<Objeto> {
 
-    public ListaObjetosAdapter(Context context, ArrayList<Objeto> objetos) {
+    public ListaObjetosAdapter(Context context, ArrayList<Objeto> objetos) { // adaptador con un array de objetos
         super(context, 0, objetos);
     }
-
+    //  este código personaliza la vista de cada elemento en la lista utilizando un diseño específico
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position

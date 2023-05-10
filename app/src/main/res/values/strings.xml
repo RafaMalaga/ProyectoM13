@@ -28,6 +28,7 @@
     <string name="atras">Atras</string>
     <string name="buscar_objeto_por_nombre">BUSCAR OBJETO POR NOMBRE</string>
     <string name="noEncontrar">No se encontraron resultados</string>
+    <string name="encontrado"> se encontraron resultados</string>
     <string name="completeCampos">Por favor, complete todos los campos</string>
     <string name="formatoContraseña">Debe tener al menos una mayúscula, una minúscula, un número y mínimo de 8 caracteres.</string>
     <string name="comprobarContra">Las contraseñas no coinciden</string>
@@ -48,6 +49,11 @@
     <string name="hola">\"¡¡Hola!! \"</string>
     <string name="compartir_imagen_texto">Compartir imagen y texto</string>
 
+    <!-- ver foto -->
+    <string name="actualizarOK">Objeto guardado</string>
+    <string name="borrarOK">Objecto borrado</string>
+    <string name="actualizarKO">Error guardando el objeto</string>
+    <string name="borrarKO">Error borrando el objeto</string>
 
     <string-array name="languages">
         <item>@string/str_en</item>
@@ -59,6 +65,12 @@
     <string name="guardar">Guardar</string>
     <string name="selecciona_los_usuarios">Selecciona los usuarios:</string>
     <string name="selecciona_los_objetos">Selecciona los objetos:</string>
+    <string name="no_edit">No editar objeto</string>
+    <string name="edit">Editar objeto</string>
+    <string name="desea_editar">¿Deseas editar este objeto?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="fecha">Fecha</string>
 
 
 </resources>

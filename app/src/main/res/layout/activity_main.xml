@@ -45,7 +45,6 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toTopOf="@+id/btRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         app:layout_constraintVertical_bias="0.5" />
@@ -59,7 +58,6 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibEntrar"
         app:layout_constraintVertical_bias="0.5" />
@@ -97,14 +95,15 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:nextFocusDown="@id/ibEntrar"/>
 
         <ImageButton
             android:id="@+id/ibOjo"
             style="@style/ibOjoTachado"
             android:layout_width="42dp"
             android:layout_height="49dp"
-            android:alpha="0.5"
+            android:alpha="0.2"
             app:srcCompat="@drawable/ojo_tachado" />
     </LinearLayout>
 
@@ -141,7 +140,7 @@
             android:layout_height="42dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:alpha="0.3"
+            android:alpha="0.2"
             app:srcCompat="@drawable/usuario" />
     </LinearLayout>
 

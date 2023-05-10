@@ -33,6 +33,8 @@ public class BuscarObjeto extends AppCompatActivity {
     private ArrayList<Objeto> resultados;
     int idUsuario = MainActivity.idUsuario;
     ListaObjetosAdapter adapter;
+
+    public static Objeto objeto;
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +54,17 @@ public class BuscarObjeto extends AppCompatActivity {
         });
 
         resultados = new ArrayList<Objeto>();
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+
          adapter = new ListaObjetosAdapter(this, resultados);
         lstResultados.setAdapter(adapter);
         lstResultados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
-                //TODO: cambiar 1 por el id del objeto
-                Objeto objeto = resultados.get(position);
-                verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
+
+                objeto = resultados.get(position);
+
                 startActivity(verObjeto);
             }
         });
@@ -91,13 +94,18 @@ public class BuscarObjeto extends AppCompatActivity {
                             String nombre = jsonObject.getString("nombre"); // en la vista "previa" solo obtenemos nombre y descripcion
                             String descripcion = jsonObject.getString("descripcion");
                             String idobjetos = jsonObject.getString("idobjetos");
-                            String fechaAlta = jsonObject.getString("lugarGuardado");
+                            String fechaAlta = jsonObject.getString("fechaAlta");
+                            String lugarGuardado = jsonObject.getString("lugarGuardado");
+
+                            String foto = jsonObject.getString("foto");
 
                             Objeto objeto = new Objeto();
                             objeto.setIdObjeto(Integer.parseInt(idobjetos));
                             objeto.setNombre(nombre);
-                            objeto.setLugarGuardado(descripcion);
+                            objeto.setLugarGuardado(lugarGuardado);
+                            objeto.setDescripcion(descripcion);
                             objeto.setFechaAlta(fechaAlta);
+                            objeto.setFoto(foto);
 
                             resultados.add(objeto);
                         }
@@ -124,7 +132,7 @@ public class BuscarObjeto extends AppCompatActivity {
                     protected ArrayList<Objeto> doInBackground(Void... params) {
                         ArrayList<Objeto> resultados = new ArrayList<>();
                         try {
-
+                             // llamamos a la api buscar_objetos y le pasamos los parametros de busqueda obtenido del editText txtBuscar
                             String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
@@ -140,6 +148,9 @@ public class BuscarObjeto extends AppCompatActivity {
                                     stringBuilder.append(line);
                                 }
                                 Log.d("RESPONSE", stringBuilder.toString());
+
+                                //este código procesa un JSONArray y extrae los valores de cada objeto JSON dentro de él.
+                                // Luego, crea instancias de la clase Objeto y asigna los valores correspondientes a los atributos de cada objeto.
                                 JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -147,12 +158,16 @@ public class BuscarObjeto extends AppCompatActivity {
                                     String nombre = jsonObject.getString("nombre");
                                     String descripcion = jsonObject.getString("descripcion");
                                     String idobjetos = jsonObject.getString("idobjetos");
-                                    String fechaAlta = jsonObject.getString("lugarGuardado");
+                                    String lugarGuardado = jsonObject.getString("lugarGuardado");
+                                    String fechaAlta = jsonObject.getString("fechaAlta");
+                                    String foto64 = jsonObject.getString("foto");
                                     Objeto objeto = new Objeto();
                                     objeto.setIdObjeto(Integer.parseInt(idobjetos));
                                     objeto.setNombre(nombre);
-                                    objeto.setLugarGuardado(descripcion);
+                                    objeto.setLugarGuardado(lugarGuardado);
+                                    objeto.setDescripcion(descripcion);
                                     objeto.setFechaAlta(fechaAlta);
+                                    objeto.setFoto(foto64);
                                     resultados.add(objeto);
                                 }
                             }
@@ -169,6 +184,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
+                            Toast.makeText(BuscarObjeto.this, R.string.encontrado, Toast.LENGTH_SHORT).show();
                             adapter.clear(); // vaciar los datos anteriores del adaptador
                             adapter.addAll(resultados); // añadir los nuevos datos al adaptador
                             adapter.notifyDataSetChanged(); // notificar al adaptador que los datos han cambiado
@@ -179,5 +195,11 @@ public class BuscarObjeto extends AppCompatActivity {
                 }.execute();
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Notifica al adaptador de los cambios realizados
+        adapter.notifyDataSetChanged();
     }
 }

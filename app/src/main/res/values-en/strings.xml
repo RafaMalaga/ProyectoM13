@@ -31,6 +31,7 @@
     <string name="buscar">Search</string>
     <string name="atras">Back</string>
     <string name="noEncontrar">No results found</string>
+    <string name="encontrado"> Results Found !</string>
     <string name="formatoContraseña">It must have at least one uppercase, one lowercase, one number, and a minimum of 8 characters</string>
     <string name="completeCampos">Please fill out all fields</string>
     <string name="comprobarContra">Passwords do not match</string>
@@ -42,6 +43,13 @@
     <string name="okObjeto">Object saved</string>
     <string name="nombreVacio">The name of the object cannot be empty</string>
     <string name="descripcion">Description</string>
+
+    <!-- ver foto -->
+    <string name="actualizarOK">Object saved</string>
+    <string name="borrarOK">Object deleted</string>
+    <string name="actualizarKO">Error saving the object</string>
+    <string name="borrarKO">Error deleting the object</string>
+
 
     <string name="seleccionar">Select</string>
 
@@ -58,6 +66,13 @@
     <string name="guardar">Save</string>
     <string name="selecciona_los_usuarios">Select users:</string>
     <string name="selecciona_los_objetos">Select objects:</string>
+    <string name="no_edit">Do not edit object</string>
+    <string name="edit">Edit object</string>
+    <string name="desea_editar">Do you want to edit this object?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="fecha">Date</string>
+
 
 
 </resources>

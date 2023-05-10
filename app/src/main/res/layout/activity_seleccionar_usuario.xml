@@ -18,6 +18,8 @@
         android:text="@string/atras"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btCompartirDeListaUsuarios"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

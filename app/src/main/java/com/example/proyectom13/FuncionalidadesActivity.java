@@ -29,8 +29,9 @@ public class FuncionalidadesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finishAffinity();
-            }
+            } // cerramos la activity actual y todas la demas activitys asociadas a ella ( se cierra la app)
         });
+         // en lo siguientes metodos Onclick de los distintos botones abrimos las distintas activity
 
         btGuardarArticulo.setOnClickListener(new View.OnClickListener() {
             @Override
