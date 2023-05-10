@@ -1,5 +1,6 @@
 package com.example.proyectom13;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectom13.POJOS.Objeto;
@@ -50,13 +52,8 @@ public class VerObjeto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
-        //String idobjetos = getIntent().getExtras().getString("idobjetos");
-        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
-        //String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + BuscarObjeto.objeto.getIdObjeto();
-        //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
-        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
-        //http://192.168.1.131/api/get_foto.php?idobjetos=1
+
         ivObjeto = findViewById(R.id.ivObjeto);
         etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
@@ -71,10 +68,12 @@ public class VerObjeto extends AppCompatActivity {
         etFechaAlta.setText(BuscarObjeto.objeto.getFechaAlta());
         etDescripcion.setText(BuscarObjeto.objeto.getDescripcion());
         etLugarGuardado.setText(BuscarObjeto.objeto.getLugarGuardado());
+
         byte[] fotoBytesBase64 = Base64.decode(BuscarObjeto.objeto.getFoto(), Base64.URL_SAFE);
         Bitmap bitmap = BitmapFactory.decodeByteArray(fotoBytesBase64,0,fotoBytesBase64.length);
         Drawable d = new BitmapDrawable(getResources(), bitmap);
         ivObjeto.setBackground(d);
+
         btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,19 +97,61 @@ public class VerObjeto extends AppCompatActivity {
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestTask borrarFoto = new RequestTask();
-                String url = "http://" + MainActivity.HOST + "/api/delete.php";
-                JSONObject jsonObject = new JSONObject();
-                operacion = borrar;
-                try {
-                    jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
-                    borrarFoto.execute(url, "POST", jsonObject.toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(VerObjeto.this);
+                builder.setTitle("Advertencia");
+                builder.setMessage("¿Estás seguro que deseas  borrar este objeto?");
 
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+                // Personalizar estilo del diálogo
+                builder.setCancelable(true);
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Código para borrar el objeto
+                        RequestTask borrarFoto = new RequestTask();
+                        String url = "http://" + MainActivity.HOST + "/api/delete.php";
+                        JSONObject jsonObject = new JSONObject();
+                        operacion = borrar;
+                        try {
+                            jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
+                            borrarFoto.execute(url, "POST", jsonObject.toString());
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        // Cerrar la actividad
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No hacer nada, el usuario ha cancelado la acción
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+
+                // Personalizar estilo de los botones
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                        Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
+                        positiveButton.setTextSize(25);
+                        negativeButton.setTextSize(25);
+                    }
+                });
+
+                dialog.show();
             }
         });
+
+
+
+
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override

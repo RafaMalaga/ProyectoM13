@@ -31,6 +31,7 @@
     <string name="buscar">Search</string>
     <string name="atras">Back</string>
     <string name="noEncontrar">No results found</string>
+    <string name="encontrado"> Results Found !</string>
     <string name="formatoContraseña">It must have at least one uppercase, one lowercase, one number, and a minimum of 8 characters</string>
     <string name="completeCampos">Please fill out all fields</string>
     <string name="comprobarContra">Passwords do not match</string>

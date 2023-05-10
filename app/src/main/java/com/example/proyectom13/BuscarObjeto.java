@@ -58,12 +58,13 @@ public class BuscarObjeto extends AppCompatActivity {
          adapter = new ListaObjetosAdapter(this, resultados);
         lstResultados.setAdapter(adapter);
         lstResultados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent verObjeto = new Intent(getApplicationContext(), VerObjeto.class);
-                //TODO: cambiar 1 por el id del objeto
+
                 objeto = resultados.get(position);
-                //verObjeto.putExtra("idobjetos", Integer.toString(objeto.getIdObjeto()));
+
                 startActivity(verObjeto);
             }
         });
@@ -180,6 +181,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         if (resultados.isEmpty()) {  // si no encuentra ningun objeto se muestra el toast de abajo
                             Toast.makeText(BuscarObjeto.this, R.string.noEncontrar, Toast.LENGTH_SHORT).show();
                         } else {
+                            Toast.makeText(BuscarObjeto.this, R.string.encontrado, Toast.LENGTH_SHORT).show();
                             adapter.clear(); // vaciar los datos anteriores del adaptador
                             adapter.addAll(resultados); // añadir los nuevos datos al adaptador
                             adapter.notifyDataSetChanged(); // notificar al adaptador que los datos han cambiado

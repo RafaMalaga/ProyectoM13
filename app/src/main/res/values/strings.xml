@@ -28,6 +28,7 @@
     <string name="atras">Atras</string>
     <string name="buscar_objeto_por_nombre">BUSCAR OBJETO POR NOMBRE</string>
     <string name="noEncontrar">No se encontraron resultados</string>
+    <string name="encontrado"> se encontraron resultados</string>
     <string name="completeCampos">Por favor, complete todos los campos</string>
     <string name="formatoContraseña">Debe tener al menos una mayúscula, una minúscula, un número y mínimo de 8 caracteres.</string>
     <string name="comprobarContra">Las contraseñas no coinciden</string>
