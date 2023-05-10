@@ -54,13 +54,7 @@ public class VerObjeto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
-        //String idobjetos = getIntent().getExtras().getString("idobjetos");
-        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
-        //String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + BuscarObjeto.objeto.getIdObjeto();
-        //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
-        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
-        //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
         etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
@@ -152,19 +146,48 @@ public class VerObjeto extends AppCompatActivity {
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestTask borrarFoto = new RequestTask();
-                String url = "http://" + MainActivity.HOST + "/api/delete.php";
-                JSONObject jsonObject = new JSONObject();
-                operacion = borrar;
-                try {
-                    jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
-                    borrarFoto.execute(url, "POST", jsonObject.toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(VerObjeto.this);
+                builder.setMessage("¿Estás seguro de borrar este objeto?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Acciones a realizar cuando se selecciona "SI"
+                                RequestTask borrarFoto = new RequestTask();
+                                String url = "http://" + MainActivity.HOST + "/api/delete.php";
+                                JSONObject jsonObject = new JSONObject();
+                                operacion = borrar;
+                                try {
+                                    jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
+                                    borrarFoto.execute(url, "POST", jsonObject.toString());
 
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                finish();
+
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Acciones a realizar cuando se selecciona "NO"
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCancelable(false); // Evita que se pueda cancelar el diálogo al tocar fuera de él
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                // Personalizar tamaño de texto de los botones
+                Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                positiveButton.setTextSize(20);
+                negativeButton.setTextSize(20);
             }
         });
+
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
