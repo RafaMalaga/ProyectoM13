@@ -61,6 +61,12 @@
     <string name="borrarOK">Objecto borrado</string>
     <string name="actualizarKO">Error guardando el objeto</string>
     <string name="borrarKO">Error borrando el objeto</string>
+    <string name="no_edit">No editar objeto</string>
+    <string name="edit">Editar objeto</string>
+    <string name="desea_editar">¿Deseas editar este objeto?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="fecha">Fecha</string>
 
 
 </resources>

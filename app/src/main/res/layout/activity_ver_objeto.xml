@@ -27,7 +27,7 @@
         android:enabled="false"
         android:hint="@string/nombre"
         android:paddingLeft="5dp"
-        android:textStyle="bold"
+        android:textColor="@color/gris_oscuro_texto"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@id/ivObjeto"></EditText>
 
@@ -37,11 +37,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
-        android:editable="true"
-        android:hint="Fecha"
-        android:inputType="date"
+        android:hint="@string/fecha"
         android:paddingLeft="5dp"
-        android:text="22/05/2022"
+        android:textColor="@color/gris_oscuro_texto"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etNombre"></EditText>
 
@@ -54,7 +52,7 @@
         android:enabled="false"
         android:hint="@string/lugar_guardado"
         android:paddingLeft="5dp"
-        android:textColor="#494848"
+        android:textColor="@color/gris_oscuro_texto"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"></EditText>
 
@@ -66,6 +64,7 @@
         android:background="@drawable/et_redondo"
         android:hint="@string/descripcion"
         android:paddingLeft="5dp"
+        android:textColor="@color/gris_oscuro_texto"
         android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"></EditText>
@@ -99,11 +98,12 @@
         android:id="@+id/botonAtras"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="168dp"
         android:background="@drawable/bt_selector"
 
         android:text="@string/atras"
         android:textColor="@color/verde"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etDescripcion" />

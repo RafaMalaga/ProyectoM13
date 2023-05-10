@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -77,30 +78,36 @@ public class VerObjeto extends AppCompatActivity {
 
         //Dialog para preguntar si quieres editar o no
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Deseas editar este objeto?");
-        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.desea_editar);
+        builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Código para hacer si el usuario hace clic en "Sí"
                 etNombre.setEnabled(true);
                 etDescripcion.setEnabled(true);
                 etLugarGuardado.setEnabled(true);
+                etNombre.setTextColor(getColor(R.color.white));
+                etLugarGuardado.setTextColor(getColor(R.color.white));
+                etDescripcion.setTextColor(getColor(R.color.white));
                 btEditar.setBackgroundResource(R.drawable.guardar);
                 editable=true;
-                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+                Toast.makeText(getApplicationContext(), R.string.edit, Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Código para hacer si el usuario hace clic en "No"
                 etNombre.setEnabled(false);
                 etDescripcion.setEnabled(false);
                 etLugarGuardado.setEnabled(false);
+                etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
+                etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));
+                etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
                 btEditar.setBackgroundResource(R.drawable.edit);
                 editable=false;
                 dialogInterface.dismiss();
-                Toast.makeText(getApplicationContext(), "No editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+                Toast.makeText(getApplicationContext(), R.string.no_edit, Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
             }
         });
         AlertDialog dialog = builder.create();
@@ -130,6 +137,9 @@ public class VerObjeto extends AppCompatActivity {
                     etNombre.setEnabled(false);
                     etDescripcion.setEnabled(false);
                     etLugarGuardado.setEnabled(false);
+                    etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
                     editable = false;
                     dialog.dismiss();
                 }

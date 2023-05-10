@@ -167,6 +167,10 @@ public class AltaObjeto extends AppCompatActivity {
                 // Enviar el objeto JSON al servidor
                 RequestTask subirFoto = new RequestTask();
                 subirFoto.execute("http://" + MainActivity.HOST + "/api/foto.php", "POST", objeto.toString());
+                etNombre.setText("");
+                etLugarGuardado.setText("");
+                etDescripcion.setText("");
+
             }
         });
 
