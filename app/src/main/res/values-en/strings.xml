@@ -65,6 +65,13 @@
     <string name="guardar">Save</string>
     <string name="selecciona_los_usuarios">Select users:</string>
     <string name="selecciona_los_objetos">Select objects:</string>
+    <string name="no_edit">Do not edit object</string>
+    <string name="edit">Edit object</string>
+    <string name="desea_editar">Do you want to edit this object?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="fecha">Date</string>
+
 
 
 </resources>

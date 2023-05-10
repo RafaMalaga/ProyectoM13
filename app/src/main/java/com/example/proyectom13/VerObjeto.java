@@ -83,8 +83,8 @@ public class VerObjeto extends AppCompatActivity {
 
         //Dialog para preguntar si quieres editar o no
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Deseas editar este objeto?");
-        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.desea_editar);
+        builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Código para hacer si el usuario hace clic en "Sí"
@@ -93,10 +93,10 @@ public class VerObjeto extends AppCompatActivity {
                 etLugarGuardado.setEnabled(true);
                 btEditar.setBackgroundResource(R.drawable.guardar);
                 editable=true;
-                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+                Toast.makeText(getApplicationContext(), R.string.edit, Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Código para hacer si el usuario hace clic en "No"
@@ -106,7 +106,7 @@ public class VerObjeto extends AppCompatActivity {
                 btEditar.setBackgroundResource(R.drawable.edit);
                 editable=false;
                 dialogInterface.dismiss();
-                Toast.makeText(getApplicationContext(), "No editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+                Toast.makeText(getApplicationContext(), R.string.no_edit, Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
             }
         });
         AlertDialog dialog = builder.create();
