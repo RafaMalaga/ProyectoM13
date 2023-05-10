@@ -288,7 +288,7 @@ public class Compartir extends AppCompatActivity {
 
 
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionados);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_listview, itemSeleccionados);
             lstResultados.setAdapter(adapter);
 
         }
@@ -308,7 +308,7 @@ public class Compartir extends AppCompatActivity {
             }
 
 
-            ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, itemSeleccionadosObj);
+            ArrayAdapter<String> adapterObj = new ArrayAdapter<String>(getApplicationContext(), R.layout.item_listview, itemSeleccionadosObj);
             lstResultadosObj.setAdapter(adapterObj);
         }
 

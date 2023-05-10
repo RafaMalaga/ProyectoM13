@@ -50,7 +50,7 @@
     <string name="compartir_imagen_texto">Compartir imagen y texto</string>
 
     <!-- ver foto -->
-    <string name="actualizarOK">Error guardando el objeto</string>
+    <string name="actualizarOK">Objeto guardado</string>
     <string name="borrarOK">Objecto borrado</string>
     <string name="actualizarKO">Error guardando el objeto</string>
     <string name="borrarKO">Error borrando el objeto</string>
@@ -65,6 +65,8 @@
     <string name="guardar">Guardar</string>
     <string name="selecciona_los_usuarios">Selecciona los usuarios:</string>
     <string name="selecciona_los_objetos">Selecciona los objetos:</string>
+
+
 
 
 </resources>

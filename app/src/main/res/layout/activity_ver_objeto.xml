@@ -24,8 +24,10 @@
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/et_redondo"
+        android:enabled="false"
         android:hint="@string/nombre"
         android:paddingLeft="5dp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@id/ivObjeto"></EditText>
 
@@ -49,8 +51,10 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
-        android:hint="Lugar guardado"
+        android:enabled="false"
+        android:hint="@string/lugar_guardado"
         android:paddingLeft="5dp"
+        android:textColor="#494848"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etFechaAlta"></EditText>
 
@@ -62,6 +66,7 @@
         android:background="@drawable/et_redondo"
         android:hint="@string/descripcion"
         android:paddingLeft="5dp"
+        android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etLugarGuardado"></EditText>
 
@@ -70,6 +75,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/edit"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/botonAtras"
         app:layout_constraintEnd_toStartOf="@+id/btBorrarObjeto"
         app:layout_constraintHorizontal_bias="0.5"

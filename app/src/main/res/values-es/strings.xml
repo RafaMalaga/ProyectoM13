@@ -57,9 +57,10 @@
     <string name="selecciona_los_objetos">Selecciona los objetos:</string>
 
     <!-- ver foto -->
-    <string name="actualizarOK">Error guardando el objeto</string>
+    <string name="actualizarOK">Objeto guardado</string>
     <string name="borrarOK">Objecto borrado</string>
     <string name="actualizarKO">Error guardando el objeto</string>
     <string name="borrarKO">Error borrando el objeto</string>
+
 
 </resources>

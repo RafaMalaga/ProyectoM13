@@ -31,6 +31,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class VerObjeto extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class VerObjeto extends AppCompatActivity {
     ImageButton btEditar;
     ImageButton btBorrar;
     Button btAtras;
-
+    private boolean editable = false;
     int operacion;
     final int borrar = 0;
 
@@ -52,8 +54,13 @@ public class VerObjeto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_objeto);
         RequestTask getFoto = new RequestTask();
+        //String idobjetos = getIntent().getExtras().getString("idobjetos");
+        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
+        //String url = "http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + BuscarObjeto.objeto.getIdObjeto();
+        //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + url);
+        //getFoto.execute("http://" + MainActivity.HOST + "/api/get_foto.php?idobjetos=" + idobjetos, "GET");
 
-
+        //http://192.168.1.131/api/get_foto.php?idobjetos=1
         ivObjeto = findViewById(R.id.ivObjeto);
         etNombre = findViewById(R.id.etNombre);
         etFechaAlta = findViewById(R.id.etFechaAlta);
@@ -74,22 +81,70 @@ public class VerObjeto extends AppCompatActivity {
         Drawable d = new BitmapDrawable(getResources(), bitmap);
         ivObjeto.setBackground(d);
 
+        //Dialog para preguntar si quieres editar o no
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Deseas editar este objeto?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Código para hacer si el usuario hace clic en "Sí"
+                etNombre.setEnabled(true);
+                etDescripcion.setEnabled(true);
+                etLugarGuardado.setEnabled(true);
+                btEditar.setBackgroundResource(R.drawable.guardar);
+                editable=true;
+                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Código para hacer si el usuario hace clic en "No"
+                etNombre.setEnabled(false);
+                etDescripcion.setEnabled(false);
+                etLugarGuardado.setEnabled(false);
+                btEditar.setBackgroundResource(R.drawable.edit);
+                editable=false;
+                dialogInterface.dismiss();
+                Toast.makeText(getApplicationContext(), "No editar", Toast.LENGTH_SHORT).show(); // Mostrar un mensaje de confirmación
+            }
+        });
+        AlertDialog dialog = builder.create();
         btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operacion = actualizar;
-                if(!etNombre.getText().toString().isEmpty()){
-                    BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
+                dialog.show();
+                if(editable==true) {
+                    // Se crea un objeto Date con la fecha y hora actuales
+                    Date fechaActual = new Date();
+                    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+                    String fechaActualString = formatoFecha.format(fechaActual);
+
+                    operacion = actualizar;
+                    if (!etNombre.getText().toString().isEmpty()) {
+                        BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
+                    }
+                    if (!etDescripcion.getText().toString().isEmpty()) {
+                        BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
+                    }
+                    if (!etLugarGuardado.getText().toString().isEmpty()) {
+                        BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
+                    }
+                    RequestTask actualizarFoto = new RequestTask();
+                    String url = "http://" + MainActivity.HOST + "/api/update.php";
+                    actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
+                    etNombre.setEnabled(false);
+                    etDescripcion.setEnabled(false);
+                    etLugarGuardado.setEnabled(false);
+                    editable = false;
+                    dialog.dismiss();
                 }
-                if(!etDescripcion.getText().toString().isEmpty()){
-                    BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
+                else{
+
+                    btEditar.setBackgroundResource(R.drawable.edit);
+                    editable=!editable;
                 }
-                if(!etLugarGuardado.getText().toString().isEmpty()){
-                    BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
-                }
-                RequestTask actualizarFoto = new RequestTask();
-                String url = "http://" + MainActivity.HOST + "/api/update.php";
-                actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
+
 
 
             }
@@ -97,61 +152,19 @@ public class VerObjeto extends AppCompatActivity {
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(VerObjeto.this);
-                builder.setTitle("Advertencia");
-                builder.setMessage("¿Estás seguro que deseas  borrar este objeto?");
+                RequestTask borrarFoto = new RequestTask();
+                String url = "http://" + MainActivity.HOST + "/api/delete.php";
+                JSONObject jsonObject = new JSONObject();
+                operacion = borrar;
+                try {
+                    jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
+                    borrarFoto.execute(url, "POST", jsonObject.toString());
 
-                // Personalizar estilo del diálogo
-                builder.setCancelable(true);
-                builder.setIcon(android.R.drawable.ic_dialog_alert);
-
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Código para borrar el objeto
-                        RequestTask borrarFoto = new RequestTask();
-                        String url = "http://" + MainActivity.HOST + "/api/delete.php";
-                        JSONObject jsonObject = new JSONObject();
-                        operacion = borrar;
-                        try {
-                            jsonObject.put("idobjetos", BuscarObjeto.objeto.getIdObjeto());
-                            borrarFoto.execute(url, "POST", jsonObject.toString());
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                        // Cerrar la actividad
-                        finish();
-                    }
-                });
-
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // No hacer nada, el usuario ha cancelado la acción
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-
-                // Personalizar estilo de los botones
-                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialogInterface) {
-                        Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                        Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                        positiveButton.setTextSize(25);
-                        negativeButton.setTextSize(25);
-                    }
-                });
-
-                dialog.show();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
-
-
-
-
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +212,7 @@ public class VerObjeto extends AppCompatActivity {
                     }
                 }else{
                     if(operacion==actualizar){
-                        show = getString(R.string.borrarKO);
+                        show = getString(R.string.actualizarKO);
 
                     }else{
                         show = getString(R.string.borrarKO);
