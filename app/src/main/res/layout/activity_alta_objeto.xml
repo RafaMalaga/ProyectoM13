@@ -55,7 +55,7 @@
     <EditText
         android:id="@+id/etDescripcion"
         android:layout_width="321dp"
-        android:layout_height="99dp"
+        android:layout_height="67dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
         android:hint="@string/descripcion"
@@ -67,11 +67,10 @@
         android:id="@+id/btGuardarObjeto"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/bt_selector"
         android:text="@string/guardar"
         android:textColor="@color/verde"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescripcion"></Button>
@@ -85,8 +84,7 @@
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btGuardarObjeto"
-        app:layout_constraintVertical_bias="0.796" />
+        app:layout_constraintVertical_bias="0.555" />
 </androidx.constraintlayout.widget.ConstraintLayout>
