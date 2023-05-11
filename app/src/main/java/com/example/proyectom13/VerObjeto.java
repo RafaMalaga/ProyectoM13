@@ -122,7 +122,11 @@ public class VerObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.show();
-                if(editable==true) {
+
+                if (editable == true) {
+
+                    btAtras.setEnabled(true);
+                    btBorrar.setEnabled(true);
                     // Se crea un objeto Date con la fecha y hora actuales
                     Date fechaActual = new Date();
                     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -132,43 +136,11 @@ public class VerObjeto extends AppCompatActivity {
                     if (!etNombre.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
                     }
-                    // Obtener la fecha actual
-                    LocalDate today = null;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        today = LocalDate.now();
-                    }
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                    String todayString = today.format(formatter);
 
-                    String newString;
-                    String descripcion = etDescripcion.getText().toString();
-                    Pattern pattern = Pattern.compile(" (Modificado " + "\\d{2}/\\d{2}/\\d{4}" + ")");
-                    Matcher matcher = pattern.matcher(descripcion);
-                    if (matcher.find()) {
-                        // Si se encuentra la parte a reemplazar en la cadena, extraerla y reemplazarla
-                        String partToReplace = matcher.group();
-                        String newPart = " (Modificado " + todayString + ")"; // Reemplazar con el nuevo texto que desees
-                        newString = descripcion.replaceAll(Pattern.quote(partToReplace), newPart);
-
-                            BuscarObjeto.objeto.setDescripcion(newString);
-
-                    }else{
-                        if (!etDescripcion.getText().toString().isEmpty()) {
-                            BuscarObjeto.objeto.setDescripcion(descripcion+" (Modificado " + todayString + ")");
-                        }
+                    if (!etDescripcion.getText().toString().isEmpty()) {
+                        BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
                     }
 
-                  /*  Pattern patternEnglish= Pattern.compile( " (Modified " + "\\s+\\d{4}/\\d{2}/\\d{2}" + ")");
-
-                    Matcher matcherEnglish = patternEnglish.matcher(descripcion);
-                    if (matcherEnglish.find()) {
-                        // Si se encuentra la parte a reemplazar en la cadena, extraerla y reemplazarla
-                        String partToReplace = matcherEnglish.group();
-                        String newPart = " (Modified " + todayString + ")"; // Reemplazar con el nuevo texto que desees
-                        newString = descripcion.replaceAll(Pattern.quote(partToReplace), newPart);
-                    }else{
-                        newString=descripcion;
-                    }*/
 
                     if (!etLugarGuardado.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
@@ -185,16 +157,16 @@ public class VerObjeto extends AppCompatActivity {
                     btEditar.setBackgroundResource(R.drawable.edit);
                     editable = false;
                     dialog.dismiss();
-                }
-                else{
-
-                    btEditar.setBackgroundResource(R.drawable.edit);
-                    editable=!editable;
-                }
-
-
-
+                } else {
+                btAtras.setEnabled(false);
+                btBorrar.setEnabled(false);
+                btEditar.setBackgroundResource(R.drawable.edit);
+                editable = !editable;
             }
+
+
+        }
+
         });
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override

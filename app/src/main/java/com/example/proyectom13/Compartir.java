@@ -24,6 +24,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -97,6 +98,7 @@ public class Compartir extends AppCompatActivity {
                             connection.setRequestMethod("GET");
                             connection.connect();
                             int responseCode = connection.getResponseCode();
+
                             if (responseCode == HttpURLConnection.HTTP_OK) { // si la respuesta del server es Ok 200
                                 InputStream inputStream =
                                         connection.getInputStream(); // se lee el Json obtenido
