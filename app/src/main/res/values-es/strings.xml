@@ -67,6 +67,7 @@
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="fecha">Fecha</string>
+    <string name="existe_email">Ya existe un usuario dado de alta con ese email</string>
 
 
 </resources>

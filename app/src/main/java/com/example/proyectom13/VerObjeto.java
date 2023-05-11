@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,7 +35,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VerObjeto extends AppCompatActivity {
 
@@ -112,6 +118,7 @@ public class VerObjeto extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         btEditar.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 dialog.show();
@@ -125,9 +132,44 @@ public class VerObjeto extends AppCompatActivity {
                     if (!etNombre.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
                     }
-                    if (!etDescripcion.getText().toString().isEmpty()) {
-                        BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
+                    // Obtener la fecha actual
+                    LocalDate today = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        today = LocalDate.now();
                     }
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    String todayString = today.format(formatter);
+
+                    String newString;
+                    String descripcion = etDescripcion.getText().toString();
+                    Pattern pattern = Pattern.compile(" (Modificado " + "\\d{2}/\\d{2}/\\d{4}" + ")");
+                    Matcher matcher = pattern.matcher(descripcion);
+                    if (matcher.find()) {
+                        // Si se encuentra la parte a reemplazar en la cadena, extraerla y reemplazarla
+                        String partToReplace = matcher.group();
+                        String newPart = " (Modificado " + todayString + ")"; // Reemplazar con el nuevo texto que desees
+                        newString = descripcion.replaceAll(Pattern.quote(partToReplace), newPart);
+
+                            BuscarObjeto.objeto.setDescripcion(newString);
+
+                    }else{
+                        if (!etDescripcion.getText().toString().isEmpty()) {
+                            BuscarObjeto.objeto.setDescripcion(descripcion+" (Modificado " + todayString + ")");
+                        }
+                    }
+
+                  /*  Pattern patternEnglish= Pattern.compile( " (Modified " + "\\s+\\d{4}/\\d{2}/\\d{2}" + ")");
+
+                    Matcher matcherEnglish = patternEnglish.matcher(descripcion);
+                    if (matcherEnglish.find()) {
+                        // Si se encuentra la parte a reemplazar en la cadena, extraerla y reemplazarla
+                        String partToReplace = matcherEnglish.group();
+                        String newPart = " (Modified " + todayString + ")"; // Reemplazar con el nuevo texto que desees
+                        newString = descripcion.replaceAll(Pattern.quote(partToReplace), newPart);
+                    }else{
+                        newString=descripcion;
+                    }*/
+
                     if (!etLugarGuardado.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
                     }
@@ -135,11 +177,12 @@ public class VerObjeto extends AppCompatActivity {
                     String url = "http://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
                     actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
                     etNombre.setEnabled(false);
-                    etDescripcion.setEnabled(false); // desabilitar la escritura en los campos de texto
+                    etDescripcion.setEnabled(false); // deshabilitar la escritura en los campos de texto
                     etLugarGuardado.setEnabled(false);
                     etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
                     etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));// mostrar texto en gris oscuro para visualizar mejor el texto
                     etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    btEditar.setBackgroundResource(R.drawable.edit);
                     editable = false;
                     dialog.dismiss();
                 }
