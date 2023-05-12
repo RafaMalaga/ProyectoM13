@@ -12,8 +12,9 @@
         android:id="@+id/ivObjeto"
         android:layout_width="320dp"
         android:layout_height="260dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/camera"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,8 +36,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
-        android:hint="Fecha"
+        android:hint="@string/fecha"
         android:paddingLeft="5dp"
+        android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/ivObjeto"
         app:layout_constraintTop_toBottomOf="@+id/etNombre"></EditText>
 
@@ -53,8 +55,8 @@
 
     <EditText
         android:id="@+id/etDescripcion"
-        android:layout_width="320dp"
-        android:layout_height="80dp"
+        android:layout_width="321dp"
+        android:layout_height="67dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/et_redondo"
         android:hint="@string/descripcion"
@@ -66,13 +68,15 @@
         android:id="@+id/btGuardarObjeto"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bt_selector"
         android:text="@string/guardar"
         android:textColor="@color/verde"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.286"></Button>
 
     <Button
         android:id="@+id/botonAtras"
@@ -84,5 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btGuardarObjeto" />
+        app:layout_constraintTop_toBottomOf="@+id/btGuardarObjeto"
+        app:layout_constraintVertical_bias="0.2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

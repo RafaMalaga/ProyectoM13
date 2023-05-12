@@ -12,12 +12,16 @@
         android:layout_width="129dp"
         android:layout_height="57dp"
         android:layout_marginStart="45dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/bt_selector"
         android:text="@string/atras"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/btCompartirDeLista"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
 
     <TextView
         android:id="@+id/tvTitulo"
@@ -34,23 +38,27 @@
 
     <ListView
         android:id="@+id/lvListaObjetos"
-        android:layout_width="322dp"
-        android:layout_height="559dp"
+        android:layout_width="344dp"
+        android:layout_height="514dp"
         android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.482" />
 
     <Button
         android:id="@+id/btCompartirDeLista"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="60dp"
         android:background="@drawable/bt_selector"
         android:text="@string/seleccionar"
         android:textColor="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
 </androidx.constraintlayout.widget.ConstraintLayout>

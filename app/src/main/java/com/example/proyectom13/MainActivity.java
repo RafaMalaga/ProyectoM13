@@ -43,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
     public static int  idUsuario ;
 
 
-    public static final String HOST = "192.168.1.131";
+   // public static final String HOST = "192.168.1.131";
     //public static final String HOST = "192.168.56.1";
-    //public static final String HOST = "10.0.2.2";
+   // public static final String HOST = "10.0.2.2";
+   public static final String HOST = "192.168.1.100";  //ip Rafa
+
 
     public static String session = "";
 
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     EditText etPassword;
     EditText etUsuario;
     Button ibEntrar;
-    Button btRegistro;
     ImageButton ibMostrarContraseña;
 
     @Override
@@ -122,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
                                 @SuppressLint("StaticFieldLeak") JSONObject jsonResponse = new JSONObject(response);
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
-                                    idUsuario = jsonResponse.getInt("idUsuario");
+                                    idUsuario = jsonResponse.getInt("idUsuario"); // si la respuesta del servidor es OK  se guarda el id del usuario en la variable idUsuario
 
                                     Intent intent = new Intent(getApplicationContext(), FuncionalidadesActivity.class);
-                                    startActivity(intent);
+                                    startActivity(intent);  // y le damos acceso a la aplicacion
                                 } else {
                                     Toast.makeText(getApplicationContext(), getString(R.string.koLogin), Toast.LENGTH_SHORT).show();
                                 }
@@ -137,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
                     JSONObject loginData = crearJSONLogin();
                     login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
-                    //RequestTask task = new RequestTask();
-                    //task.execute("http://" + HOST + "/api/index.php", "GET");
+
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();
                 }
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public JSONObject crearJSONLogin() {
-        JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject(); // metodo para crear el Json con el nombre y el password
         try {
             json.put("nombreUsuario", etUsuario.getText());
             json.put("password", etPassword.getText());

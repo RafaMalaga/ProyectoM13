@@ -68,7 +68,7 @@ public class AltaObjeto extends AppCompatActivity {
 
     // Método para generar una cadena aleatoria de 5 letras para generar el nombre de la foto
     private String getRandom() {
-        String ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
+        String ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyz"; // caracteres permitidos para generar el nombre aleatorio
         Random random = new Random();
         StringBuilder sb = new StringBuilder(5);
         for (int i = 0; i < 5; i++) {
@@ -91,6 +91,8 @@ public class AltaObjeto extends AppCompatActivity {
         btGuardarObjeto = findViewById(R.id.btGuardarObjeto);
         Button btnAtras = findViewById(R.id.botonAtras);
 
+
+          // permisos requeridos para uso de lectura y escritura de la tarjeta de memoria donde se guarda temporalmente la foto
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //&& ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -112,20 +114,20 @@ public class AltaObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                {
+                {      // Codigo para el uso de la camara de fotos
                     Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     try {
-                        File fotoFile = File.createTempFile(
+                        File fotoFile = File.createTempFile( // guardamos la foto en un archivo temporal
 
                                 getRandom(), /* prefix */   // se crea un nombre para la foto con un valor aleatorio de 5 letras
                                 ".jpg",         /* suffix */
                                 storageDir      /* directory */
                         );
                         photoURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.proyectom13", fotoFile);
-                        fotoPath = fotoFile.getAbsolutePath();
+                        fotoPath = fotoFile.getAbsolutePath(); //ruta donde se guarda la foto
                         imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);// abre la aplicacion de uso de la camara
                        // Log.d("RandomName", getRandom());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -141,7 +143,7 @@ public class AltaObjeto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fotoBase64 = "";
-                if (bitmap != null) {
+                if (bitmap != null) { //  se llama al metodo compressBitmap este código toma una imagen capturada, la comprime y la convierte en una cadena de caracteres en formato Base64
                     fotoBase64 = Base64.encodeToString(compressBitmap(bitmap, 50), Base64.URL_SAFE);
                 }
 
@@ -167,6 +169,10 @@ public class AltaObjeto extends AppCompatActivity {
                 // Enviar el objeto JSON al servidor
                 RequestTask subirFoto = new RequestTask();
                 subirFoto.execute("http://" + MainActivity.HOST + "/api/foto.php", "POST", objeto.toString());
+                etNombre.setText("");
+                etLugarGuardado.setText("");
+                etDescripcion.setText("");
+
             }
         });
 
@@ -183,7 +189,7 @@ public class AltaObjeto extends AppCompatActivity {
 
     public static byte[] compressBitmap(Bitmap bitmap, int quality) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream); // metodo que comprime la imagen
         return stream.toByteArray();
     }
 
@@ -191,10 +197,7 @@ public class AltaObjeto extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //Bundle extras = data.getExtras();
-            //Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            bitmap = BitmapFactory.decodeFile(fotoPath);
+            bitmap = BitmapFactory.decodeFile(fotoPath); // metodo para decodificar la imagen y visualizarla en el listview
             Drawable d = new BitmapDrawable(getResources(), bitmap);
             ivObjeto.setBackground(d);
         }
