@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,7 +35,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VerObjeto extends AppCompatActivity {
 
@@ -112,10 +118,15 @@ public class VerObjeto extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         btEditar.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 dialog.show();
-                if(editable==true) {
+
+                if (editable == true) {
+
+                    btAtras.setEnabled(true);
+                    btBorrar.setEnabled(true);
                     // Se crea un objeto Date con la fecha y hora actuales
                     Date fechaActual = new Date();
                     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -125,9 +136,12 @@ public class VerObjeto extends AppCompatActivity {
                     if (!etNombre.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setNombre(etNombre.getText().toString());
                     }
+
                     if (!etDescripcion.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setDescripcion(etDescripcion.getText().toString());
                     }
+
+
                     if (!etLugarGuardado.getText().toString().isEmpty()) {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
                     }
@@ -135,23 +149,24 @@ public class VerObjeto extends AppCompatActivity {
                     String url = "http://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
                     actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
                     etNombre.setEnabled(false);
-                    etDescripcion.setEnabled(false); // desabilitar la escritura en los campos de texto
+                    etDescripcion.setEnabled(false); // deshabilitar la escritura en los campos de texto
                     etLugarGuardado.setEnabled(false);
                     etNombre.setTextColor(getColor(R.color.gris_oscuro_texto));
                     etLugarGuardado.setTextColor(getColor(R.color.gris_oscuro_texto));// mostrar texto en gris oscuro para visualizar mejor el texto
                     etDescripcion.setTextColor(getColor(R.color.gris_oscuro_texto));
+                    btEditar.setBackgroundResource(R.drawable.edit);
                     editable = false;
                     dialog.dismiss();
-                }
-                else{
-
-                    btEditar.setBackgroundResource(R.drawable.edit);
-                    editable=!editable;
-                }
-
-
-
+                } else {
+                btAtras.setEnabled(false);
+                btBorrar.setEnabled(false);
+                btEditar.setBackgroundResource(R.drawable.edit);
+                editable = !editable;
             }
+
+
+        }
+
         });
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override

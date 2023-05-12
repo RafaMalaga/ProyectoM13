@@ -72,6 +72,8 @@
     <string name="si">Yes</string>
     <string name="no">No</string>
     <string name="fecha">Date</string>
+    <string name="existe_email">An account with this email already exists</string>
+    <string name="modificado">Modified</string>
 
 
 
