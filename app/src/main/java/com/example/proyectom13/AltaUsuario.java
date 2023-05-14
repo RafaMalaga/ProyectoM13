@@ -46,6 +46,7 @@ public class AltaUsuario extends AppCompatActivity {
     private Button btConfrimar;
     private Usuario usuario = new Usuario();
     private boolean nombreUsuarioExiste;
+    private boolean emailExiste;
 
     EditText etNombre;
     EditText etNombreUsuario;
@@ -84,7 +85,6 @@ public class AltaUsuario extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 radioButtonSeleccionado = findViewById(checkedId);
-                // Hacer algo con el radio button seleccionado
                 if (radioButtonSeleccionado == rbEmpresa) {
                     etNombre.setHint(nombreEmpresa);
 
@@ -97,7 +97,7 @@ public class AltaUsuario extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    etPonerPassword.requestFocus();
+                    btConfrimar.requestFocus();
                     return true;
                 }
                 return false;
@@ -143,12 +143,21 @@ public class AltaUsuario extends AppCompatActivity {
                 Pattern pattern = Pattern.compile(passwordPattern);
                 Pattern patternEmail = Pattern.compile(emailPattern);
                 nombreUsuario=etNombreUsuario.getText().toString();
+                email=etEmail.getText().toString();
                 nombreUsuarioExiste=false;
+                emailExiste=false;
                 if (nombreUsuarioExiste==true) {
                     String mensaje = getString(R.string.exiteUsuario);
                     etNombreUsuario.setError(mensaje);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                     etNombreUsuario.requestFocus();
+                    return;
+                }
+                if (emailExiste==true) {
+                    String mensaje = getString(R.string.existe_email);
+                    etEmail.setError(mensaje);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+                    etEmail.requestFocus();
                     return;
                 }
 
@@ -157,16 +166,16 @@ public class AltaUsuario extends AppCompatActivity {
                     // Mostrar mensaje de error utilizando Toast
                     String mensaje= getString(R.string.completeCampos);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-
+                //Verificar patrón correcto de password
                 }else if(!password.equals(password2)){
                     String mensaje= getString(R.string.comprobarContra);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                     etPonerPassword.requestFocus();
-
+                //Verificar si las dos contraseñas son iguales
                 }else if(!pattern.matcher(password).matches()){
                     etPonerPassword.setError(getString(R.string.formatoContraseña));
                     etPonerPassword.requestFocus();
-
+                //Verificar patrón correcto de email
                 }else if(!patternEmail.matcher(email).matches()){
                     etEmail.setError(getString(R.string.formatoEmail));
                     etEmail.requestFocus();
@@ -183,6 +192,7 @@ public class AltaUsuario extends AppCompatActivity {
                                 String mensaje = jsonResponse.getString("mensaje");
                                 if (mensaje.equals("OK")) {
                                     nombreUsuarioExiste=false;
+                                    emailExiste=false;
                                     // he cambiado esta linea para que el user tenga que acceder con sus datos para poder obtener el valor de la variable idusuarios
                                     Toast.makeText(getApplicationContext(), R.string.altaUsuarioOK, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -193,13 +203,18 @@ public class AltaUsuario extends AppCompatActivity {
                                     etPonerPassword.setText("");
                                     etPonerPassword2.setText("");
                                     etEmail.setText("");
-                                } else {
+                                } else if (mensaje.equals("KO")){
                                     nombreUsuarioExiste=true;
                                     mensaje= getString(R.string.exiteUsuario);
                                     etNombreUsuario.setError(mensaje);
                                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
 
 
+                                } else if (mensaje.equals("KOemail")){
+                                    emailExiste=true;
+                                    mensaje=getString(R.string.existe_email);
+                                    etEmail.setError(mensaje);
+                                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

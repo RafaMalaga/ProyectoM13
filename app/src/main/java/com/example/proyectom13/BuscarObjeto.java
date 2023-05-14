@@ -189,7 +189,7 @@ public class BuscarObjeto extends AppCompatActivity {
                             adapter.addAll(resultados); // añadir los nuevos datos al adaptador
                             adapter.notifyDataSetChanged(); // notificar al adaptador que los datos han cambiado
 
-                           adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
+                          // adapter = new ListaObjetosAdapter(getApplicationContext(), resultados);
                         }
                     }
                 }.execute();
