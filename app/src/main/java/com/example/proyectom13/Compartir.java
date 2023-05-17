@@ -167,7 +167,7 @@ public class Compartir extends AppCompatActivity {
                         ArrayList<String> resultados = new ArrayList<>();
                         try {
                               //se construye la url para llamar a la api buscar usuarios con el valor del nombre de usuario obtenido del editText
-                            String url = "http://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
+                            String url = "https://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();

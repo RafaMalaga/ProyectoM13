@@ -228,7 +228,7 @@ public class AltaUsuario extends AppCompatActivity {
                     usuario.setEmail(etEmail.getText().toString());
 
 
-                    registrar.execute("http://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
+                    registrar.execute("https://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
 
                 }
 
@@ -287,6 +287,8 @@ public class AltaUsuario extends AppCompatActivity {
     public String sendPost(String surl, String jsonData) {
         try {
             URL url = new URL(surl);
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + surl);
+
             System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
             //Creamos la connexión
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

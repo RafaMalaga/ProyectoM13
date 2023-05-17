@@ -74,7 +74,7 @@ public class BuscarObjeto extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    String url = "http://" + MainActivity.HOST + "/api/ultimos_objetos.php?cantidad=5&idusuario=" + idUsuario;
+                    String url = "https://" + MainActivity.HOST + "/api/ultimos_objetos.php?cantidad=5&idusuario=" + idUsuario;
                     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                     connection.setRequestMethod("GET");
                     connection.connect();
