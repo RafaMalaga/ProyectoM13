@@ -133,7 +133,7 @@ public class BuscarObjeto extends AppCompatActivity {
                         ArrayList<Objeto> resultados = new ArrayList<>();
                         try {
                              // llamamos a la api buscar_objetos y le pasamos los parametros de busqueda obtenido del editText txtBuscar
-                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
+                            String url = "https://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();

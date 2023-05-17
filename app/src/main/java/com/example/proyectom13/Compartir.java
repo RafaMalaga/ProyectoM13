@@ -93,7 +93,7 @@ public class Compartir extends AppCompatActivity {
 
                         try {
                              // creamos la url con la llamada a la api de buscar objetos pasandole el valor a buscar obtenido del editText
-                            String url = "http://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
+                            String url = "https://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
                             connection.connect();

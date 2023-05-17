@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     };
 
                     JSONObject loginData = crearJSONLogin();
-                    login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
+                    login.execute("https://" + HOST + "/api/login.php", "POST", loginData.toString());
 
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();

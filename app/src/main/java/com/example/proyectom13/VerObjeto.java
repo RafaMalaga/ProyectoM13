@@ -146,7 +146,7 @@ public class VerObjeto extends AppCompatActivity {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
                     }
                     RequestTask actualizarFoto = new RequestTask();
-                    String url = "http://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
+                    String url = "https://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
                     actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
                     etNombre.setEnabled(false);
                     etDescripcion.setEnabled(false); // deshabilitar la escritura en los campos de texto
