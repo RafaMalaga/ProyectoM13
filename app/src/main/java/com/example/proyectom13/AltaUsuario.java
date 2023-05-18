@@ -1,25 +1,20 @@
 package com.example.proyectom13;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectom13.POJOS.Usuario;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,12 +22,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class AltaUsuario extends AppCompatActivity {
@@ -93,7 +84,8 @@ public class AltaUsuario extends AppCompatActivity {
                 }
             }
         });
-        etEmail.setOnKeyListener(new View.OnKeyListener() {
+      /*  Esta parte de código creo que sobra, borrar después de testing
+      etEmail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -122,7 +114,7 @@ public class AltaUsuario extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
 
 
         btConfrimar.setOnClickListener(new View.OnClickListener() {
@@ -228,7 +220,7 @@ public class AltaUsuario extends AppCompatActivity {
                     usuario.setEmail(etEmail.getText().toString());
 
 
-                    registrar.execute("http://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
+                    registrar.execute("https://" + MainActivity.HOST + "/api/insert.php", "POST", usuario.toString());
 
                 }
 
@@ -287,6 +279,8 @@ public class AltaUsuario extends AppCompatActivity {
     public String sendPost(String surl, String jsonData) {
         try {
             URL url = new URL(surl);
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + surl);
+
             System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + jsonData);
             //Creamos la connexión
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

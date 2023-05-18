@@ -43,10 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public static int  idUsuario ;
 
 
-   // public static final String HOST = "192.168.1.131";
-    //public static final String HOST = "192.168.56.1";
 
-   public static final String HOST = "192.168.1.100";  //ip Rafa
+   public static final String HOST = "finditdam.azurewebsites.net";
 
 
     public static String session = "";
@@ -137,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     };
 
                     JSONObject loginData = crearJSONLogin();
-                    login.execute("http://" + HOST + "/api/login.php", "POST", loginData.toString());
+                    login.execute("https://" + HOST + "/api/login.php", "POST", loginData.toString());
 
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.faltanDatosLogin), Toast.LENGTH_SHORT).show();

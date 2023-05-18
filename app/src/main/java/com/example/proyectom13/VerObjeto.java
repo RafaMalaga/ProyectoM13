@@ -146,7 +146,7 @@ public class VerObjeto extends AppCompatActivity {
                         BuscarObjeto.objeto.setLugarGuardado(etLugarGuardado.getText().toString());
                     }
                     RequestTask actualizarFoto = new RequestTask();
-                    String url = "http://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
+                    String url = "https://" + MainActivity.HOST + "/api/update.php"; //llamada a la api de actualizar
                     actualizarFoto.execute(url, "POST", BuscarObjeto.objeto.toString());
                     etNombre.setEnabled(false);
                     etDescripcion.setEnabled(false); // deshabilitar la escritura en los campos de texto
@@ -178,7 +178,7 @@ public class VerObjeto extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Acciones a realizar cuando se selecciona "SI"
                                 RequestTask borrarFoto = new RequestTask();
-                                String url = "http://" + MainActivity.HOST + "/api/delete.php"; // si el user pulsa en si se llama a la api para borrar el objeto
+                                String url = "https://" + MainActivity.HOST + "/api/delete.php"; // si el user pulsa en si se llama a la api para borrar el objeto
                                 JSONObject jsonObject = new JSONObject();
                                 operacion = borrar;
                                 try {
