@@ -230,14 +230,9 @@ public class Compartir extends AppCompatActivity {
             Bitmap bitmap = resultadosFotosSeleccionadas.get(i);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "Title", null);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "Tittle", null);
             uri = Uri.parse(path);
-
-            
-            }
-        for (Bitmap bitmap1 : resultadosFotosSeleccionadas) {
             uris.add(uri);
-
         }
 
         // Recorrer la lista original y extraer los correos electrónicos
