@@ -92,7 +92,7 @@ public class Compartir extends AppCompatActivity {
                     protected MyResult doInBackground(Void... params) {
 
                         try {
-                             // creamos la url con la llamada a la api de buscar objetos pasandole el valor a buscar obtenido del editText
+                            // creamos la url con la llamada a la api de buscar objetos pasandole el valor a buscar obtenido del editText
                             String url = "https://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
@@ -166,7 +166,7 @@ public class Compartir extends AppCompatActivity {
                     protected ArrayList<String> doInBackground(Void... params) {
                         ArrayList<String> resultados = new ArrayList<>();
                         try {
-                              //se construye la url para llamar a la api buscar usuarios con el valor del nombre de usuario obtenido del editText
+                            //se construye la url para llamar a la api buscar usuarios con el valor del nombre de usuario obtenido del editText
                             String url = "https://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
@@ -230,10 +230,13 @@ public class Compartir extends AppCompatActivity {
             Bitmap bitmap = resultadosFotosSeleccionadas.get(i);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "Tittle", null);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "Title", null);
             uri = Uri.parse(path);
             uris.add(uri);
+
+
         }
+
 
         // Recorrer la lista original y extraer los correos electrónicos
         for (int i=0; i<itemSeleccionados.size(); i++) {
@@ -256,7 +259,7 @@ public class Compartir extends AppCompatActivity {
 
         // Crear el Intent con el tipo de datos "image/png"
         Intent intent = new Intent(Intent.ACTION_SEND);
- ;
+        ;
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
@@ -338,5 +341,6 @@ public class Compartir extends AppCompatActivity {
 
 
 }
+
 
 
