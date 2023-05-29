@@ -84,37 +84,7 @@ public class AltaUsuario extends AppCompatActivity {
                 }
             }
         });
-      /*  Esta parte de código creo que sobra, borrar después de testing
-      etEmail.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    btConfrimar.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
-        etPonerPassword.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    etPonerPassword.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
-        etNombreUsuario.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    etNombreUsuario.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });*/
+
 
 
         btConfrimar.setOnClickListener(new View.OnClickListener() {
