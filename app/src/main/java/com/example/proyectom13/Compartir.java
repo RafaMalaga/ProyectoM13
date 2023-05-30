@@ -170,6 +170,7 @@ public class Compartir extends AppCompatActivity {
                             String url = "https://" + MainActivity.HOST + "/api/buscar_usuarios.php?nombreUsuario=" + txtBuscarUsuario.getText().toString().trim();
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
+                            connection.addRequestProperty("Cookie", MainActivity.session);
                             connection.connect();
                             int responseCode = connection.getResponseCode();
                             if (responseCode == HttpURLConnection.HTTP_OK) { // si la respuesta del servidor es positiva se leen los datos del Json obtenido

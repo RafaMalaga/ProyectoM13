@@ -136,6 +136,7 @@ public class BuscarObjeto extends AppCompatActivity {
                             String url = "https://" + MainActivity.HOST + "/api/buscar_objetos.php?nombre=" + txtBuscar.getText().toString().trim() + "&idusuarios=" + MainActivity.idUsuario;
                             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setRequestMethod("GET");
+                            connection.addRequestProperty("Cookie", MainActivity.session);
                             connection.connect();
                             int responseCode = connection.getResponseCode();
                             if (responseCode == HttpURLConnection.HTTP_OK) {

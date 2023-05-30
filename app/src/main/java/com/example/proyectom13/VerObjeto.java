@@ -283,6 +283,8 @@ public class VerObjeto extends AppCompatActivity {
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 Log.d("MainActivity", "Session: " + MainActivity.session);
                 con.setRequestMethod("GET");
+                con.addRequestProperty("Cookie", MainActivity.session);
+
                 int responseCode = con.getResponseCode();
                 Log.d("MainActivity", "GET Response code: " + responseCode);
                 if (responseCode == HttpURLConnection.HTTP_OK) { // success
@@ -313,6 +315,7 @@ public class VerObjeto extends AppCompatActivity {
                 con.setRequestProperty("Accept", "application/json");
                 con.setRequestProperty("Content-Type", "application/json");
                 con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
+                con.addRequestProperty("Cookie", MainActivity.session);
 
                 //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
                 con.setRequestMethod("POST");

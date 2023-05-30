@@ -268,6 +268,7 @@ public class AltaObjeto extends AppCompatActivity {
                 con.setRequestProperty("Accept", "application/json");
                 con.setRequestProperty("Content-Type", "application/json");
                 con.setRequestProperty("Content-Length", String.valueOf(jsonData.getBytes().length));
+                con.addRequestProperty("Cookie", MainActivity.session);
 
                 //Especificamos el metodo http (POST/GET/PUT/DELETE/HEAD/OPTIONS)
                 con.setRequestMethod("POST");
